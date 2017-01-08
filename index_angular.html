@@ -1,0 +1,44 @@
+<!doctype html>
+<html ng-app="CookIn">
+    <head>
+    <title> CookIn </title>
+            <!-- Bootstrap -->
+        <link href="lib/bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="lib/angularjs-slider/dist/rzslider.min.css" rel="stylesheet" />
+
+        </head>
+    <body>
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" ng-click="isNavCollapsed = !isNavCollapsed">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="#/search" class="navbar-brand">Accueil</a>
+                <a href="#/searchResult" class="navbar-brand">searchResult</a>
+            </div>
+        </nav>
+        <div ng-view>
+        </div>
+        <script src="lib/angular/angular.min.js" ></script>
+        <script src="lib/angular/angular-route.js"></script>
+
+        <!-- google maps api-->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDakB8mEGY8nRgfqrsPrdtif4ufwNBLnXg&libraries=places,geometry"></script>
+        <!-- slider js -->
+        <script src="lib/angularjs-slider/dist/rzslider.min.js"></script>
+        <!-- underscore  -->
+        <script src="lib/underscore/underscore-min.js"></script>
+        <script src="lib/angular-underscore-module/angular-underscore-module.js"></script>
+        <!-- auto-complete google maps -->
+        <script src="lib/auto-complete.js"></script>
+
+        <script src="js/app.js"></script>
+        <script src="js/services/SearchFactory.js"></script>
+        <script src="js/services/GlobalFactory.js"></script>
+        <script src="js/controllers/ResultCtrl.js"></script>
+        <script src="js/controllers/SearchCtrl.js"></script>
+    </body>
+</html>
