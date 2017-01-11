@@ -1,9 +1,9 @@
 
 angular.module('CookIn').controller('SearchCtrl',SearchCtrlFnt);
 
-SearchCtrlFnt.$inject=['$scope','$location', '$window', '$filter', 'SearchFactory', 'GlobalFactory'];
+SearchCtrlFnt.$inject=['$scope','$location','$stateParams', '$filter', 'anchorSmoothScroll', 'SearchFactory','GlobalFactory'];
 
-function SearchCtrlFnt($scope,$location, $window, $filter, SearchFactory, GlobalFactory){
+function SearchCtrlFnt($scope,$location, $stateParams, $filter, anchorSmoothScroll, SearchFactory, GlobalFactory){
 
     // list des données
     $scope.typeCuisine = {};
@@ -97,7 +97,7 @@ function SearchCtrlFnt($scope,$location, $window, $filter, SearchFactory, Global
         var typeRepasParameters = GlobalFactory.checkBoxToGetParametes($scope.typeRepasChoice);
         var languesParleesParameters = GlobalFactory.checkBoxToGetParametes($scope.languesParleesChoice);
 
-        $location.path('/searchResult/').search(
+        $location.path('/accueil/').search(
             {
                 date:$filter('date')($scope.dateChoice, "dd/MM/yyyy"),
                 country:GlobalFactory.findComponent(data, 'country'),
@@ -113,8 +113,37 @@ function SearchCtrlFnt($scope,$location, $window, $filter, SearchFactory, Global
                 page : 1
             }
         );
-        //Envoyer l'evenement pour relancer la recherche dans ResultCtrl
-        $scope.$emit('reloadSearchQuery')
 
     }
+
+    if ($location.search().hasOwnProperty('country')){
+        $scope.infosAnnonces = [];
+
+
+        $scope.lieu =  $location.search().country;
+        //$scope.lieu =  ($location.search().city !='') ? ($location.search().city) : (($location.search().state!='') ? ($location.search().state) : ($location.search().country))   ;
+        $scope.showNoResult = true;
+
+        // On passe la requette get avec les parametres de l'url
+        SearchFactory.startSearch(GlobalFactory.stateParamsToGetRequest($location.search())).then(
+            function(payload) {
+                $scope.infosAnnonces = payload;
+                anchorSmoothScroll.scrollTo('showMapResult');
+
+                if(payload != ''){
+                    var _latitude = 45.764043;
+                    var _longitude = 4.835658999999964;
+                    var element = "map-item";
+                    var useAjax = false;
+                    bigMap(_latitude,_longitude, element, useAjax);
+                }
+            },
+            function(errorPayload) {
+                $log.error('failure loading SearchFactory', errorPayload);
+            }
+        );
+    }else{
+        $scope.showNoResult = false;
+    }
+
 };

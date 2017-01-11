@@ -17,7 +17,8 @@ angular.module('CookIn').factory('AnnonceFactory', function($http,$q) {
         "IDTYPEAMBIANCE":1,
         "UTILISATEUR":{
             "IDUTILISATEUR": 1,
-            "NOM":"Dan",
+            "NOM":"Dray",
+            "PRENOM" : "Dan",
             "PHOTO_PROFIL":"https://scontent.xx.fbcdn.net/v/t1.0-9/14720515_10209221933178827_5270935031424465088_n.jpg?oh=f90cd2d2d9cc1bb81e64089aae8fa9a0&oe=58D90A78",
             "NOTE":4,
             "LANGUE":[
@@ -76,7 +77,7 @@ angular.module('CookIn').factory('AnnonceFactory', function($http,$q) {
                 "NOM": "Fary"
             },
             "IDUSERRECEPTERUR":2,
-            "NOTE":1,
+            "NOTE":3.3,
             "COMMENTAIRE":"Pas le temps fraté !",
             "ESTCHEF":false
         }
@@ -84,7 +85,7 @@ angular.module('CookIn').factory('AnnonceFactory', function($http,$q) {
 
     function getAnnonce(IdAnnonce){
         var deferred = $q.defer();
-        $http.get('/api/Recherche?id=IdAnnonce').
+        $http.get('/api/AnnonceDetails?id=IdAnnonce').
         success(function(data, status, headers, config) {
             deferred.resolve(data);
         }).
@@ -99,7 +100,7 @@ angular.module('CookIn').factory('AnnonceFactory', function($http,$q) {
 
     function getAvisByUser(IdUtilisateur){
         var deferred = $q.defer();
-        $http.get('/api/Recherche?id=IdUtilisateur').
+        $http.get('/api/AvisByUser?id=IdUtilisateur').
         success(function(data, status, headers, config) {
             deferred.resolve(data);
         }).

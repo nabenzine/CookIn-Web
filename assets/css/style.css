@@ -506,7 +506,7 @@ ul.bullets {
   padding-left: 0px;
   line-height: 25px;
 }
-ul.bullets li:before {
+li.bulletsok:before {
   text-shadow: none;
   -webkit-font-smoothing: antialiased;
   font-family: 'fontawesome';
@@ -515,12 +515,23 @@ ul.bullets li:before {
   font-variant: normal;
   line-height: 1;
   text-transform: none;
-  content: "\f111";
   color: #488f3e;
-  font-size: 7px;
-  position: relative;
-  top: -4px;
-  margin-right: 12px;
+  content: "\f00c";
+  margin-right: 8px;
+}
+
+li.bulletsnotok:before {
+  text-shadow: none;
+  -webkit-font-smoothing: antialiased;
+  font-family: 'fontawesome';
+  speak: none;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-transform: none;
+  color: #da0000;
+  content: "\f00d";
+  margin-right: 8px;
 }
 ul.checkboxes {
   list-style: none;
@@ -595,9 +606,7 @@ ul.half li {
   z-index: -1;
   width: 100%;
 }
-.bg-transfer img {
-  display: none;
-}
+
 
 .background-color-white {
   background-color: #fff;
@@ -3125,7 +3134,8 @@ ul.half li {
 }
 .plate.white a {
   background-color: #f6f6f4;
-  color: rgba(0, 0, 0, 0.7);
+  color: #4CAF50;
+  font-size: 13px;
 }
 .plate.white a:before {
   background: url("../img/plate-light-left.png");

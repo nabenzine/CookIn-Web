@@ -3,7 +3,7 @@ var mapStyles = [{"featureType":"road","elementType":"geometry","stylers":[{"lig
 $(document).ready(function($) {
     "use strict";
 
- //  Map in item view --------------------------------------------------------------------------------------------------
+    //  Map in item view --------------------------------------------------------------------------------------------------
 
     $(".item .mark-circle.map").on("click", function(){
         var _latitude = $(this).closest(".item").attr("data-map-latitude");
@@ -53,56 +53,6 @@ function simpleMap(_latitude,_longitude, element, markerDrag){
     });
 
     autoComplete(map, marker);
-    weather(_latitude, _longitude);
-}
-
-// Weather -------------------------------------------------------------------------------------------------------------
-
-function weather(_latitude, _longitude){
-
-    if( $(".weather").length ){
-
-        var geocoder;
-        var latlng = new google.maps.LatLng(_latitude, _longitude);
-        var city, country, street;
-        geocoder = new google.maps.Geocoder();
-
-        geocoder.geocode(
-            {'latLng': latlng},
-            function(results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    if (results[0]) {
-                        var add= results[0].formatted_address ;
-                        var  value=add.split(",");
-                        count = value.length;
-                        country = value[count-1];
-                        city = value[count-2].replace(/\d+/g, '');
-                        street = value[count-3];
-
-                        $.simpleWeather({
-                            location: city + ", " + country,
-                            woeid: '',
-                            unit: 'c',
-                            success: function(weather) {
-                                var html = '<div class="left"><i class="icon-'+weather.code+'"></i><span>'+weather.temp+'&deg;'+weather.units.temp+'</span>' +
-                                    '</div><div class="right"><ul><li>'+weather.city+', '+weather.region+'</li><li class="currently">'+weather.currently+'</li></ul></div>';
-                                $(".weather-detail").html(html);
-                            },
-                            error: function(error) {
-                                $(".weather-detail").html('<p>'+error+'</p>');
-                            }
-                        });
-                    }
-                    else  {
-                        console.log("address not found");
-                    }
-                }
-                else {
-                    console.log("Geocoder failed due to: " + status);
-                }
-            }
-        );
-    }
 }
 
 //Autocomplete ---------------------------------------------------------------------------------------------------------
@@ -161,13 +111,7 @@ function autoComplete(map, marker){
 
 function bigMap(_latitude,_longitude, element, useAjax){
     if( document.getElementById(element) != null ){
-        var urlToPHP;
-        if( useAjax == true ){
-            urlToPHP = "assets/external/ajax.markers.json";
-        }
-        else {
-            urlToPHP = "assets/external/locations.php";
-        }
+        var urlToPHP =  "assets/external/locations.json";
         var geocoder = new google.maps.Geocoder();
         var map = new google.maps.Map(document.getElementById(element), {
             zoom: 9,
@@ -204,15 +148,15 @@ function bigMap(_latitude,_longitude, element, useAjax){
                 var markerContent = document.createElement('div');
                 markerContent.innerHTML =
                     '<div class="map-marker">' +
-                        '<div class="icon">' +
-                            '<img src="assets/img/marker.png">' +
-                        '</div>' +
+                    '<div class="icon">' +
+                    '<img src="assets/img/marker.png">' +
+                    '</div>' +
                     '</div>';
 
                 // Latitude, Longitude and Address
-                if ( locations[i]["latitude"] && locations[i]["longitude"] && locations[i]["address"] ){
+                if ( locations[i]["ADRESSE"].LATITUDE && locations[i]["ADRESSE"].LONGITUDE && locations[i]["ADRESSE"].ADRESSE_COMPLETE ){
                     marker = new RichMarker({
-                        position: new google.maps.LatLng( locations[i]["latitude"], locations[i]["longitude"] ),
+                        position: new google.maps.LatLng( locations[i]["ADRESSE"].LATITUDE, locations[i]["ADRESSE"].LONGITUDE ),
                         map: map,
                         draggable: false,
                         content: markerContent,
@@ -221,20 +165,14 @@ function bigMap(_latitude,_longitude, element, useAjax){
                     google.maps.event.addListener(marker, 'click', (function(marker, i) {
                         return function() {
                             var _this = this;
-                            if ( useAjax == true ){
-                                var id = locations[i]["id"];
-                                ajaxLoadInfobox(i, marker, newMarkers, locations, _this, id);
-                            }
-                            else {
-                                openInfobox(i, marker, newMarkers, locations, _this);
-                            }
+                            openInfobox(i, marker, newMarkers, locations, _this);
                         }
                     })(marker, i));
                 }
                 // Only Address
-                else if ( locations[i]["address"] && locations[i]["latitude"] == undefined && locations[i]["longitude"] == undefined ){
+                else if ( locations[i]["ADRESSE"].ADRESSE_COMPLETE && locations[i]["ADRESSE"].LATITUDE == undefined && locations[i]["ADRESSE"].LONGITUDE == undefined ){
                     a = i;
-                    geocoder.geocode( { 'address': locations[i]["address"] }, function(results, status) {
+                    geocoder.geocode( { 'address': locations[i]["ADRESSE"].ADRESSE_COMPLETE }, function(results, status) {
                         if (status == google.maps.GeocoderStatus.OK) {
                             var marker = new RichMarker({
                                 position: results[0].geometry.location,
@@ -247,13 +185,7 @@ function bigMap(_latitude,_longitude, element, useAjax){
                                 return function() {
                                     //console.log( locations[a]["id"] );
                                     var _this = this;
-                                    if ( useAjax == true ){
-                                        var id = locations[a]["id"];
-                                        ajaxLoadInfobox(a, marker, newMarkers, locations, _this, id);
-                                    }
-                                    else {
-                                        openInfobox(a, marker, newMarkers, locations, _this);
-                                    }
+                                    openInfobox(a, marker, newMarkers, locations, _this);
                                 }
                             })(marker, a));
 
@@ -263,9 +195,9 @@ function bigMap(_latitude,_longitude, element, useAjax){
                     });
                 }
                 // Only Latitude and Longitude
-                else if ( locations[i]["latitude"] && locations[i]["longitude"] && locations[i]["address"] == undefined ) {
+                else if ( locations[i]["ADRESSE"].LATITUDE && locations[i]["ADRESSE"].LONGITUDE && locations[i]["ADRESSE"].ADRESSE_COMPLETE == undefined ) {
                     marker = new RichMarker({
-                        position: new google.maps.LatLng( locations[i]["latitude"], locations[i]["longitude"] ),
+                        position: new google.maps.LatLng( locations[i]["ADRESSE"].LATITUDE, locations[i]["ADRESSE"].LONGITUDE ),
                         map: map,
                         draggable: false,
                         content: markerContent,
@@ -274,13 +206,7 @@ function bigMap(_latitude,_longitude, element, useAjax){
                     google.maps.event.addListener(marker, 'click', (function(marker, i) {
                         return function() {
                             var _this = this;
-                            if ( useAjax == true ){
-                                var id = locations[i]["id"];
-                                ajaxLoadInfobox(i, marker, newMarkers, locations, _this, id);
-                            }
-                            else {
-                                openInfobox(i, marker, newMarkers, locations, _this);
-                            }
+                            openInfobox(i, marker, newMarkers, locations, _this);
                         }
                     })(marker, i));
                 }
@@ -302,73 +228,34 @@ function bigMap(_latitude,_longitude, element, useAjax){
             var markerCluster = new MarkerClusterer(map, newMarkers, {styles: clusterStyles, maxZoom: 10});
         }
 
-        // Ajax loading of infobox -------------------------------------------------------------------------------------
-
-        function ajaxLoadInfobox(i, marker, newMarkers, locations, _this, id){
-            $.ajax({
-                url: "assets/external/ajax.infobox.php",
-                dataType: "html",
-                data: { id: id },
-                method: "POST",
-                success: function(htmlContent){
-                    openInfobox(i, marker, newMarkers, locations, _this, htmlContent);
-                },
-                error : function () {
-                    console.log("error");
-                }
-            });
-        }
 
         // Infobox -----------------------------------------------------------------------------------------------------
 
         var lastInfobox;
 
         function openInfobox(i, marker, newMarkers, locations, _this, htmlContent){
-            if( useAjax == true ){
-                console.log(useAjax);
-                boxText = htmlContent;
-            }
-            else {
-                console.log(useAjax);
-                var boxText = document.createElement("div");
-                    boxText.innerHTML =
-                        /*
-                        '<a href="' + locations[i]["url"] + '" class="infobox-inner">' +
-                            '<div class="label-wrapper">' +
-                                '<figure class="label label-info">' + locations[i]["type"] + '</figure>' +
-                            '</div>' +
-                            '<div class="wrapper">' +
-                                '<div class="info">' +
-                                    '<h3>' + locations[i]["title"] + '</h3>' +
-                                    '<figure class="location">' + locations[i]["location"] + '</figure>' +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="meta">' +
-                                '<span><i class="fa fa-star"></i>' + locations[i]["rating"] + '</span>' +
-                                '<span><i class="fa fa-bed"></i>' + locations[i]["beds"] + '</span>' +
-                            '</div>' +
-                            '<div class="image" style="background-image: url('+ locations[i]["image"] +')"></div>' +
-                        '</a>';
-                        */
-                        '<a href="' + locations[i]["url"] + '" class="infobox-inner">' +
-                            '<div class="image-wrapper">' +
-                                '<div class="label-wrapper">' +
-                                    '<figure class="label label-info">' + locations[i]["type"] + '</figure>' +
-                                '</div>' +
-                                '<div class="wrapper">' +
-                                    '<div class="info">' +
-                                        '<h3>' + locations[i]["title"] + '</h3>' +
-                                        '<figure class="location">' + locations[i]["location"] + '</figure>' +
-                                    '</div>' +
-                                '</div>' +
-                                '<div class="image" style="background-image: url('+ locations[i]["image"] +')"></div>' +
-                            '</div>' +
-                            '<div class="meta">' +
-                                '<span><i class="fa fa-star"></i>' + locations[i]["rating"] + '</span>' +
-                                '<span><i class="fa fa-bed"></i>' + locations[i]["beds"] + '</span>' +
-                            '</div>' +
-                        '</a>';
-            }
+
+            var boxText = document.createElement("div");
+            boxText.innerHTML =
+                '<a href="#viewpublication/' + locations[i]["IDANNONCE"] + '" class="infobox-inner">' +
+                '<div class="image-wrapper">' +
+                '<div class="label-wrapper">' +
+                '<figure class="label label-info">' + locations[i]["MODECONSO"].LIBELLE + '</figure>' +
+                '</div>' +
+                '<div class="wrapper">' +
+                '<div class="info">' +
+                '<h3>' + locations[i]["LIBELLE"] + '</h3>' +
+                '<figure class="location">' + locations[i]["ADRESSE"].VILLE + '</figure>' +
+                '</div>' +
+                '</div>'+
+            '<div class="image" style="background-image: url('+ locations[i]["IMAGE_ANNONCE"][0].FILENAME +')"></div>' +
+            '</div>' +
+            '<div class="meta">' +
+            '<span><i class="fa fa-star"></i>' + locations[i]["UTILISATEUR"].NOTE + '</span>' +
+            '<span><i class="fa fa-cutlery"></i>' + locations[i]["QUANTITE_MAX"] + '</span>' +
+            '</div>' +
+            '</a>';
+
             infoboxOptions = {
                 content: boxText,
                 disableAutoPan: false,

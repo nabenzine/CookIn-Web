@@ -1,0 +1,278 @@
+    <!-- Search form-->
+    <div class="hero-section" data-height="600">
+        <form id="form-hero" ng-class="{switch: showMap}" name="form-hero">
+            <div class="hero-inner">
+                <div class="hero-wrapper" >
+                    <div class="caption">
+                        <div class="inner">
+                            <div class="container">
+                                <h1 class="center">Find Your Best meal
+                                </h1>
+                                <div class="row no-gutters">
+                                    <div class="col-md-5 col-sm-5">
+                                        <div class="form-group">
+                                            <label class="label-on-input" for="address-autocomplete">Destination</label>
+                                            <input type="text" class="form-control" required id="address-autocomplete" ng-model="locationChoice"  ng-autocomplete  details="locationChoiceDetail"  placeholder="Enter une destination">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-sm-2">
+                                        <div class="form-group">
+                                            <label class="label-on-input" for="form-check-in">Date</label>
+                                            <input  style="line-height: 18px;" datepicker type="date" ng-model="dateChoice" class="form-control" id="form-check-in"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3">
+                                        <div class="form-group">
+                                            <label class="label-on-input" for="form-nights">Personnes</label>
+                                            <div class="input-number">
+                                                <div class="change-button plus" ng-click="cpt = cpt + 1">
+                                                    <i class="fa fa-caret-up"></i>
+                                                </div>
+                                                <div class="change-button minus" ng-click="decrementNbPersonnes()">
+                                                    <i class="fa fa-caret-down"></i>
+                                                </div>
+                                                <input  ng-disabled="!showNbPersonnes" ng-model="cpt" type="number" class="form-control transparent-disabled" id="form-nights" name="nbInvite" placeholder="Nombre d'invités">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-sm-2">
+                                        <div class="form-group">
+                                            <button ng-disabled="locationChoiceDetail|JsonIsEmpty" ng-click="startSearch(locationChoiceDetail)" type="submit" class="btn btn-default">Chercher</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="favorite-search">
+                                    <div class="row">
+                                        <div class="col-md-2 col-sm-2 col-xs-2">
+                                            <span>A consommer</span>
+                                        </div>
+                                        <div class="col-md-2 col-sm-3 col-xs-5" ng-repeat="modeConso in modeConsommation">
+                                            <label class="radio-inline">
+                                                <input icheck type="radio" name="iCheck" ng-model="$parent.modeConsoChoice" ng-change="updateModeConsoLabel(modeConsoChoice)" ng-value="modeConso.IDMODECONSO">{{ modeConso.LIBELLE }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end favorite-searches-->
+                            </div>
+                            <!--end container-->
+                            <div class="bg-transfer"><img src="assets/img/bg-hero.jpg" alt=""></div>
+                            <!--end bg-transfer-->
+                        </div>
+                        <!--end inner-->
+                    </div>
+                    <!--end caption-->
+                    <div class="options">
+                        <div class="container">
+                            <div class="wrapper">
+                                <h2>Spécialités</h2>
+                                <div class="row">
+                                    <div class="col-md-8 col-sm-7">
+                                        <ul class="checkboxes inline list-unstyled">
+                                            <li ng-repeat="cuisine in typeCuisine">
+                                                <label>
+                                                    <input icheck  ng-model="typeCuisineChoice[cuisine.IDCUISINE]" ng-value="cuisine.IDCUISINE" type="checkbox">
+                                                    {{cuisine.LIBELLE}}
+                                                </label>
+                                            </li>
+                                        </ul>
+                                        <!--end checkboxes-->
+                                    </div>
+                                    <!--end col-md-8-->
+                                    <div class="col-md-4 col-sm-5">
+                                        <div class="row" style="padding-right: 7px;padding-left: 7px">
+                                            <label>Votre budget (par personne)</label>
+                                            <rzslider rz-slider-model="minRangeSlider.minValue" rz-slider-high="minRangeSlider.maxValue" rz-slider-options="minRangeSlider.options"></rzslider>
+                                        </div>
+                                        <!--end row-->
+                                    </div>
+                                    <!--end col-md-4-->
+                                </div>
+                                <!--end row-->
+                            </div>
+                            <!--end wrapper-->
+                        </div>
+                        <!--end container-->
+                    </div>
+                    <!--end options-->
+                </div>
+                <!--end hero-wrapper-->
+                <div class="cssSlideUp" id="options-hidden" ng-show="showMoreOptions">
+                    <div class="container">
+                        <div class="wrapper">
+                            <h2>Type d'évenement</h2>
+                            <div class="row">
+                                <div class="col-md-8 col-sm-6">
+                                    <ul class="checkboxes inline">
+                                        <li ng-repeat="repas in typeRepas">
+                                            <label>
+                                                <input icheck ng-model="typeRepasChoice[repas.IDTYPEREPAS]" ng-value="repas.IDTYPEREPAS" type="checkbox">
+                                                {{repas.LIBELLE}}
+                                            </label>
+                                        </li>
+                                    </ul>
+                                    <!--end checkboxes-->
+                                </div>
+                                <!--end col-md-8-->
+                                <div class="col-md-4"></div>
+                                <!--end col-md-4-->
+                            </div>
+                            <!--end row-->
+                        </div>
+                        <!--end wrapper-->
+                        <div class="wrapper">
+                            <h2>Langues</h2>
+                            <div class="row">
+                                <div class="col-md-8 col-sm-6">
+                                    <ul class="checkboxes inline">
+                                        <li ng-repeat="language in languesParlees">
+                                            <label>
+                                                <input icheck ng-model="languesParleesChoice[language.IDLANGUE]" ng-value="language.IDLANGUE" type="checkbox">
+                                                {{language.LIBELLE}}
+                                            </label>
+                                        </li>
+                                    </ul>
+                                    <!--end checkboxes-->
+                                </div>
+                                <!--end col-md-8-->
+                                <div class="col-md-4"></div>
+                                <!--end col-md-4-->
+                            </div>
+                            <!--end row-->
+                        </div>
+                    </div>
+                    <!--end container-->
+                </div>
+            </div>
+            <!--end hero-inner-->
+            <div class="plate">
+                <a data-toggle="collapse" href="" ng-click="showMoreOptions = !showMoreOptions" aria-expanded="false" aria-controls="options-hidden">View Further Options</a>
+            </div>
+            <!--end plate-->
+        </form>
+        <!--end form-->
+        <div class="map-wrapper">
+            <div class="plate white">
+                <a id="showMapResult" href="" ng-click="showMap =! showMap">Afficher sur la carte</a>
+            </div>
+            <!--end plate-->
+            <div id="map-item" class="map height-100"></div>
+            <!--<img src="assets/img/map.jpg" alt="">-->
+        </div>
+    </div>
+    <!--end Search form-->
+
+    <!--Search display block-->
+    <div class="block" id="SearchResult">
+        <div class="container">
+            <div class="title">
+                <h2>{{lieu}}</h2>
+            </div>
+            <div class="row">
+                <div class="center" ng-show="showNoResult && infosAnnonces|JsonIsEmpty">
+                    <h1>Aucun résultat trouvé</h1>
+                    {{ showNoResult }}
+                    {{ infosAnnonces|JsonIsEmpty}}
+                </div>
+                <div class="col-md-3 col-sm-6" ng-repeat="annonce in infosAnnonces">
+                    <div class="item big equal-height" data-map-latitude="48.87" data-map-longitude="2.29" data-id="1">
+                        <div class="item-wrapper">
+                            <div class="image_profil">
+                                <img ng-src="{{annonce.UTILISATEUR.PHOTO_PROFIL}}">
+                            </div>
+                            <div class="image">
+                                <div class="mark-circle description" data-toggle="tooltip" data-placement="right" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin quis erat vel quam aliquet hendrerit semper eget elit. Aenean tincidunt ultrices bibendum. Proin nisi erat, iaculis non pulvinar a, scelerisque ut est. "><i class="fa fa-question"></i></div>
+                                <div class="mark-circle map" data-toggle="tooltip" data-placement="right" title="Show on map"><i class="fa fa-map-marker"></i></div>
+                                <a class="wrapper" ui-sref="viewpublication({ id: annonce.IDANNONCE })">
+                                    <img ng-src="{{annonce.IMAGE_ANNONCE[0].FILENAME}}" alt="">
+                                </a>
+                                <div class="owl-navigation"></div>
+                                <!--end owl-navigation-->
+                            </div>
+                            <!--end image-->
+                            <div class="description">
+                                <div class="meta">
+                                    Avec<span style="color: red">{{annonce.UTILISATEUR.PRENOM}}&nbsp; &nbsp;<i class="fa fa-star"></i>{{annonce.UTILISATEUR.NOTE}}</span>
+                                    <span><i class="fa fa-cutlery"></i>{{annonce.QUANTITE_MAX}}</span>
+                                </div>
+                                <div class="info">
+                                    <figure class="label" ng-class="{'label-emporter': annonce.MODECONSO.CODE == 'AEMPORTER', 'label-surplace': annonce.MODECONSO.CODE == 'SURPLACE'}">{{ annonce.MODECONSO.LIBELLE }}</figure>
+                                    <a ui-sref="viewpublication({ id: annonce.IDANNONCE })"><h3>{{annonce.LIBELLE}}</h3></a>
+                                    <figure class="location">{{annonce.ADRESSE.VILLE}}, {{annonce.ADRESSE.PAYS}}</figure>
+                                </div>
+                            </div>
+                            <!--end description-->
+                            <div class="map-item">
+                                <button class="btn btn-close"><i class="fa fa-close"></i></button>
+                                <div class="map-wrapper"></div>
+                            </div>
+                            <!--end map-item-->
+                        </div>
+                    </div>
+                    <!--end item-->
+                </div>
+                <!--col-md-3-->
+            </div>
+            <!--end row-->
+        </div>
+        <!--end container-->
+    </div>
+    <!--end Search display block-->
+
+    <div class="block">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="feature">
+                        <aside class="circle">
+                            <i class="icon_house_alt"></i>
+                        </aside>
+                        <figure>
+                            <h3>200+ Accommodations</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum luctus posuere mattis.
+                                Donec id nulla nisl.
+                            </p>
+                        </figure>
+                    </div>
+                    <!--end feature-->
+                </div>
+                <!--end col-md-4-->
+                <div class="col-md-4 col-sm-4">
+                    <div class="feature">
+                        <aside class="circle">
+                            <i class="icon_box-checked"></i>
+                        </aside>
+                        <figure>
+                            <h3>Easy Booking System</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum luctus posuere mattis.
+                                Donec id nulla nisl.
+                            </p>
+                        </figure>
+                    </div>
+                    <!--end feature-->
+                </div>
+                <!--end col-md-4-->
+                <div class="col-md-4 col-sm-4">
+                    <div class="feature">
+                        <aside class="circle">
+                            <i class="icon_headphones"></i>
+                        </aside>
+                        <figure>
+                            <h3>Great Support</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum luctus posuere mattis.
+                                Donec id nulla nisl.
+                            </p>
+                        </figure>
+                    </div>
+                    <!--end feature-->
+                </div>
+                <!--end col-md-4-->
+            </div>
+            <!--end row-->
+        </div>
+        <!--end container-->
+        <div class="space"></div>
+    </div>
+    <!--end block-->
+
+</div>

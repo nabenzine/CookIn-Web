@@ -3,18 +3,14 @@
  */
 angular.module('CookIn').controller('PublicationCtrl',PublicationCtrlFnt);
 
-PublicationCtrlFnt.$inject=['$scope', '$location', '$routeParams', 'AnnonceFactory']
+PublicationCtrlFnt.$inject=['$scope', '$location', '$stateParams', 'AnnonceFactory']
 
-function PublicationCtrlFnt($scope, $location, $routeParams, AnnonceFactory) {
-
-    console.log($routeParams)
-    console.log($location)
+function PublicationCtrlFnt($scope, $location, $stateParams, AnnonceFactory) {
 
     $scope.donneesAnnonce = [];
     $scope.avisUtilisateurs = [];
-    $scope.prop1 = 3;
 
-    AnnonceFactory.getAnnonce($routeParams.id).then(
+    AnnonceFactory.getAnnonce($stateParams.id).then(
         function(dataAnnonce) {
             $scope.donneesAnnonce = dataAnnonce;
 
@@ -24,12 +20,12 @@ function PublicationCtrlFnt($scope, $location, $routeParams, AnnonceFactory) {
                     $scope.avisUtilisateurs = dataAvis;
                 },
                 function(errorPayload) {
-                    $log.error('failure loading TypeRepas', errorPayload);
+                    $log.error('failure loading getAnnonce', errorPayload);
                 }
             );
         },
         function(errorPayload) {
-            $log.error('failure loading TypeRepas', errorPayload);
+            $log.error('failure loading getAnnonce', errorPayload);
         }
     );
 };

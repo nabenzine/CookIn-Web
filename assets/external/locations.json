@@ -1,0 +1,118 @@
+[
+  {
+    "IDANNONCE":1,
+    "IDTYPEAMBIANCE":1,
+    "UTILISATEUR":{
+      "NOM":"Dray",
+      "PRENOM":"Dan",
+      "PHOTO_PROFIL":"https://scontent.xx.fbcdn.net/v/t1.0-9/14720515_10209221933178827_5270935031424465088_n.jpg?oh=f90cd2d2d9cc1bb81e64089aae8fa9a0&oe=58D90A78",
+      "NOTE":4
+    },
+    "IDTYPEREPAS":2,
+    "MODECONSO":{
+      "IDMODECONSO":1,
+      "LIBELLE":"A emporter",
+      "CODE":"AEMPORTER"
+    },
+    "ADRESSE": {
+      "IDADRESSE":1,
+      "IDUTILISATEUR":2,
+      "NUMERO_RUE":30,
+      "NOM_RUE":"Rue George Sand",
+      "CP":"69100",
+      "VILLE":"Villeurbanne",
+      "ETAT":"Auvergne-Rhône-Alpes",
+      "PAYS":"France",
+      "LATITUDE":45.7550416,
+      "LONGITUDE":4.888795200000004,
+      "ADRESSE_COMPLETE":"30 Rue George Sand, 69100 Villeurbanne, France",
+      "ADRESSE_ID":"ChIJCZgLGsnB9EcRojLtubUeUZs",
+      "COMPATIBLE_MAP":true
+    },
+    "IMAGE_ANNONCE": [
+      {
+        "ID" : 1,
+        "FILENAME": "http://recettes.al-manakh.com/images/tajine-halal.jpg"
+      },
+      {
+        "ID" : 2,
+        "FILENAME": "http://www.beaumontpizz.fr/ressources/images/0d138119fef9.jpg"
+      },
+      {
+        "ID" : 3,
+        "FILENAME": "http://www.boucherie-grandmaire.com/images/plats1.jpg"
+      }
+    ],
+    "IDSPECIALITE":1,
+    "LIBELLE":"Tajine Marocain",
+    "DESCRIPTION":"Venez partager ma chatte avec moi",
+    "DATE_ENVOI":"25/12/2016",
+    "PRIX":25,
+    "ACCEPTATION_AUTO":true,
+    "ASSISTER_PREPARATION":false,
+    "ACCEPTE_ENFANT":true,
+    "ACCEPTE_ANIMAUX":true,
+    "RACCOMPAGNE_INVITE":false,
+    "QUANTITE_MIN":1,
+    "QUANTITE_MAX":3,
+    "QUANTITE_ACTUELLE":0
+  },
+  {
+    "IDANNONCE":2,
+    "IDTYPEAMBIANCE":1,
+    "UTILISATEUR":{
+      "NOM":"Benzine",
+      "PRENOM":"Nad",
+      "PHOTO_PROFIL":"https://scontent-cdg2-1.xx.fbcdn.net/v/t1.0-9/12439345_1230530423643497_7601327912280907099_n.jpg?oh=ca3307aa2e7a9988b4db846c3ea3dc44&oe=58DBA648",
+      "NOTE":3.3
+    },
+    "IDTYPEREPAS":2,
+    "ADRESSE":{
+      "IDADRESSE":2,
+      "IDUTILISATEUR":3,
+      "NUMERO_RUE":30,
+      "NOM_RUE":"Cours Emile Zola",
+      "CP":"69100",
+      "VILLE":"Villeurbanne",
+      "ETAT":"Auvergne-Rhône-Alpes",
+      "PAYS":"France",
+      "LATITUDE":45.76773619999999,
+      "LONGITUDE":4.889215599999943,
+      "ADRESSE_COMPLETE":"Cours Emile Zola, Villeurbanne, France",
+      "ADRESSE_ID":"3cf04a9229a8e04c4724335c2a8ce3a82929fbe3",
+      "COMPATIBLE_MAP":true
+    },
+    "MODECONSO":{
+      "IDMODECONSO":2,
+      "LIBELLE":"Sur place",
+      "CODE":"SURPLACE"
+    },
+    "IMAGE_ANNONCE": [
+      {
+        "ID" : 1,
+        "FILENAME": "https://az826390.vo.msecnd.net/cdn/media/home/inspiring_recipes/recipes/new_-_r/raclette-1160x650-bs001848-pub-67290-01.ashx?la=fr&mw=1160&w=1160&hash=97DE7BBF2A80113F98073ADB73CA9EEEC745D5E5"
+      },
+      {
+        "ID" : 2,
+        "FILENAME": "http://www.beaumontpizz.fr/ressources/images/0d138119fef9.jpg"
+      },
+      {
+        "ID" : 3,
+        "FILENAME": "http://www.boucherie-grandmaire.com/images/plats1.jpg"
+      }
+    ],
+    "IDSPECIALITE":1,
+    "LIBELLE":"Repas chez Nabila",
+    "DESCRIPTION":"Venez partager ma chatte avec moi",
+    "DATE_ENVOI":"25/12/2016",
+    "PRIX":25,
+    "ACCEPTATION_AUTO":true,
+    "ASSISTER_PREPARATION":false,
+    "ACCEPTE_ENFANT":true,
+    "ACCEPTE_ANIMAUX":true,
+    "RACCOMPAGNE_INVITE":false,
+    "QUANTITE_MIN":1,
+    "QUANTITE_MAX":3,
+    "QUANTITE_ACTUELLE":0
+  }
+]
