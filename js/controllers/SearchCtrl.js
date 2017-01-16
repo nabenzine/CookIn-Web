@@ -1,10 +1,10 @@
 
 angular.module('CookIn').controller('SearchCtrl',SearchCtrlFnt);
 
-SearchCtrlFnt.$inject=['$scope','$location','$stateParams', '$filter', 'anchorSmoothScroll', 'SearchFactory','GlobalFactory'];
+SearchCtrlFnt.$inject=['$scope','$state', '$location','$stateParams', '$filter', 'anchorSmoothScroll', 'SearchFactory','GlobalFactory'];
 
-function SearchCtrlFnt($scope,$location, $stateParams, $filter, anchorSmoothScroll, SearchFactory, GlobalFactory){
-
+function SearchCtrlFnt($scope, $state, $location, $stateParams, $filter, anchorSmoothScroll, SearchFactory, GlobalFactory){
+    console.log('rechargement');
     // list des données
     $scope.typeCuisine = {};
     $scope.typeRepas = {};
@@ -15,7 +15,7 @@ function SearchCtrlFnt($scope,$location, $stateParams, $filter, anchorSmoothScro
     $scope.typeRepasChoice = {};
     $scope.typeCuisineChoice = {};
     $scope.languesParleesChoice = {};
-
+    $scope.location = {};
     // Conf du slider
     $scope.minRangeSlider = {
         minValue: 10,
@@ -92,12 +92,13 @@ function SearchCtrlFnt($scope,$location, $stateParams, $filter, anchorSmoothScro
         }
     );
 
-    $scope.startSearch = function (data) {
+    $scope.changeSearchUrl = function (data) {
         var typeCuisineParameters = GlobalFactory.checkBoxToGetParametes($scope.typeCuisineChoice);
         var typeRepasParameters = GlobalFactory.checkBoxToGetParametes($scope.typeRepasChoice);
         var languesParleesParameters = GlobalFactory.checkBoxToGetParametes($scope.languesParleesChoice);
-
-        $location.path('/accueil/').search(
+        $scope.location = GlobalFactory.findComponent(data, 'location');
+        $scope.location = {lat: data.geometry.location.lat(), lng: data.geometry.location.lng()};
+        $state.go('accueil',
             {
                 date:$filter('date')($scope.dateChoice, "dd/MM/yyyy"),
                 country:GlobalFactory.findComponent(data, 'country'),
@@ -111,12 +112,13 @@ function SearchCtrlFnt($scope,$location, $stateParams, $filter, anchorSmoothScro
                 mealtype:typeRepasParameters,
                 hostspeaks:languesParleesParameters,
                 page : 1
-            }
-        );
-
+            });
+        //lancer la recherche
+        $scope.searchPublications();
     }
 
-    if ($location.search().hasOwnProperty('country')){
+    // Fonction de recherche
+    $scope.searchPublications = function () {
         $scope.infosAnnonces = [];
 
 
@@ -128,22 +130,30 @@ function SearchCtrlFnt($scope,$location, $stateParams, $filter, anchorSmoothScro
         SearchFactory.startSearch(GlobalFactory.stateParamsToGetRequest($location.search())).then(
             function(payload) {
                 $scope.infosAnnonces = payload;
-                anchorSmoothScroll.scrollTo('showMapResult');
-
-                if(payload != ''){
-                    var _latitude = 45.764043;
-                    var _longitude = 4.835658999999964;
+                console.log($scope.location);
+                if(payload != '' && !$filter('JsonIsEmpty')($scope.location)){
+                    var _latitude = $scope.location.lat;
+                    var _longitude = $scope.location.lng;
                     var element = "map-item";
                     var useAjax = false;
                     bigMap(_latitude,_longitude, element, useAjax);
                 }
+                anchorSmoothScroll.scrollTo('SearchResult');
             },
             function(errorPayload) {
                 $log.error('failure loading SearchFactory', errorPayload);
             }
         );
-    }else{
+    };
+
+    // Si mise à jours de la page
+    if ($location.search().hasOwnProperty('country')){
+        $scope.searchPublications();
+    }
+    else
+    {
         $scope.showNoResult = false;
     }
+
 
 };

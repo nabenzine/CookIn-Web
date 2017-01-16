@@ -18,7 +18,7 @@
                                     <div class="col-md-2 col-sm-2">
                                         <div class="form-group">
                                             <label class="label-on-input" for="form-check-in">Date</label>
-                                            <input  style="line-height: 18px;" datepicker type="date" ng-model="dateChoice" class="form-control" id="form-check-in"/>
+                                            <input style="line-height: 18px;" datepicker type="date" ng-model="dateChoice" class="form-control" id="form-check-in"/>
                                         </div>
                                     </div>
                                     <div class="col-md-3 col-sm-3">
@@ -37,7 +37,7 @@
                                     </div>
                                     <div class="col-md-2 col-sm-2">
                                         <div class="form-group">
-                                            <button ng-disabled="locationChoiceDetail|JsonIsEmpty" ng-click="startSearch(locationChoiceDetail)" type="submit" class="btn btn-default">Chercher</button>
+                                            <button ng-disabled="locationChoiceDetail|JsonIsEmpty" ng-click="changeSearchUrl(locationChoiceDetail)" type="submit" class="btn btn-default">Chercher</button>
                                         </div>
                                     </div>
                                 </div>
@@ -153,7 +153,7 @@
         <!--end form-->
         <div class="map-wrapper">
             <div class="plate white">
-                <a id="showMapResult" href="" ng-click="showMap =! showMap">Afficher sur la carte</a>
+                <a id="showMapResult" ng-disabled="infosAnnonces|JsonIsEmpty" href="" ng-click="showMap =! showMap">Afficher sur la carte</a>
             </div>
             <!--end plate-->
             <div id="map-item" class="map height-100"></div>
@@ -171,8 +171,6 @@
             <div class="row">
                 <div class="center" ng-show="showNoResult && infosAnnonces|JsonIsEmpty">
                     <h1>Aucun résultat trouvé</h1>
-                    {{ showNoResult }}
-                    {{ infosAnnonces|JsonIsEmpty}}
                 </div>
                 <div class="col-md-3 col-sm-6" ng-repeat="annonce in infosAnnonces">
                     <div class="item big equal-height" data-map-latitude="48.87" data-map-longitude="2.29" data-id="1">

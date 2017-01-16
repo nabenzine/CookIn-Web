@@ -19,66 +19,33 @@
                 </div>
             </div>
             <div class="main-content">
-                <div class="title">
+                <div class="title box">
                     <div class="left">
-                        <h1>{{donneesAnnonce.LIBELLE}} <span class="rating"><i class="fa fa-star"></i>{{donneesAnnonce.UTILISATEUR.NOTE}}</span></h1>
-                        <h3><a href="#">Austria</a> (63 properties)</h3>
+                        <div class="vcenter item-image col-md-2">
+                            <img class="thumbl" ng-src="{{donneesAnnonce.UTILISATEUR.PHOTO_PROFIL}}">
+                            <strong>{{donneesAnnonce.UTILISATEUR.PRENOM}}</strong>
+                        </div>
+                        <div class="vcenter col-md-8">
+                            <h1>{{donneesAnnonce.LIBELLE}} <span class="rating"><i class="fa fa-star"></i>{{donneesAnnonce.UTILISATEUR.NOTE}}</span></h1>
+                        </div>
                     </div>
                     <div class="right">
                         <a href="#map" class="icon scroll"><i class="fa fa-map-marker"></i>See on the map</a>
-                        <a href="#availability" class="btn btn-primary btn-rounded scroll">Reserve Today</a>
                     </div>
                 </div>
                 <!--end title-->
+
+
                 <section id="gallery">
-                    <div class="gallery-detail">
-                        <div class="ribbon"><div class="offer-number">20%</div><figure>Off Today!</figure></div>
-                        <div class="one-item-carousel">
-                            <div class="image">
-                                <a href="#reviews" class="review scroll">
-                                    <div class="rating">
-                                        <div class="rating-title">
-                                            <figure class="rating">9.8</figure>
-                                            <h4>Very Good Hotel</h4>
-                                        </div>
-                                        <p>Consectetur adipiscing elit. Vivamus nec augue ac dui sodales euismod. Suspendisse
-                                            at dui sit amet felis commodo dictum. Class aptent taciti sociosqu ad litora
-                                            torquent per conubia nostra, per inceptos
-                                        </p>
-                                    </div>
-                                </a>
-                                <img src="assets/img/items/01_b.jpg" alt="">
-                            </div>
-                            <div class="image">
-                                <a href="#reviews" class="review scroll">
-                                    <div class="rating">
-                                        <div class="rating-title">
-                                            <figure class="rating">9.9</figure>
-                                            <h4>Beautiful Holiday</h4>
-                                        </div>
-                                        <p>Class aptent taciti sociosqu ad litora
-                                            torquent per conubia nostra, per inceptos
-                                        </p>
-                                    </div>
-                                </a>
-                                <img src="assets/img/items/02_b.jpg" alt="">
-                            </div>
-                            <div class="image">
-                                <a href="#reviews" class="review scroll">
-                                    <div class="rating">
-                                        <div class="rating-title">
-                                            <figure class="rating">9.8</figure>
-                                            <h4>Very Good Hotel</h4>
-                                        </div>
-                                        <p>Consectetur adipiscing elit. Vivamus nec augue ac dui sodales euismod. Suspendisse
-                                            at dui sit amet felis commodo dictum. Class aptent taciti sociosqu ad litora
-                                            torquent per conubia nostra, per inceptos
-                                        </p>
-                                    </div>
-                                </a>
-                                <img src="assets/img/items/03_b.jpg" alt="">
-                            </div>
-                        </div>
+                    <div class="gallery-detail" ng-init="slides = donneesAnnonce.IMAGE_ANNONCE">
+                        <ul rn-carousel rn-carousel-pause-on-hover="" rn-carousel-buffered=""  rn-carousel-index="carouselIndex" class="box angular-carousel" style="background: white; height: 502px">
+                            <li ng-repeat="image in donneesAnnonce.IMAGE_ANNONCE">
+                                <div class="image-aspect-ratio">
+                                    <img ng-src="{{image.FILENAME}}">
+                                </div>
+                            </li>
+                            <div rn-carousel-indicators slides="slides" rn-carousel-index="carouselIndex"></div>
+                        </ul>
                     </div>
                 </section>
                 <h2>Description</h2>
@@ -86,11 +53,6 @@
                     <div class="col-md-12">
                         <section id="description">
                             <p>{{donneesAnnonce.DESCRIPTION}}</p>
-                            <div>{{donneesAnnonce.UTILISATEUR.PRENOM}} parle :
-                                <span ng-repeat="langue in donneesAnnonce.UTILISATEUR.LANGUE">
-                                    {{langue.LIBELLE}} {{$last ? '' : ', '}}
-                                </span>
-                            </div>
                         </section>
                         <section id="facilities">
                             <h2>Options</h2>
@@ -113,16 +75,28 @@
                 <section id="additional-information">
                     <h2>Additional Information</h2>
                     <dl class="info">
-                        <dt>Check-in:</dt>
-                        <dd>14:00 - 00:00</dd>
-                        <dt>Check-out:</dt>
-                        <dd><strong>Late Check-out: until 12:00 </strong></dd>
-                        <dt>Cancellation:</dt>
-                        <dd>Cancellation and prepayment policies vary according to room type.</dd>
-                        <dt>Children:</dt>
-                        <dd>All children are welcome.</dd>
-                        <dt>Pets:</dt>
-                        <dd>Pets are not allowed</dd>
+                        <dt>Arrivée:</dt>
+                        <dd>{{availableday[0].DATE_DEBUT |date:'hh:mm' }}  {{availableday[0].DATE_FIN |date:'hh:mm' }} </dd>
+                        <dt>Langues parlées:</dt>
+                        <dd>
+                            <span ng-repeat="langue in donneesAnnonce.UTILISATEUR.LANGUE">
+                                    {{langue.LIBELLE}} {{$last ? '' : ', '}}
+                            </span>
+                        </dd>
+                        <span ng-hide="donneesAnnonce.SPECIALITE|JsonIsEmpty">
+                             <dt>Spécialité:</dt>
+                             <dd>
+                                 {{donneesAnnonce.SPECIALITE.LIBELLE}}
+                             </dd>
+                        </span>
+                        <span ng-hide="donneesAnnonce.REGIMES|JsonIsEmpty">
+                             <dt>Régime(s):</dt>
+                             <dd>
+                                <span ng-repeat="regime in donneesAnnonce.REGIMES">
+                                    {{regime.LIBELLE}} {{$last ? '' : ', '}}
+                                </span>
+                             </dd>
+                        </span>
                     </dl>
                     <!--end info-->
                 </section>
@@ -135,19 +109,25 @@
             <div class="sidebar">
                 <div class="box filter">
                     <h2>Réservation</h2>
-                    <form id="form-filter" class="labels-uppercase">
+                    <form kendo-validator="validator" name="publication.reservationForm" id="form-filter"  class="labels-uppercase">
                         <div class="form-group">
-                            <label for="form-filter-destination">Date souhaitée</label>
-                            <input type="date" class="form-control" id="form-filter-destination" name="destination" placeholder="Destination">
+                            <label>Date souhaitée</label>
+                            <input kendo-date-picker validationMessage="Enter {0}"
+                                   k-options="SelectorOptions"
+                                   k-ng-model="dateReservation"
+                                   style="width: 100%;" required/>
+<!--                            <md-datepicker id="myDatePicker" datepicker-validation-fix md-hide-icons="calendar" md-open-on-focus md-placeholder="Selectionnez une date" md-min-date="minDate"
+                                           ng-model-options="{ timezone: '+0100' }" md-date-filter="onlySessionsPredicate"
+                                           ng-change="dateChanged(dateReservation)" ng-model="dateReservation" required></md-datepicker>-->
                         </div>
                         <!--end form-group-->
                         <div class="form-group">
-                            <label for="form-filter-check-out">Nombre d'invités</label>
-                            <select  class="form-control" id="form-filter-check-out" name="check-out">
-                                <option value="valeur1">1</option>
-                                <option value="valeur1">2</option>
-                                <option value="valeur1">3</option>
+                            <label for="form-filter-check-out">{{donneesAnnonce.MODECONSO.CODE == 'AEMPORTER'? "Quantité": "Nombre d'invités" }}</label>
+                            <select class="form-control" name="quantiteInput" ng-model="nbPlacesAreserver" id="form-filter-check-out"
+                                    ng-init="nbPlacesAreserver = listQuantite[0]" ng-change="updatePrice()"
+                                    ng-options="quantite for quantite in listQuantite">
                             </select>
+
                         </div>
                         <!--end form-group-->
                         <div>
@@ -161,10 +141,10 @@
                                 <tbody>
                                 <tr class="price-item">
                                     <th style="border-top: 0 !important;" scope="row">
-                                        <span>{{donneesAnnonce.PRIX}}€ x 4 invités</span><span aria-hidden="true"></span>
+                                        <span>{{donneesAnnonce.PRIX}}€ x {{nbPlacesAreserver}} invité(s)</span><span aria-hidden="true"></span>
                                     </th>
                                     <td class="text-right price-item__price hide-border-top">
-                                        <div><span>81€</span></div>
+                                        <div><span>{{donneesAnnonce.PRIX * nbPlacesAreserver}}€</span></div>
                                     </td>
                                 </tr>
                                 <tr class="price-item" >
@@ -172,19 +152,24 @@
                                         <span >Frais de service</span><span aria-hidden="true">&nbsp;</span>
                                     </th>
                                     <td class="text-right price-item__price">
-                                        <div class=""><span>15€</span></div>
+                                        <div class=""><span>{{fraisDesService}}€</span></div>
                                     </td>
                                 </tr>
                                 <tr>
                                 <th class="price-item__header" scope="row"><span>Total</span></th>
-                                <td class="price text-right"><span>111€</span></td>
+                                <td class="price text-right"><span>{{totalPrice}}€</span></td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
                         <!--end collapse-->
+                        <div class="alert-danger" style="padding: 10px" ng-show="!isValid">
+                            Vous avez déja une réservation pour cette date
+                            <span ng-show="reservationForm.myDatePickerInput.$invalid.required">Tell us your email.</span>
+                            <span ng-show="reservationForm.quantiteInput.$invalid.minQuantity">This is not a valid email.</span>
+                        </div>
                         <div class="form-group center">
-                            <button type="submit" class="btn btn-primary btn-rounded form-control">Réserver</button>
+                            <button type="submit" ng-disabled="!isValid" ng-click="showPrompt($event)" class="btn btn-primary btn-rounded form-control">Réserver</button>
                         </div>
                     </form>
                     <!--end form-filter-->
@@ -213,7 +198,7 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <aside class="name">{{avis.UTILISATEUR_EMETTEUR.NOM}} {{avis.UTILISATEUR_EMETTEUR.PRENOM}}</aside>
-                                <aside class="date">10.03.2015</aside>
+                                <aside class="date">10.03.2015 TODO</aside>
                             </div>
                             <!--end col-md-3-->
                             <div class="col-md-9">

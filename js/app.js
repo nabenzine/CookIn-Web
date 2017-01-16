@@ -1,12 +1,12 @@
 //Define an angular module for our app
 
-var sampleApp = angular.module('CookIn', ['ui.router','ngAnimate', 'ngAutocomplete','rzModule','underscore','ngMap']);
+var sampleApp = angular.module('CookIn', ['ui.router','ngAnimate', 'ngAutocomplete','rzModule','underscore','ngMaterial','kendo.directives','angular-carousel']);
 
 //Define Routing for app
 
-sampleApp.config(['$stateProvider','$urlRouterProvider',
+sampleApp.config(['$stateProvider','$urlRouterProvider','$mdDateLocaleProvider',
 
-function($stateProvider, $urlRouterProvider) {
+function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider) {
     $urlRouterProvider.otherwise('/accueil');
 
     $stateProvider
@@ -16,6 +16,7 @@ function($stateProvider, $urlRouterProvider) {
             params: {
                 date: {squash: true, value: null}
             },
+          reloadOnSearch: false,
           controller: 'SearchCtrl'
         })
         .state('addpublication', {
@@ -28,6 +29,12 @@ function($stateProvider, $urlRouterProvider) {
           templateUrl: 'detail.html',
           controller: 'PublicationCtrl'
         });
+
+        $mdDateLocaleProvider.formatDate = function(date) {
+            return date? date.format('yyyy-mm-dd'):"";
+        };
+
+
 }]);
 
 
