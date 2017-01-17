@@ -6,7 +6,7 @@ angular.module('CookIn').factory('ReservationFactory', function($http,$q) {
     // Might use a resource here that returns a JSON array
 
     var factory = {
-        getReservation: getReservation,
+        getReservationsByUtilisateur: getReservationsByUtilisateur,
         addReservation: addReservation
     };
 
@@ -75,9 +75,9 @@ angular.module('CookIn').factory('ReservationFactory', function($http,$q) {
         }
     ];
 
-    function getReservation(IdUtilisateur){
+    function getReservationsByUtilisateur(IdUtilisateur){
         var deferred = $q.defer();
-        $http.get('/api/getReservationList?id=IdAnnonce').
+        $http.get('/api/getReservationList?id='+IdUtilisateur).
         success(function(data, status, headers, config) {
             deferred.resolve(data);
         }).

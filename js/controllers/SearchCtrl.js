@@ -1,10 +1,11 @@
 
 angular.module('CookIn').controller('SearchCtrl',SearchCtrlFnt);
 
-SearchCtrlFnt.$inject=['$scope','$state', '$location','$stateParams', '$filter', 'anchorSmoothScroll', 'SearchFactory','GlobalFactory'];
+SearchCtrlFnt.$inject=['$scope','$state', '$location','$rootScope', '$filter', 'anchorSmoothScroll', 'SearchFactory','GlobalFactory'];
 
-function SearchCtrlFnt($scope, $state, $location, $stateParams, $filter, anchorSmoothScroll, SearchFactory, GlobalFactory){
-    console.log('rechargement');
+function SearchCtrlFnt($scope, $state, $location, $rootScope, $filter, anchorSmoothScroll, SearchFactory, GlobalFactory){
+    //console.log($rootScope.globals.currentUser);
+
     // list des données
     $scope.typeCuisine = {};
     $scope.typeRepas = {};
@@ -16,6 +17,7 @@ function SearchCtrlFnt($scope, $state, $location, $stateParams, $filter, anchorS
     $scope.typeCuisineChoice = {};
     $scope.languesParleesChoice = {};
     $scope.location = {};
+
     // Conf du slider
     $scope.minRangeSlider = {
         minValue: 10,
@@ -96,7 +98,6 @@ function SearchCtrlFnt($scope, $state, $location, $stateParams, $filter, anchorS
         var typeCuisineParameters = GlobalFactory.checkBoxToGetParametes($scope.typeCuisineChoice);
         var typeRepasParameters = GlobalFactory.checkBoxToGetParametes($scope.typeRepasChoice);
         var languesParleesParameters = GlobalFactory.checkBoxToGetParametes($scope.languesParleesChoice);
-        $scope.location = GlobalFactory.findComponent(data, 'location');
         $scope.location = {lat: data.geometry.location.lat(), lng: data.geometry.location.lng()};
         $state.go('accueil',
             {
@@ -122,7 +123,7 @@ function SearchCtrlFnt($scope, $state, $location, $stateParams, $filter, anchorS
         $scope.infosAnnonces = [];
 
 
-        $scope.lieu =  $location.search().country;
+        $scope.lieu =  $scope.locationChoice != undefined ? $scope.locationChoice :  $location.search().country ;
         //$scope.lieu =  ($location.search().city !='') ? ($location.search().city) : (($location.search().state!='') ? ($location.search().state) : ($location.search().country))   ;
         $scope.showNoResult = true;
 
@@ -130,13 +131,12 @@ function SearchCtrlFnt($scope, $state, $location, $stateParams, $filter, anchorS
         SearchFactory.startSearch(GlobalFactory.stateParamsToGetRequest($location.search())).then(
             function(payload) {
                 $scope.infosAnnonces = payload;
-                console.log($scope.location);
                 if(payload != '' && !$filter('JsonIsEmpty')($scope.location)){
                     var _latitude = $scope.location.lat;
                     var _longitude = $scope.location.lng;
                     var element = "map-item";
                     var useAjax = false;
-                    bigMap(_latitude,_longitude, element, useAjax);
+                    bigMap(_latitude,_longitude, element, useAjax, payload);
                 }
                 anchorSmoothScroll.scrollTo('SearchResult');
             },

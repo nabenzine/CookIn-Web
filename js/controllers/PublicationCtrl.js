@@ -124,7 +124,6 @@ function PublicationCtrlFnt($scope, $filter, $stateParams, AnnonceFactory, Reser
                 AnnonceFactory.getAvailabilityByAnnonce(dataAnnonce.IDANNONCE).then(
                     function(dataDates) {
                         $scope.availableday = dataDates;
-                        console.log($scope.availableday);
                         // Initialiser le datePicker avec la premiére dispo de l'annonce
                         $scope.dateReservation = new Date(dataDates[0].DATE_DEBUT) ;
 

@@ -109,9 +109,8 @@ function autoComplete(map, marker){
 
 // Big Map on Home -----------------------------------------------------------------------------------------------------
 
-function bigMap(_latitude,_longitude, element, useAjax){
+function bigMap(_latitude,_longitude, element, useAjax,data){
     if( document.getElementById(element) != null ){
-        var urlToPHP =  "assets/external/locations.json";
         var geocoder = new google.maps.Geocoder();
         var map = new google.maps.Map(document.getElementById(element), {
             zoom: 9,
@@ -124,17 +123,7 @@ function bigMap(_latitude,_longitude, element, useAjax){
         // Place marker after map is loaded and ready ------------------------------------------------------------------
 
         google.maps.event.addListenerOnce(map, 'idle', function(){
-            $.ajax({
-                url: urlToPHP,
-                dataType: "json",
-                method: "POST",
-                success: function(locations){
-                    placeMarkers(locations);
-                },
-                error : function () {
-                    console.log("error");
-                }
-            });
+            placeMarkers(data);
         });
 
         // Create and place markers function ---------------------------------------------------------------------------

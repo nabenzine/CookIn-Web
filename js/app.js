@@ -1,12 +1,13 @@
 //Define an angular module for our app
 
-var sampleApp = angular.module('CookIn', ['ui.router','ngAnimate', 'ngAutocomplete','rzModule','underscore','ngMaterial','kendo.directives','angular-carousel']);
+var sampleApp = angular.module('CookIn', ['ui.router','ngAnimate', 'ngCookies', 'ngAutocomplete','rzModule','underscore','ngMaterial','kendo.directives','angular-carousel']);
 
 //Define Routing for app
 
 sampleApp.config(['$stateProvider','$urlRouterProvider','$mdDateLocaleProvider',
 
 function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider) {
+
     $urlRouterProvider.otherwise('/accueil');
 
     $stateProvider
@@ -24,19 +25,45 @@ function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider) {
             templateUrl: 'submit.html',
             controller: 'AddPublicationCtrl'
         })
+        .state('dashboard', {
+            url: '/dashboard',
+            abstract: true,
+            templateUrl: 'dashboard.html',
+        })
+        .state('dashboard.ordersplaced', {
+            url: '/ordersplaced',
+            templateUrl: 'commandes_passees.html',
+            controller: 'OrdersPlacedCtrl'
+        })
+        .state('dashboard.ordersreceived', {
+            url: '/ordersreceived',
+            templateUrl: 'commandes_recu.html',
+            controller: 'OrdersReceivedCtrl'
+        })
+        .state('dashboard.mypublications', {
+            url: '/mypublications',
+            templateUrl: 'my_publications.html',
+            controller: 'MyPublicationsCtrl'
+        })
+        .state('login', {
+            url: '/login',
+            templateUrl: 'login.html',
+            controller: 'LoginCtrl'
+        })
         .state('viewpublication', {
           url: '/viewpublication/:id',
           templateUrl: 'detail.html',
           controller: 'PublicationCtrl'
         });
 
-        $mdDateLocaleProvider.formatDate = function(date) {
-            return date? date.format('yyyy-mm-dd'):"";
-        };
-
-
 }]);
 
 
+sampleApp.run(['$rootScope', '$location', '$cookieStore', '$http',
 
+function($rootScope, $location, $cookieStore, $http) {
+
+
+
+}]);
 

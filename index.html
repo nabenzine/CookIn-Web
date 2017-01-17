@@ -4,6 +4,7 @@
 <html lang="fr" ng-app="CookIn" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8"/>
+    <meta HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="ThemeStarz">
 
@@ -14,7 +15,7 @@
 
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css" type="text/css">
     <link rel="stylesheet" href="assets/css/style.css" type="text/css">
-    <link href="lib/angularjs-slider/dist/rzslider.min.css" rel="stylesheet" />
+    <link href="lib/angularjs-slider/rzslider.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
     <link rel="stylesheet" href="lib/kendo-ui/css/kendo.common.min.css">
     <link rel="stylesheet" href="lib/kendo-ui/css/kendo.material.min.css">
@@ -29,18 +30,24 @@
     <div id="page-header">
         <header>
             <div class="container">
-                <div class="primary-nav">
+                <div ng-controller="MainCtrl" class="primary-nav">
                     <div class="left">
-                        <a href="#/accueil" id="brand"><img src="assets/img/logo.png" alt=""></a>
-                        <a class="nav-trigger" data-toggle="collapse" href="#primary-nav" aria-expanded="false" aria-controls="primary-nav"><i class="fa fa-navicon"></i></a>
+                        <div class="col-md-3 vcenter">
+                            <a href="#/accueil" id="brand"><img src="assets/img/logo.png" alt=""></a>
+                        </div>
+                        <div class="col-md-6 vcenter">
+                            <span ng-if="!(globals.currentUser|JsonIsEmpty)">Bienvenue <strong>{{globals.currentUser.prenom}} </strong> <a href="#/login"> Déconnexion</a></span>
+                        </div>
                     </div>
                     <!--end left-->
                     <div class="right" >
                         <nav id="primary-nav">
                             <ul>
-                                <li class="active"><a href="index.html">Home</a></li>
-                                <li><a href="#tab-sign-in" data-toggle="modal" data-tab="true" data-target="#sign-in-register-modal">Sign In</a></li>
-                                <li><a href="#tab-register" data-toggle="modal" data-tab="true" data-target="#sign-in-register-modal">Register</a></li>
+                                <li ng-if="globals.currentUser|JsonIsEmpty"><a href="#login">Connexion</a></li>
+                                <li ng-if="globals.currentUser|JsonIsEmpty"><a href="#tab-register" data-toggle="modal" data-tab="true" data-target="#sign-in-register-modal">Register</a></li>
+                                <li>
+                                    <a href="#/dashboard/mypublications" class="has-child">Tableau de bord</a>
+                                </li>
                                 <li>
                                     <a href="#" class="has-child">Listing</a>
                                     <ul class="child-nav">
@@ -58,7 +65,7 @@
                                                 <li><a href="edit.html">Edit Accommodation</a></li>
                                                 <li><a href="my-accommodations.html">My Accommodations</a></li>
                                                 <li><a href="profile.html">Profile</a></li>
-                                                <li><a href="reservations.html">Reservations</a></li>
+                                                <li><a href="dashboard.html">Reservations</a></li>
                                                 <li><a href="reviews.html">Reviews</a></li>
                                             </ul>
                                         </li>
@@ -152,6 +159,7 @@
 <!-- Angular lib-->
 <script type="text/javascript" src="lib/angular/angular.min.js" ></script>
 <script type="text/javascript" src="lib/angular/angular-ui.js"></script>
+<script type="text/javascript" src="lib/angular/angular-cookies.js"></script>
 <script type="text/javascript" src="https://code.angularjs.org/1.4.2/angular-animate.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
@@ -171,7 +179,7 @@
 <!-- google maps api-->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDakB8mEGY8nRgfqrsPrdtif4ufwNBLnXg&libraries=places,geometry"></script>
 <!-- slider js -->
-<script src="lib/angularjs-slider/dist/rzslider.min.js"></script>
+<script src="lib/angularjs-slider/rzslider.min.js"></script>
 <!-- underscore  -->
 <script src="lib/underscore/underscore-min.js"></script>
 <script src="http://stevenlevithan.com/assets/misc/date.format.js"></script>
@@ -183,17 +191,23 @@
 <script src="js/app.js"></script>
 <script src="js/directives.js"></script>
 <script src="js/filters.js"></script>
+
 <script src="js/services/SmoothScroolService.js"></script>
 <script src="js/services/SearchFactory.js"></script>
 <script src="js/services/GlobalFactory.js"></script>
 <script src="js/services/AnnonceFactory.js"></script>
 <script src="js/services/ReservationFactory.js"></script>
+<script src="js/services/AuthFactory.js"></script>
 
 <script src="js/controllers/MainCtrl.js"></script>
 
 <script src="js/controllers/SearchCtrl.js"></script>
 <script src="js/controllers/PublicationCtrl.js"></script>
 <script src="js/controllers/AddPublicationCtrl.js"></script>
+<script src="js/controllers/LoginCtrl.js"></script>
+<script src="js/controllers/MyPublicationsCtrl.js"></script>
+<script src="js/controllers/OrdersPlacedCtrl.js"></script>
+<script src="js/controllers/OrdersReceivedCtrl.js"></script>
 
 <script type="text/javascript" src="assets/js/jquery-migrate-1.2.1.min.js"></script>
 <script type="text/javascript" src="assets/js/infobox.js"></script>

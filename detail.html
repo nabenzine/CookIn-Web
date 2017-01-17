@@ -165,8 +165,6 @@
                         <!--end collapse-->
                         <div class="alert-danger" style="padding: 10px" ng-show="!isValid">
                             Vous avez déja une réservation pour cette date
-                            <span ng-show="reservationForm.myDatePickerInput.$invalid.required">Tell us your email.</span>
-                            <span ng-show="reservationForm.quantiteInput.$invalid.minQuantity">This is not a valid email.</span>
                         </div>
                         <div class="form-group center">
                             <button type="submit" ng-disabled="!isValid" ng-click="showPrompt($event)" class="btn btn-primary btn-rounded form-control">Réserver</button>
@@ -288,11 +286,4 @@
         </div>
     </div>
 </div>
-<script>
-    var _latitude = 48.47292127;
-    var _longitude = 4.28672791;
-    var element = "map-item";
-    var useAjax = true;
-    bigMap(_latitude,_longitude, element, useAjax);
-</script>
 <!--end container-->

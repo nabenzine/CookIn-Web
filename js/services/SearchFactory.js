@@ -139,7 +139,7 @@ angular.module('CookIn').factory('SearchFactory', function($http,$q) {
                     "FILENAME": "http://www.boucherie-grandmaire.com/images/plats1.jpg"
                 }
             ],
-            "IDSPECIALITE":1,
+            "IDCUISINE":1,
             "LIBELLE":"Tajine Marocain",
             "DESCRIPTION":"Venez partager ma chatte avec moi",
             "DATE_ENVOI":"25/12/2016",
@@ -197,7 +197,7 @@ angular.module('CookIn').factory('SearchFactory', function($http,$q) {
                     "FILENAME": "http://www.boucherie-grandmaire.com/images/plats1.jpg"
                 }
             ],
-            "IDSPECIALITE":1,
+            "IDCUISINE":1,
             "LIBELLE":"Repas chez Nabila",
             "DESCRIPTION":"Venez partager ma chatte avec moi",
             "DATE_ENVOI":"25/12/2016",
