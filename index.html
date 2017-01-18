@@ -19,7 +19,6 @@
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
     <link rel="stylesheet" href="lib/kendo-ui/css/kendo.common.min.css">
     <link rel="stylesheet" href="lib/kendo-ui/css/kendo.material.min.css">
-    <link rel="stylesheet" href="lib/angular-carousel/angular-carousel.min.css">
 
     <title>Accommodo - Accommodation HTML Template Full of Useful Features</title>
 
@@ -32,17 +31,24 @@
             <div class="container">
                 <div ng-controller="MainCtrl" class="primary-nav">
                     <div class="left">
-                        <div class="col-md-3 vcenter">
-                            <a href="#/accueil" id="brand"><img src="assets/img/logo.png" alt=""></a>
-                        </div>
-                        <div class="col-md-6 vcenter">
-                            <span ng-if="!(globals.currentUser|JsonIsEmpty)">Bienvenue <strong>{{globals.currentUser.prenom}} </strong> <a href="#/login"> Déconnexion</a></span>
-                        </div>
+                        <a href="#/accueil" id="brand"><img src="assets/img/logo.png" alt=""></a>
                     </div>
                     <!--end left-->
                     <div class="right" >
                         <nav id="primary-nav">
                             <ul>
+                                <li ng-if="!(globals.currentUser|JsonIsEmpty)">
+                                    <div class="btn-group" uib-dropdown>
+                                        <button id="split-button" type="button" class="btn btn-danger">{{globals.currentUser.prenom}}</button>
+                                        <button type="button" class="btn btn-danger" uib-dropdown-toggle>
+                                            <span class="caret"></span>
+                                            <span class="sr-only">Split button!</span>
+                                        </button>
+                                        <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+                                            <li role="menuitem"><a href="#/login">Déconnexion</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
                                 <li ng-if="globals.currentUser|JsonIsEmpty"><a href="#login">Connexion</a></li>
                                 <li ng-if="globals.currentUser|JsonIsEmpty"><a href="#tab-register" data-toggle="modal" data-tab="true" data-target="#sign-in-register-modal">Register</a></li>
                                 <li>
@@ -160,16 +166,12 @@
 <script type="text/javascript" src="lib/angular/angular.min.js" ></script>
 <script type="text/javascript" src="lib/angular/angular-ui.js"></script>
 <script type="text/javascript" src="lib/angular/angular-cookies.js"></script>
+<script type="text/javascript" src="lib/angular/angular-locale_fr-fr.js"></script>
 <script type="text/javascript" src="https://code.angularjs.org/1.4.2/angular-animate.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
 
 <!-- Angular Material Library -->
 <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
-
-<!-- Jk Carousel-->
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular-touch.min.js"></script>
-<script src="lib/angular-carousel/angular-carousel.min.js"></script>
 
 <!-- Kendo ui -->
 <script src="lib/kendo-ui/js/kendo.ui.core.min.js"></script>
@@ -186,6 +188,10 @@
 <script src="lib/angular-underscore-module/angular-underscore-module.js"></script>
 <!-- auto-complete google maps -->
 <script src="lib/auto-complete.js"></script>
+<!-- bootstrap ui-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.14.2/ui-bootstrap-tpls.min.js"></script>
+<!-- multiselect datePicker-->
+<script src="lib/gm.datepickerMultiSelect.min.js"></script>
 
 
 <script src="js/app.js"></script>
@@ -198,6 +204,7 @@
 <script src="js/services/AnnonceFactory.js"></script>
 <script src="js/services/ReservationFactory.js"></script>
 <script src="js/services/AuthFactory.js"></script>
+<script src="js/services/SubmitFactory.js"></script>
 
 <script src="js/controllers/MainCtrl.js"></script>
 

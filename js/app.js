@@ -1,6 +1,6 @@
 //Define an angular module for our app
 
-var sampleApp = angular.module('CookIn', ['ui.router','ngAnimate', 'ngCookies', 'ngAutocomplete','rzModule','underscore','ngMaterial','kendo.directives','angular-carousel']);
+var sampleApp = angular.module('CookIn', ['ui.router','ngAnimate', 'ngCookies', 'ngAutocomplete','rzModule','underscore','ngMaterial','kendo.directives','ui.bootstrap', 'gm.datepickerMultiSelect']);
 
 //Define Routing for app
 
@@ -63,7 +63,19 @@ sampleApp.run(['$rootScope', '$location', '$cookieStore', '$http',
 
 function($rootScope, $location, $cookieStore, $http) {
 
+    $rootScope.globals = $cookieStore.get('globals') || {};
+    if ($rootScope.globals.currentUser) {
+        $http.defaults.headers.common['Authorization'] =  $rootScope.globals.currentUser.TOKEN_KEY;
+    }
 
+    $rootScope.$on('$locationChangeStart', function (event, next, current) {
+        // redirect to login page if not logged in and trying to access a restricted page
+        var restrictedPage = $.inArray($location.path(), ['/accueil', '/register']) === -1;
+        var loggedIn = $rootScope.globals.currentUser;
+        if (restrictedPage && !loggedIn) {
+            $location.path('/login');
+        }
+    });
 
 }]);
 

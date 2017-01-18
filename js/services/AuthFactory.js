@@ -31,7 +31,6 @@ angular.module('CookIn').factory('Auth', function($http, $q, $location, $cookieS
             $rootScope.globals = {
                 currentUser: user.currentUser
             };
-            console.log($rootScope.globals.currentUser);
         }else{
             $location.path('/login');
         }

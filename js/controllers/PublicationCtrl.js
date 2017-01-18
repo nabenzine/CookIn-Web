@@ -58,7 +58,15 @@ function PublicationCtrlFnt($scope, $filter, $stateParams, AnnonceFactory, Reser
             FRAIS_RESERVATION: $scope.fraisDesService,
             TOTAL: $scope.totalPrice
         };
-        ReservationFactory.addReservation(reservation);
+
+        ReservationFactory.addReservation(reservation).then(
+            function (data) {
+                $state.go('/dashboard/ordersplaced');
+            },
+            function (error) {
+
+            }
+        );
     }
 
     // à chaque changement de date
@@ -141,13 +149,6 @@ function PublicationCtrlFnt($scope, $filter, $stateParams, AnnonceFactory, Reser
                                 $scope.dateChanged(this.value())
                             }
                         };
-
-                        //$scope.validator.validate(false) ;
-                        // remplir les disponibilités dans le datePicker
-/*                        $scope.onlySessionsPredicate = function(date) {
-                            var formattedDate = 'key'+$filter('date')(date, "ddMMyyyy");
-                            return $scope.availableday.map[formattedDate]!= undefined ;
-                        }*/
 
                         //Lancer l'evenement dateChanged pour mettre à jours la quantité et le calcul du prix
                         $scope.dateChanged($scope.dateReservation);

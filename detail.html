@@ -38,14 +38,11 @@
 
                 <section id="gallery">
                     <div class="gallery-detail" ng-init="slides = donneesAnnonce.IMAGE_ANNONCE">
-                        <ul rn-carousel rn-carousel-pause-on-hover="" rn-carousel-buffered=""  rn-carousel-index="carouselIndex" class="box angular-carousel" style="background: white; height: 502px">
-                            <li ng-repeat="image in donneesAnnonce.IMAGE_ANNONCE">
-                                <div class="image-aspect-ratio">
-                                    <img ng-src="{{image.FILENAME}}">
-                                </div>
-                            </li>
-                            <div rn-carousel-indicators slides="slides" rn-carousel-index="carouselIndex"></div>
-                        </ul>
+                        <div uib-carousel active="active"  no-wrap="true">
+                            <div uib-slide ng-repeat="image in donneesAnnonce.IMAGE_ANNONCE">
+                                <img ng-src="{{image.FILENAME}}" style="margin:auto;">
+                            </div>
+                        </div>
                     </div>
                 </section>
                 <h2>Description</h2>
@@ -112,13 +109,10 @@
                     <form kendo-validator="validator" name="publication.reservationForm" id="form-filter"  class="labels-uppercase">
                         <div class="form-group">
                             <label>Date souhaitée</label>
-                            <input kendo-date-picker validationMessage="Enter {0}"
+                            <input kendo-date-picker
                                    k-options="SelectorOptions"
                                    k-ng-model="dateReservation"
                                    style="width: 100%;" required/>
-<!--                            <md-datepicker id="myDatePicker" datepicker-validation-fix md-hide-icons="calendar" md-open-on-focus md-placeholder="Selectionnez une date" md-min-date="minDate"
-                                           ng-model-options="{ timezone: '+0100' }" md-date-filter="onlySessionsPredicate"
-                                           ng-change="dateChanged(dateReservation)" ng-model="dateReservation" required></md-datepicker>-->
                         </div>
                         <!--end form-group-->
                         <div class="form-group">

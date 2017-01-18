@@ -26,6 +26,31 @@ Body copy:		'Lato', sans-serif; 14px;
 Headers:		'Lato', sans-serif;
 
 -------------------------------------------------------------------*/
+/*
+ Submit page
+*/
+.button-icon-only{
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: none;
+  border: 0;
+  background: transparent;
+}
+
+/* Multiselect tag conf*/
+.k-multiselect-wrap {
+  border: 1px solid #ccc!important;
+  padding: 3px!important;
+}
+
+/* Commandes passés*/
+.inactive{
+  opacity: 0.5;
+  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+  filter:alpha(opacity=50);
+}
+
 
 /* Carrousel config*/
 ul[rn-carousel] > li {

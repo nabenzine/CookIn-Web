@@ -8,6 +8,8 @@ OrdersPlacedFnt.$inject=['$scope','$rootScope', '$state', 'ReservationFactory','
 function OrdersPlacedFnt($scope, $rootScope, $state, ReservationFactory, Auth ) {
 
     Auth.islogin();
+
+    $scope.today = new Date();
     $scope.reservationPassees = []
 
     ReservationFactory.getReservationsByUtilisateur($rootScope.globals.currentUser.id).then(
