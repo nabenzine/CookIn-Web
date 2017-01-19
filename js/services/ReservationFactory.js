@@ -7,6 +7,7 @@ angular.module('CookIn').factory('ReservationFactory', function($http,$q) {
 
     var factory = {
         getReservationsByUtilisateur: getReservationsByUtilisateur,
+        getCommandesByUtilisateur: getCommandesByUtilisateur,
         addReservation: addReservation
     };
 
@@ -49,6 +50,64 @@ angular.module('CookIn').factory('ReservationFactory', function($http,$q) {
         }
 
     ];
+
+    var commandes_passees = [
+        {
+            "IDRESERV": 1,
+            "IDANNONCE": 1,
+            "DATE_DEBUT": "2017-01-01T12:00:00",
+            "LIBELLE": "Cheese Cake",
+            "QUANTITE": 7,
+            "TOTAL" : 53.50,
+            "NUMERO_RUE":30,
+            "NOM_RUE":"Rue George Sand",
+            "CP":"69100",
+            "VILLE":"Villeurbanne",
+            "IDMODECONSO":2,
+            "LIBELLE_CONSO":"A emporter",
+            "CODE":"SURPLACE",
+            "NOM":"Dray",
+            "PRENOM" : "Dan",
+            "TELEPHONE": "0645678379",
+            "EMAIL" : "draydan@gmail.com",
+            "PHOTO_PROFIL":"https://scontent.xx.fbcdn.net/v/t1.0-9/14720515_10209221933178827_5270935031424465088_n.jpg?oh=f90cd2d2d9cc1bb81e64089aae8fa9a0&oe=58D90A78"
+        },
+        {
+            "IDRESERV": 2,
+            "IDANNONCE": 2,
+            "DATE_DEBUT": "2017-01-26T18:30:00",
+            "LIBELLE": "Pizza",
+            "QUANTITE": 3,
+            "TOTAL" : 15,
+            "NUMERO_RUE":30,
+            "NOM_RUE":"Rue George Sand",
+            "CP":"69100",
+            "VILLE":"Villeurbanne",
+            "IDMODECONSO":1,
+            "LIBELLE_CONSO":"Sur place",
+            "CODE":"SURPLACE",
+            "NOM":"Benzine",
+            "PRENOM" : "Nad",
+            "TELEPHONE": "0671839283",
+            "EMAIL" : "nabenz@gmail.com",
+            "PHOTO_PROFIL":"https://scontent.xx.fbcdn.net/v/t1.0-9/14720515_10209221933178827_5270935031424465088_n.jpg?oh=f90cd2d2d9cc1bb81e64089aae8fa9a0&oe=58D90A78"
+        }
+    ];
+
+    function getCommandesByUtilisateur(IdUtilisateur){
+        var deferred = $q.defer();
+        $http.get('/api/getCommandesByUser?id='+IdUtilisateur).
+        success(function(data, status, headers, config) {
+            deferred.resolve(data);
+        }).
+        error(function(data, status, headers, config) {
+            deferred.resolve(commandes_passees);
+            //deferred.reject(status);
+            // or server returns response with an error status.
+        });
+        return deferred.promise;
+
+    };
 
     function getReservationsByUtilisateur(IdUtilisateur){
         var deferred = $q.defer();

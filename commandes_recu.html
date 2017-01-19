@@ -1,1 +1,49 @@
-commandes reçu
+<div class="container">
+    <div class="main-content">
+        <div class="my-items table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th class="center">Status</th>
+                    <th class="center" style="width: 10%">Qtés/Personnes</th>
+                    <th class="center" style="width: 20%;">Date</th>
+                    <th class="center">Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Dates de réservation triées par ordre décroissant pour afficher les commandes à venir en 1er-->
+                <tr class="my-item" ng-repeat="reservation in reservationRecues | orderBy: 'DATE_DEBUT' : true" ng-class="{inactive: (reservation.DATE_DEBUT | parseDate) <= today}">
+                    <td class="myclass">
+                        <div class="image-wrapper" style="padding-top: 10px;padding-bottom: 10px;">
+                            <div class="image">
+                                <div class="bg-transfer center" style="margin-bottom:10px">
+                                    <img class="img-circle" style="height:60px; width:60px" ng-src="{{reservation.PHOTO_PROFIL}}">
+                                    <p style="text-align:center">{{reservation.PRENOM}} {{reservation.NOM}}</p>
+                                    <a href="mailto:{{reservation.EMAIL}}">Envoyer un email à {{reservation.PRENOM}}</a>
+                                    Téléphone : {{reservation.TELEPHONE}}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info center" style="margin-top: 32px;">
+                            <a href="detail.html"><h2>{{reservation.LIBELLE}}</h2></a><br/>
+                            <figure class="label label-info">{{reservation.LIBELLE_CONSO}}</figure>
+                        </div>
+                        <!--end info-->
+                    </td>
+                    <td class="center"><div class="featured yes"><i class="fa fa-check"></i><aside></aside></div></td>
+                    <td class="center">{{reservation.QUANTITE}}</td>
+                    <td class="center">{{reservation.DATE_DEBUT|date:'dd/MM/yyyy'}} à {{reservation.DATE_DEBUT|date:'HH:mm'}}
+                    </td>
+                    <td class="center">
+                        {{reservation.TOTAL}} € <p></p>
+                        <a href="detail.html">Détails de la reservation</a>
+                    </td>
+                </tr>
+                <!--end my-item-->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

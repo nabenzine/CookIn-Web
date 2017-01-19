@@ -1,9 +1,9 @@
 
 angular.module('CookIn').controller('AddPublicationCtrl',AddPublicationCtrlFnt);
 
-AddPublicationCtrlFnt.$inject=['$scope', '$rootScope', 'SearchFactory', 'SubmitFactory', 'Auth', '_']
+AddPublicationCtrlFnt.$inject=['$scope', '$rootScope', 'SearchFactory', 'SubmitFactory', 'Auth', '$filter', '_']
 
-function AddPublicationCtrlFnt($scope, $rootScope, SearchFactory, SubmitFactory, Auth, _) {
+function AddPublicationCtrlFnt($scope, $rootScope, SearchFactory, SubmitFactory, Auth, $filter, _) {
 
     Auth.islogin();
 
@@ -21,6 +21,10 @@ function AddPublicationCtrlFnt($scope, $rootScope, SearchFactory, SubmitFactory,
 
     $scope.latitude = {};
     $scope.longitude = {};
+
+    // Initialiser les dates
+    $scope.dateDebut = new Date(2017, 12, 01, 12, 0 , 0);
+    $scope.dateFin = new Date(2017, 12, 01, 13, 0 , 0);
 
     // Aficher le nom d'adresse
     $scope.showNewMapInput = false;
@@ -47,13 +51,27 @@ function AddPublicationCtrlFnt($scope, $rootScope, SearchFactory, SubmitFactory,
         }
     };
 
+    // Date conf
     $scope.activeDate = null;
     $scope.selectedDates = [];
 
+    $scope.SelectorOptionsDebut = {
+        culture: "fr-FR",
+        change: function() {
+            $scope.SelectorOptionsFin.min = new Date(2017, 0, 1, 9, 0, 0)
+        }
+    };
+
+    $scope.SelectorOptionsFin = {
+        culture: "fr-FR"
+    };
+
+    // Supprimer la date de dispo
     $scope.removeFromSelected = function(dt) {
         $scope.selectedDates.splice($scope.selectedDates.indexOf(dt), 1);
     }
 
+    // Mettre à jours le libelle quantite
     $scope.updateModeConsoLabel = function (value) {
         if(value.CODE === 'SURPLACE'){
             $scope.libelleQuantite = 'Nombre de personnes' ;
@@ -146,7 +164,6 @@ function AddPublicationCtrlFnt($scope, $rootScope, SearchFactory, SubmitFactory,
 
             simpleMap($scope.latitude,$scope.longitude, element);
         }
-
     };
 
     // ng-model des choix de langue
@@ -194,8 +211,12 @@ function AddPublicationCtrlFnt($scope, $rootScope, SearchFactory, SubmitFactory,
         }
     };
 
-    $scope.insertAnnonce = function () {
-        //Création adresse si elle n'existe pase!
+    $scope.insertAnnonce = function (newAdresse) {
+        //Création adresse si elle n'existe pas et l'associer à l'utilisateur!
+        // 3- Si nouvelle adresse l'associer à l'utilisateur
+
+        //SubmitFactory.addAdresse()
+
 
         // Création de  l'annonce
         var annonce = {
@@ -217,15 +238,42 @@ function AddPublicationCtrlFnt($scope, $rootScope, SearchFactory, SubmitFactory,
             QUANTITE_MAX:   $scope.nbrPersonneSlider.minValue ,
             QUANTITE_MIN:  $scope.nbrPersonneSlider.maxValue
         };
-        //ReservationFactory.addReservation(reservation);
-        // Création des sessions
+
+        SubmitFactory.addAnnonce(annonce).then(
+            function (data) {
+
+                // Création des sessions
+                _.each($scope.selectedDates, function(element, index, list){
+                    // Date de la session
+                    var dateSession = new Date(element) ;
+
+                    var session = {
+                        IDANNONCE: 1,
+                        DATE_DEBUT : new Date(dateSession.getFullYear(), dateSession.getMonth(), dateSession.getDate(), $scope.dateDebut.getHours(), $scope.dateDebut.getMinutes(), 0, 0),
+                        DATE_FIN : new Date(dateSession.getFullYear(), dateSession.getMonth(), dateSession.getDate(), $scope.dateFin.getHours(), $scope.dateFin.getMinutes(), 0, 0),
+                        QUANTITE_RESTANTE : $scope.nbrPersonneSlider.maxValue
+                    };
+                    console.log(session);
+                    SubmitFactory.addSession(session).then(
+                        function (data) {
+
+                        }
+                    )
+                });
+
+
+
+            },
+            function (error) {
+                console.log(error);
+            }
+        );
 
         // Création des régimes alimentaires
 
         // Mettre à jours les données de l'utilisateur
             // 1- Langues
             // 2- (PROFESSION, Numero de telephone
-            // 3- Si nouvelle adresse l'associer à l'utilisateur
     }
 
 

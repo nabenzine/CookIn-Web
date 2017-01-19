@@ -1,42 +1,38 @@
-<div class="container">
-    <div class="main-content">
-        <div class="my-items table-responsive">
-        <table class="table">
-            <thead>
-            <tr>
-                <th></th>
-                <th>Status</th>
-                <th class="center">Quantités/Personnes</th>
-                <th class="center">Date</th>
-                <th class="center">Total</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="my-item" ng-repeat="reservation in reservationPassees" ng-class="{inactive: (reservation.DATE_DEBUT | parseDate) <= today}">
-                <td>
-                    <div class="image-wrapper">
-                        <div class="mark-circle top" data-toggle="tooltip" data-placement="right" title="Top accommodation"><i class="fa fa-thumbs-up"></i></div>
-                        <a href="edit.html" class="image">
-                            <div class="bg-transfer">
-                                <img ng-src="{{reservation.IMAGE_ANNONCE}}">
-                            </div>
-                        </a>
-                    </div>
-                    <div class="info">
-                        <a href="detail.html"><h2>{{reservation.LIBELLE}}</h2></a>
-                        <figure class="location">{{reservation.LIEU}}</figure>
-                        <figure class="label label-info">{{reservation.LIBELLE_CONSO}}</figure>
-                    </div>
-                    <!--end info-->
-                </td>
-                <td><div class="featured yes"><i class="fa fa-check"></i><aside></aside></div></td>
-                <td class="center">{{reservation.QUANTITE}}</td>
-                <td class="center">{{reservation.DATE_DEBUT|date:'dd/MM/yyyy'}}</td>
-                <td class="center">{{reservation.TOTAL}} €</td>
-            </tr>
-            <!--end my-item-->
-            </tbody>
-        </table>
-    </div>
-    </div>
+<div class="my-items table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th></th>
+            <th>Status</th>
+            <th class="center">Quantités/Personnes</th>
+            <th class="center">Date</th>
+            <th class="center">Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="my-item" ng-repeat="reservation in reservationPassees" ng-class="{inactive: (reservation.DATE_DEBUT | parseDate) <= today}">
+            <td>
+                <div class="image-wrapper">
+                    <div class="mark-circle top" data-toggle="tooltip" data-placement="right" title="Top accommodation"><i class="fa fa-thumbs-up"></i></div>
+                    <a href="edit.html" class="image">
+                        <div class="bg-transfer">
+                            <img ng-src="{{reservation.IMAGE_ANNONCE}}">
+                        </div>
+                    </a>
+                </div>
+                <div class="info">
+                    <a href="detail.html"><h2>{{reservation.LIBELLE}}</h2></a>
+                    <figure class="location">{{reservation.LIEU}}</figure>
+                    <figure class="label label-info">{{reservation.LIBELLE_CONSO}}</figure>
+                </div>
+                <!--end info-->
+            </td>
+            <td><div class="featured yes"><i class="fa fa-check"></i><aside></aside></div></td>
+            <td class="center">{{reservation.QUANTITE}}</td>
+            <td class="center">{{reservation.DATE_DEBUT|date:'dd/MM/yyyy'}}</td>
+            <td class="center">{{reservation.TOTAL}} €</td>
+        </tr>
+        <!--end my-item-->
+        </tbody>
+    </table>
 </div>

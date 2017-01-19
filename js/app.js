@@ -1,13 +1,22 @@
 //Define an angular module for our app
 
-var sampleApp = angular.module('CookIn', ['ui.router','ngAnimate', 'ngCookies', 'ngAutocomplete','rzModule','underscore','ngMaterial','kendo.directives','ui.bootstrap', 'gm.datepickerMultiSelect']);
+var sampleApp = angular.module('CookIn', ['ui.router','ngAnimate', 'ngCookies', 'ngAutocomplete','rzModule','underscore','ngMaterial','kendo.directives','ui.bootstrap', 'gm.datepickerMultiSelect','flow']);
 
 //Define Routing for app
 
-sampleApp.config(['$stateProvider','$urlRouterProvider','$mdDateLocaleProvider',
+sampleApp.config(['$stateProvider','$urlRouterProvider','$mdDateLocaleProvider','flowFactoryProvider',
 
-function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider) {
+function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider, flowFactoryProvider) {
 
+    flowFactoryProvider.defaults = {
+        target: 'http://uploads.im/api?upload'
+    };
+    flowFactoryProvider.on('catchAll', function (event) {
+        console.log('catchAll', arguments);
+    });
+
+
+    // Routing
     $urlRouterProvider.otherwise('/accueil');
 
     $stateProvider
@@ -44,6 +53,10 @@ function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider) {
             url: '/mypublications',
             templateUrl: 'my_publications.html',
             controller: 'MyPublicationsCtrl'
+        })
+        .state('dashboard.profil', {
+            url: '/profil',
+            templateUrl: 'profil.html'
         })
         .state('login', {
             url: '/login',

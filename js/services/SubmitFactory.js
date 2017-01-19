@@ -9,6 +9,7 @@ angular.module('CookIn').factory('SubmitFactory', function($http,$q) {
         fillRegimeAlimentaire : fillRegimeAlimentaire,
         GetAdressesByUtilisateur : GetAdressesByUtilisateur,
         GetUtilisateur : GetUtilisateur,
+        addAdresse : addAdresse,
         addAnnonce : addAnnonce,
         addSession : addSession
     };
@@ -163,7 +164,25 @@ angular.module('CookIn').factory('SubmitFactory', function($http,$q) {
 
     function addSession(session) {
         var deferred = $q.defer();
-        $http.post('/api/Annonce',annonce).
+        $http.post('/api/Session',session).
+        success(function(data, status, headers, config) {
+            if( data === true){
+                deferred.resolve(true);
+            }else{
+                deferred.reject("fail");
+            }
+        }).
+        error(function(data, status, headers, config) {
+            deferred.resolve(true);
+            //deferred.reject(status);
+            // or server returns response with an error status.
+        });
+        return deferred.promise;
+    }
+
+    function addAdresse(adresse) {
+        var deferred = $q.defer();
+        $http.post('/api/Adresse',adresse).
         success(function(data, status, headers, config) {
             if( data === true){
                 deferred.resolve(true);
