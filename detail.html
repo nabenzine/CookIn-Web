@@ -21,6 +21,8 @@
             <div class="main-content">
                 <div class="title box">
                     <div class="left">
+                        <!--{{donneesAnnonce.UTILISATEUR}}
+                        {{donneesAnnonce.UTILISATEUR.PHOTO_PROFIL}}-->
                         <div class="vcenter item-image col-md-2">
                             <img class="thumbl" ng-src="{{donneesAnnonce.UTILISATEUR.PHOTO_PROFIL}}">
                             <strong>{{donneesAnnonce.UTILISATEUR.PRENOM}}</strong>
@@ -35,9 +37,8 @@
                 </div>
                 <!--end title-->
 
-
                 <section id="gallery">
-                    <div class="gallery-detail" ng-init="slides = donneesAnnonce.IMAGE_ANNONCE">
+                    <div class="gallery-detail">
                         <div uib-carousel active="active"  no-wrap="true">
                             <div uib-slide ng-repeat="image in donneesAnnonce.IMAGE_ANNONCE">
                                 <img ng-src="{{image.FILENAME}}" style="margin:auto;">
@@ -190,14 +191,14 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <aside class="name">{{avis.UTILISATEUR_EMETTEUR.NOM}} {{avis.UTILISATEUR_EMETTEUR.PRENOM}}</aside>
-                                <aside class="date">10.03.2015 TODO</aside>
+                                <!--<aside class="date">10.03.2015 TODO</aside>-->
                             </div>
                             <!--end col-md-3-->
                             <div class="col-md-9">
                                 <div class="comment">
                                     <div class="comment-title">
                                         <figure class="rating">{{avis.NOTE}}</figure>
-                                        <h4>Very Good Hotel</h4>
+                                        <!--<h4>Very Good Hotel</h4>-->
                                     </div>
                                     <!--end title-->
                                     <p>{{avis.COMMENTAIRE}}.
@@ -214,60 +215,35 @@
                 <!--end reviews-->
             </section>
             <section id="write-a-review">
-                <h2>Write a Review</h2>
-                <form  class="labels-uppercase clearfix" id="form_reply_1">
-                    <div class="alert alert-dark fade in center" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close" data-switch="#review-write">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <span class="sr-only">Error:</span>
-                        <a href="#tab-sign-in" data-toggle="modal" data-target="#sign-in-register-modal">Please Sign in to write a review</a>
-                    </div>
-                    <div class="review write switch" id="review-write">
-                        <aside class="name">John Doe</aside>
+                <h2>Écrire un avis</h2>
+                <form class="labels-uppercase clearfix" id="form_reply_1">
+                    <div class="review" id="review-write">
+                        <aside class="name">{{globals.currentUser.prenom}} {{globals.currentUser.nom}}</aside>
                         <div class="comment">
                             <div class="row">
-                                <div class="col-md-8">
+                                <div class="col-md-10">
                                     <div class="comment-title">
-                                        <h4>Review Your Stay</h4>
+                                        <h4>Donnez votre avis</h4>
                                     </div>
                                     <!--end title-->
                                     <div class="form-group">
-                                        <label for="form_reply_1-name">Title of your review<em>*</em></label>
+                                        <span class="glyphicon glyphicon-star"><span class="glyphicon glyphicon-star"><span class="glyphicon glyphicon-star"><span class="glyphicon glyphicon-star"><span class="glyphicon glyphicon-star-empty">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="form_reply_1-name">Titre du commentaire<em>*</em></label>
                                         <input type="text" class="form-control" id="form_reply_1-name" name="name" placeholder="Beautiful holiday!" required="">
                                     </div>
                                     <div class="form-group">
-                                        <label for="form_reply_1-message">Your Answer<em>*</em></label>
+                                        <label for="form_reply_1-message">Commentairer<em>*</em></label>
                                         <textarea class="form-control" id="form_reply_1-message" rows="8" name="answer" required="" placeholder="Describe your stay"></textarea>
                                     </div>
                                     <!--end form-group-->
                                     <div class="form-group pull-right">
-                                        <button type="submit" class="btn btn-primary btn-rounded">Send Review</button>
+                                        <button type="submit" class="btn btn-primary btn-rounded">Envoyer</button>
                                     </div>
                                     <!--end form-group-->
                                 </div>
                                 <!--end col-md-8-->
-                                <div class="col-md-4">
-                                    <div class="comment-title">
-                                        <h4>Rating</h4>
-                                    </div>
-                                    <!--end title-->
-                                    <dl class="visitor-rating">
-                                        <dt>Cleanliness</dt>
-                                        <dd class="star-rating active" data-name="cleanliness"></dd>
-                                        <dt>Comfort</dt>
-                                        <dd class="star-rating active" data-name="comfort"></dd>
-                                        <dt>Location</dt>
-                                        <dd class="star-rating active" data-name="location"></dd>
-                                        <dt>Facilities</dt>
-                                        <dd class="star-rating active" data-name="facilities"></dd>
-                                        <dt>Staff</dt>
-                                        <dd class="star-rating active" data-name="staff"></dd>
-                                        <dt>Value for money</dt>
-                                        <dd class="star-rating active" data-name="value"></dd>
-                                    </dl>
-                                </div>
-                                <!--end col-md-4-->
                             </div>
                             <!--end row-->
                         </div>

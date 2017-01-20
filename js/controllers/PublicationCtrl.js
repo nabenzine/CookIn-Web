@@ -3,9 +3,9 @@
  */
 angular.module('CookIn').controller('PublicationCtrl',PublicationCtrlFnt);
 
-PublicationCtrlFnt.$inject=['$scope', '$filter', '$stateParams', 'AnnonceFactory','ReservationFactory','$element','$mdDialog']
+PublicationCtrlFnt.$inject=['$scope', '$state', '$filter', '$stateParams', 'AnnonceFactory','ReservationFactory','$element','$mdDialog']
 
-function PublicationCtrlFnt($scope, $filter, $stateParams, AnnonceFactory, ReservationFactory, $element, $mdDialog) {
+function PublicationCtrlFnt($scope, $state, $filter, $stateParams, AnnonceFactory, ReservationFactory, $element, $mdDialog) {
 
     $scope.donneesAnnonce = [];
     $scope.avisUtilisateurs = [];
@@ -61,7 +61,7 @@ function PublicationCtrlFnt($scope, $filter, $stateParams, AnnonceFactory, Reser
 
         ReservationFactory.addReservation(reservation).then(
             function (data) {
-                $state.go('/dashboard/ordersplaced');
+                $state.go('dashboard.ordersplaced');
             },
             function (error) {
 
@@ -80,8 +80,8 @@ function PublicationCtrlFnt($scope, $filter, $stateParams, AnnonceFactory, Reser
                 $scope.isValid = false;
             }else{
                 $scope.isValid = true;
-
                 $scope.actualSession = $scope.availableday.map[formattedDate][0];
+                console.log($scope.actualSession);
 
                 // Mettre à jours les places restantes
                 $scope.listQuantite = [];
@@ -90,7 +90,7 @@ function PublicationCtrlFnt($scope, $filter, $stateParams, AnnonceFactory, Reser
                 }
                 // Selectionner le premier element de la liste
                 $scope.nbPlacesAreserver = $scope.donneesAnnonce.QUANTITE_MIN ;
-
+                $scope.$apply();
                 // Mettre à jours les prix
                 $scope.updatePrice();
             }
@@ -111,6 +111,7 @@ function PublicationCtrlFnt($scope, $filter, $stateParams, AnnonceFactory, Reser
             // Si l'annonce existe
             if(dataAnnonce)
             {
+
                 // Afficher l'addresse sur une map
                 var element = "map-item";
                 simpleMap(dataAnnonce.ADRESSE.LATITUDE,dataAnnonce.ADRESSE.LONGITUDE, element);

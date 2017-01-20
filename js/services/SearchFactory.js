@@ -2,7 +2,7 @@
  * Created by Nad on 05/01/2017.
  */
 
-angular.module('CookIn').factory('SearchFactory', function($http,$q) {
+angular.module('CookIn').factory('SearchFactory', function($http,$q,myConfig) {
     // Might use a resource here that returns a JSON array
 
     var factory = {
@@ -52,8 +52,8 @@ angular.module('CookIn').factory('SearchFactory', function($http,$q) {
         },
         {
             "IDCUISINE":4,
-            "LIBELLE":"Indienne",
-            "CODE":"INDIENNE"
+            "LIBELLE":"Française",
+            "CODE":"FRANCAISE"
         },
         {
             "IDCUISINE":5,
@@ -106,9 +106,9 @@ angular.module('CookIn').factory('SearchFactory', function($http,$q) {
             },
             "IDTYPEREPAS":2,
             "MODECONSO":{
-                "IDMODECONSO":1,
-                "LIBELLE":"A emporter",
-                "CODE":"AEMPORTER"
+                "IDMODECONSO":2,
+                "LIBELLE":"Sur place",
+                "CODE":"SURPLACE"
             },
             "ADRESSE": {
                 "IDADRESSE":1,
@@ -157,9 +157,9 @@ angular.module('CookIn').factory('SearchFactory', function($http,$q) {
             "IDANNONCE":2,
             "IDTYPEAMBIANCE":1,
             "UTILISATEUR":{
-                "NOM":"Benzine",
-                "PRENOM":"Nad",
-                "PHOTO_PROFIL":"https://scontent-cdg2-1.xx.fbcdn.net/v/t1.0-9/12439345_1230530423643497_7601327912280907099_n.jpg?oh=ca3307aa2e7a9988b4db846c3ea3dc44&oe=58DBA648",
+                "NOM":"Khaitay",
+                "PRENOM":"Hamza",
+                "PHOTO_PROFIL":"https://scontent-cdg2-1.xx.fbcdn.net/v/t1.0-0/p206x206/1545576_1498194230409811_7314207517930681087_n.jpg?oh=6d670081f216c3c2c8629816738b1bb5&oe=59088D29",
                 "NOTE":3.3
             },
             "IDTYPEREPAS":2,
@@ -179,9 +179,9 @@ angular.module('CookIn').factory('SearchFactory', function($http,$q) {
                 "COMPATIBLE_MAP":true
             },
             "MODECONSO":{
-                "IDMODECONSO":2,
-                "LIBELLE":"Sur place",
-                "CODE":"SURPLACE"
+                "IDMODECONSO":1,
+                "LIBELLE":"A emporter",
+                "CODE":"AEMPORTER"
             },
             "IMAGE_ANNONCE": [
                 {
@@ -198,10 +198,10 @@ angular.module('CookIn').factory('SearchFactory', function($http,$q) {
                 }
             ],
             "IDCUISINE":1,
-            "LIBELLE":"Repas chez Nabila",
+            "LIBELLE":"Raclette 100% française",
             "DESCRIPTION":"Venez partager ma chatte avec moi",
             "DATE_ENVOI":"25/12/2016",
-            "PRIX":25,
+            "PRIX":16,
             "NOTE":3,
             "ACCEPTATION_AUTO":true,
             "ASSISTER_PREPARATION":false,
@@ -221,7 +221,7 @@ angular.module('CookIn').factory('SearchFactory', function($http,$q) {
 
     function fillTypeRepas(){
         var deferred = $q.defer();
-        $http.get('/api/Type_repas').
+        $http.get(myConfig.url + '/api/Type_repas').
         success(function(data, status, headers, config) {
             deferred.resolve(data);
         }).
@@ -236,7 +236,7 @@ angular.module('CookIn').factory('SearchFactory', function($http,$q) {
 
     function fillModeConsommation(){
         var deferred = $q.defer();
-        $http.get('/api/Mode_consommation').
+        $http.get(myConfig.url + '/api/Mode_consommation').
         success(function(data, status, headers, config) {
             deferred.resolve(data);
         }).
@@ -250,7 +250,7 @@ angular.module('CookIn').factory('SearchFactory', function($http,$q) {
 
     function fillTypeCuisine(){
         var deferred = $q.defer();
-        $http.get('/api/Specialite').
+        $http.get(myConfig.url + '/api/Specialite').
         success(function(data, status, headers, config) {
             deferred.resolve(data);
         }).
@@ -264,7 +264,7 @@ angular.module('CookIn').factory('SearchFactory', function($http,$q) {
 
     function fillLanguage(){
         var deferred = $q.defer();
-        $http.get('/api/Langue').
+        $http.get(myConfig.url + '/api/Langue').
         success(function(data, status, headers, config) {
             deferred.resolve(data);
         }).
@@ -278,7 +278,7 @@ angular.module('CookIn').factory('SearchFactory', function($http,$q) {
 
     function startSearch(){
         var deferred = $q.defer();
-        $http.get('/api/Recherche').
+        $http.get(myConfig.url + '/api/Recherche').
         success(function(data, status, headers, config) {
             deferred.resolve(data);
         }).

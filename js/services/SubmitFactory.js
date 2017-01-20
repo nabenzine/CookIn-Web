@@ -1,7 +1,7 @@
 /**
  * Created by Nad on 17/01/2017.
  */
-angular.module('CookIn').factory('SubmitFactory', function($http,$q) {
+angular.module('CookIn').factory('SubmitFactory', function($http,$q,myConfig) {
     // Might use a resource here that returns a JSON array
 
     var factory = {
@@ -11,7 +11,8 @@ angular.module('CookIn').factory('SubmitFactory', function($http,$q) {
         GetUtilisateur : GetUtilisateur,
         addAdresse : addAdresse,
         addAnnonce : addAnnonce,
-        addSession : addSession
+        addSession : addSession,
+        addImage : addImage
     };
 
     //*********************************************//
@@ -25,12 +26,18 @@ angular.module('CookIn').factory('SubmitFactory', function($http,$q) {
             "LIBELLE":"Végétarien"
         },
         {
-            "IDREGIME":2,
-            "LIBELLE":"Végétalien"
+            "IDREGIME":1,
+            "LIBELLE":"Sans gluten"
         },
         {
-            "IDREGIME":3,
-            "LIBELLE":"Vegan (Relou)"
+            "IDREGIMEALIMENTAIRE":1,
+            "LIBELLE":"Hallal",
+            "CODE":"HALLAL"
+        },
+        {
+            "IDREGIMEALIMENTAIRE":2,
+            "LIBELLE":"Cacher",
+            "CODE":"CACHER"
         }
 
     ];
@@ -83,7 +90,7 @@ angular.module('CookIn').factory('SubmitFactory', function($http,$q) {
 
     var userDetail = {
         TELEPHONE: '062623432343',
-        PROFESSION : 'JE suis gnagnagna'
+        PROFESSION : 'JE suis Dan Dr Dray'
     }
 
     //*********************************************//
@@ -92,7 +99,7 @@ angular.module('CookIn').factory('SubmitFactory', function($http,$q) {
 
     function fillRegimeAlimentaire(){
         var deferred = $q.defer();
-        $http.get('/api/Regime').
+        $http.get(myConfig.url + '/api/Regime').
         success(function(data, status, headers, config) {
             deferred.resolve(data);
         }).
@@ -106,7 +113,7 @@ angular.module('CookIn').factory('SubmitFactory', function($http,$q) {
 
     function GetAdressesByUtilisateur(idUtilisateur){
         var deferred = $q.defer();
-        $http.get('/api/addressesByUtilisateur?id='+idUtilisateur).
+        $http.get(myConfig.url + '/api/addressesByUtilisateur?id='+idUtilisateur).
         success(function(data, status, headers, config) {
             deferred.resolve(data);
         }).
@@ -119,7 +126,7 @@ angular.module('CookIn').factory('SubmitFactory', function($http,$q) {
 
     function GetUtilisateur(idUtilisateur){
         var deferred = $q.defer();
-        $http.get('/api/Utilisateur?id='+idUtilisateur).
+        $http.get(myConfig.url + '/api/Utilisateur?id='+idUtilisateur).
         success(function(data, status, headers, config) {
             deferred.resolve(data);
         }).
@@ -133,7 +140,7 @@ angular.module('CookIn').factory('SubmitFactory', function($http,$q) {
 
     function GetLanguesByUtilisateur(idUtilisateur){
         var deferred = $q.defer();
-        $http.get('/api/languesByUtilisateur?id='+idUtilisateur).
+        $http.get(myConfig.url + '/api/languesByUtilisateur?id='+idUtilisateur).
         success(function(data, status, headers, config) {
             deferred.resolve(data);
         }).
@@ -146,7 +153,7 @@ angular.module('CookIn').factory('SubmitFactory', function($http,$q) {
 
     function addAnnonce(annonce) {
         var deferred = $q.defer();
-        $http.post('/api/Annonce',annonce).
+        $http.post(myConfig.url + '/api/Annonce',annonce).
         success(function(data, status, headers, config) {
             if( data === true){
                 deferred.resolve(true);
@@ -164,7 +171,7 @@ angular.module('CookIn').factory('SubmitFactory', function($http,$q) {
 
     function addSession(session) {
         var deferred = $q.defer();
-        $http.post('/api/Session',session).
+        $http.post(myConfig.url + '/api/Session',session).
         success(function(data, status, headers, config) {
             if( data === true){
                 deferred.resolve(true);
@@ -182,7 +189,25 @@ angular.module('CookIn').factory('SubmitFactory', function($http,$q) {
 
     function addAdresse(adresse) {
         var deferred = $q.defer();
-        $http.post('/api/Adresse',adresse).
+        $http.post(myConfig.url + '/api/Adresse',adresse).
+        success(function(data, status, headers, config) {
+            if( data === true){
+                deferred.resolve(true);
+            }else{
+                deferred.reject("fail");
+            }
+        }).
+        error(function(data, status, headers, config) {
+            deferred.resolve(true);
+            //deferred.reject(status);
+            // or server returns response with an error status.
+        });
+        return deferred.promise;
+    }
+
+    function addImage(image) {
+        var deferred = $q.defer();
+        $http.post(myConfig.url + '/api/IMAGE_ANNONCE',image).
         success(function(data, status, headers, config) {
             if( data === true){
                 deferred.resolve(true);

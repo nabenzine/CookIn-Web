@@ -2,10 +2,11 @@
  * Created by Nad on 05/01/2017.
  */
 
-angular.module('CookIn').factory('AnnonceFactory', function($http,$q,$filter,_) {
+angular.module('CookIn').factory('AnnonceFactory', function($http,$q,myConfig,$filter,_) {
     // Might use a resource here that returns a JSON array
 
     var factory = {
+        getAnnoncesByUtilisateur : getAnnoncesByUtilisateur,
         getAnnonce: getAnnonce,
         getAvisByUser: getAvisByUser,
         getAvailabilityByAnnonce: getAvailabilityByAnnonce,
@@ -13,6 +14,68 @@ angular.module('CookIn').factory('AnnonceFactory', function($http,$q,$filter,_) 
         jsonAvailabilityToArray : jsonAvailabilityToArray
     };
 
+    var listAnnoncesUser = [
+        {
+            "IDANNONCE":1,
+            "IDTYPEREPAS":{
+                "IDTYPEREPAS":1,
+                "LIBELLE":"Dîner",
+                "CODE":"DINER"
+            },
+            "IMAGE_ANNONCE": [
+                {
+                    "ID" : 1,
+                    "FILENAME": "http://recettes.al-manakh.com/images/tajine-halal.jpg"
+                }
+            ],
+            "MODECONSO":{
+                "IDMODECONSO":2,
+                "LIBELLE":"Sur place",
+                "CODE":"SURPLACE"
+            },
+            "SPECIALITE": {
+                "IDCUISINE": 1,
+                "LIBELLE": "Marocaine",
+                "CODE": "MAROCAINE"
+            },
+            "LIBELLE":"Tajine Marocain",
+            "DESCRIPTION":"Allez viens on est bien ;)",
+            "DATE_ENVOI":"20/12/2016",
+            "PRIX":31,
+            "QUANTITE_MIN":2,
+            "QUANTITE_MAX":6
+        },
+        {
+            "IDANNONCE":1,
+            "IDTYPEREPAS":{
+                "IDTYPEREPAS":1,
+                "LIBELLE":"Dîner",
+                "CODE":"DINER"
+            },
+            "IMAGE_ANNONCE": [
+                {
+                    "ID" : 1,
+                    "FILENAME": "http://mooc.tela-botanica.org/pluginfile.php/51685/mod_forum/post/6937/couscous.jpg"
+                }
+            ],
+            "MODECONSO":{
+                "IDMODECONSO":2,
+                "LIBELLE":"À emporter",
+                "CODE":"AEMPORTER"
+            },
+            "SPECIALITE": {
+                "IDCUISINE": 1,
+                "LIBELLE": "Algérienne",
+                "CODE": "ALGERIENNE"
+            },
+            "LIBELLE":"Couscous",
+            "DESCRIPTION":"Allez viens on est bien ;)",
+            "DATE_ENVOI":"25/12/2016",
+            "PRIX":25,
+            "QUANTITE_MIN":2,
+            "QUANTITE_MAX":6
+        }
+    ];
 
     var donnees_annonce =
     {
@@ -59,11 +122,7 @@ angular.module('CookIn').factory('AnnonceFactory', function($http,$q,$filter,_) 
             },
             {
                 "ID" : 2,
-                "FILENAME": "http://www.beaumontpizz.fr/ressources/images/0d138119fef9.jpg"
-            },
-            {
-                "ID" : 3,
-                "FILENAME": "http://www.boucherie-grandmaire.com/images/plats1.jpg"
+                "FILENAME": "https://i.ytimg.com/vi/QR0EB8Z5itA/maxresdefault.jpg"
             }
         ],
         "MODECONSO":{
@@ -73,15 +132,15 @@ angular.module('CookIn').factory('AnnonceFactory', function($http,$q,$filter,_) 
         },
         "SPECIALITE": {
             "IDCUISINE": 1,
-            "LIBELLE": "Algérienne",
-            "CODE": "ALGERIENNE"
+            "LIBELLE": "Marocaine",
+            "CODE": "MAROCAINE"
         },
         "REGIMES" :
             [
                 {
                     "IDREGIMEALIMENTAIRE":1,
-                    "LIBELLE":"Végétarien",
-                    "CODE":"VEGETARIEN"
+                    "LIBELLE":"Hallal",
+                    "CODE":"HALLAL"
                 },
                 {
                     "IDREGIMEALIMENTAIRE":2,
@@ -90,7 +149,7 @@ angular.module('CookIn').factory('AnnonceFactory', function($http,$q,$filter,_) 
                 }
             ],
         "LIBELLE":"Tajine Marocain",
-        "DESCRIPTION":"Allez viens on est bien ;)",
+        "DESCRIPTION":"Je vous propose de partager un bon Tajine du bled",
         "DATE_ENVOI":"25/12/2016",
         "PRIX":25,
         "ACCEPTATION_AUTO":true,
@@ -132,25 +191,25 @@ angular.module('CookIn').factory('AnnonceFactory', function($http,$q,$filter,_) 
 
     var session = [
         {
+            "IDSESSION": 1,
+            "IDANNONCE": 1,
+            "DATE_DEBUT": "2017-01-24T12:00:00",
+            "DATE_FIN": "2017-01-24T13:00:00",
+            "QUANTITE_RESTANTE": 3
+        },
+        {
             "IDSESSION": 2,
             "IDANNONCE": 1,
             "DATE_DEBUT": "2017-01-26T12:00:00",
             "DATE_FIN": "2017-01-26T13:00:00",
-            "QUANTITE_RESTANTE": 4
-        },
-        {
-            "IDSESSION": 1,
-            "IDANNONCE": 1,
-            "DATE_DEBUT": "2017-01-28T12:00:00",
-            "DATE_FIN": "2017-01-28T13:00:00",
-            "QUANTITE_RESTANTE": 3
+            "QUANTITE_RESTANTE": 6
         },
         {
             "IDSESSION": 3,
             "IDANNONCE": 1,
             "DATE_DEBUT": "2017-02-04T12:00:00",
             "DATE_FIN": "2017-02-04T13:00:00",
-            "QUANTITE_RESTANTE": 1
+            "QUANTITE_RESTANTE": 2
         },
         {
             "IDSESSION": 4,
@@ -185,10 +244,28 @@ angular.module('CookIn').factory('AnnonceFactory', function($http,$q,$filter,_) 
         }
     ]
 
+    // Methodes
+
+    function getAnnoncesByUtilisateur(IdUtilisateur){
+        var deferred = $q.defer();
+        $http.get(myConfig.url + '/api/AnnonceUtilisateur?id='+IdUtilisateur).
+        success(function(data, status, headers, config) {
+            deferred.resolve(data);
+        }).
+        error(function(data, status, headers, config) {
+            deferred.resolve(listAnnoncesUser);
+            //deferred.reject(status);
+            // or server returns response with an error status.
+        });
+
+        return deferred.promise;
+    }
+
     function getAnnonce(IdAnnonce){
         var deferred = $q.defer();
-        $http.get('/api/AnnonceDetails?id='+IdAnnonce).
+        $http.get(myConfig.url + '/api/annonce/annonceDetails?idAnnonce='+IdAnnonce).
         success(function(data, status, headers, config) {
+            console.log(data);
             deferred.resolve(data);
         }).
         error(function(data, status, headers, config) {
@@ -202,7 +279,7 @@ angular.module('CookIn').factory('AnnonceFactory', function($http,$q,$filter,_) 
 
     function getBookedSessionByAnnonceAndUser(IdAnnonce, IdUser){
         var deferred = $q.defer();
-        $http.get('/api/getBookedSessionByAnnonceAndUser?idAnnonce='+IdAnnonce+'&idUser='+IdUser).
+        $http.get(myConfig.url + '/api/getBookedSessionByAnnonceAndUser?idAnnonce='+IdAnnonce+'&idUser='+IdUser).
         success(function(data, status, headers, config) {
             deferred.resolve(data);
         }).
@@ -216,7 +293,7 @@ angular.module('CookIn').factory('AnnonceFactory', function($http,$q,$filter,_) 
 
     function getAvailabilityByAnnonce(IdAnnonce){
         var deferred = $q.defer();
-        $http.get('/api/getAvailabilityByAnnonce?id='+IdAnnonce).
+        $http.get(myConfig.url + '/api/getAvailabilityByAnnonce?id='+IdAnnonce).
         success(function(data, status, headers, config) {
             deferred.resolve(data);
         }).
@@ -230,7 +307,7 @@ angular.module('CookIn').factory('AnnonceFactory', function($http,$q,$filter,_) 
 
     function getAvisByUser(IdUtilisateur){
         var deferred = $q.defer();
-        $http.get('/api/AvisByUser?id='+ IdUtilisateur).
+        $http.get(myConfig.url + '/api/AvisByUser?id='+ IdUtilisateur).
         success(function(data, status, headers, config) {
             deferred.resolve(data);
         }).

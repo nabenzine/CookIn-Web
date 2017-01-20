@@ -2,7 +2,7 @@
  * Created by Nad on 05/01/2017.
  */
 
-angular.module('CookIn').factory('Auth', function($http, $q, $location, $cookieStore, $rootScope) {
+angular.module('CookIn').factory('Auth', function($http, $q, myConfig, $location, $cookieStore, $rootScope) {
     // Might use a resource here that returns a JSON array
 
     var factory = {
@@ -15,6 +15,14 @@ angular.module('CookIn').factory('Auth', function($http, $q, $location, $cookieS
     var userLogged = {
         IDUTILISATEUR: 1,
         PRENOM: "Nad",
+        VALIDAUTH: true,
+        TOKEN_KEY: "9EAF648FAE43245F3FA3F"
+    };
+
+
+    var userLogged2 = {
+        IDUTILISATEUR: 1,
+        PRENOM: "Dan",
         VALIDAUTH: true,
         TOKEN_KEY: "9EAF648FAE43245F3FA3F"
     };
@@ -39,7 +47,7 @@ angular.module('CookIn').factory('Auth', function($http, $q, $location, $cookieS
 
     function login(user, success, error) {
         var deferred = $q.defer();
-        $http.post('/api/login', user).
+        $http.post(myConfig.url + '/api/login', user).
             success(function(data, status, headers, config) {
                 if( data.VALIDAUTH === true){
                     SetCredentials(data);
@@ -49,7 +57,13 @@ angular.module('CookIn').factory('Auth', function($http, $q, $location, $cookieS
                 }
             }).
             error(function(data, status, headers, config) {
-                SetCredentials(userLogged);
+                if(user.EMAIL == "nad@hotmail.fr"){
+
+                    SetCredentials(userLogged);
+                }else{
+
+                    SetCredentials(userLogged2);
+                }
                 deferred.resolve(true);
                 //deferred.reject("fail");
                 // or server returns response with an error status.

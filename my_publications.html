@@ -1,1 +1,30 @@
-mes annonces
+<div class="col-md-3 col-sm-6" ng-repeat="annonce in annonceUser">
+    <div class="item big equal-height" data-map-latitude="48.87" data-map-longitude="2.29" data-id="1">
+        <div class="item-wrapper">
+
+            <div class="image">
+                <a class="mark-circle top" data-toggle="tooltip" data-placement="right" title="Top accommodation"><i class="fa fa-pencil"></i></a>
+                <a class="wrapper" ui-sref="viewpublication({ id: annonce.IDANNONCE })">
+                    <img ng-src="{{annonce.IMAGE_ANNONCE[0].FILENAME}}" alt="">
+                </a>
+                <div class="owl-navigation"></div>
+                <!--end owl-navigation-->
+            </div>
+            <!--end image-->
+            <div class="description">
+                <div class="meta">
+                    <span><i class="fa fa-eur fa-lg"></i>{{annonce.PRIX}}</span>
+                    <span><i class="fa fa-users fa-lg"></i>{{annonce.QUANTITE_MIN}}{{"-"}}{{annonce.QUANTITE_MAX}}</span>
+
+                </div>
+                <div class="info">
+                    <figure class="label" ng-class="{'label-emporter': annonce.MODECONSO.CODE == 'AEMPORTER', 'label-surplace': annonce.MODECONSO.CODE == 'SURPLACE'}">{{ annonce.MODECONSO.LIBELLE }}</figure>
+                    <a ui-sref="viewpublication({ id: annonce.IDANNONCE })"><h3>{{annonce.LIBELLE}}</h3></a>
+                    <figure class="location">Spécialité : {{annonce.SPECIALITE.LIBELLE}}</figure>
+                </div>
+            </div>
+            <!--end description-->
+        </div>
+    </div>
+    <!--end item-->
+</div>

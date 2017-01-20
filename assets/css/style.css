@@ -39,11 +39,10 @@ Headers:		'Lato', sans-serif;
 }
 .gallery-box {
   width: 200px;
-  padding: 5px;
-  margin: 7px;
+  //padding: 5px;
+  margin-bottom: 40px;
   float: left;
   min-height: 200px;
-  border: 1px solid #ddd;
   overflow: hidden;
 }
 .gallery-box .title {
@@ -99,68 +98,6 @@ Headers:		'Lato', sans-serif;
   filter:alpha(opacity=50);
 }
 
-
-/* Carrousel config*/
-ul[rn-carousel] > li {
-  position: relative;
-  margin-left: -100%;
-}
-ul[rn-carousel] > li > .image-aspect-ratio {
-  display: block;
-  width: 100%;
-  position: relative;
-  height: 0;
-  padding: 75% 0 0 0;
-  overflow: hidden;
-}
-
-ul[rn-carousel] > li > .image-aspect-ratio img {
-  position: absolute;
-  display: block;
-  max-width: 100%;
-  max-height: 100%;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-}
-ul[rn-carousel] > li:first-child {
-  margin-left: 0;
-}
-.frame-carousel {
-  height: 25px;      /* equals max image height */
-  width: 160px;
-  border: 1px solid red;
-  white-space: nowrap;
-
-  text-align: center; margin: 1em 0;
-}
-
-.frame-carousel:before,
-.frame_before {
-  content: "";
-  display: inline-block;
-  height: 100%;
-  vertical-align: middle;
-}
-
-.frame-carousel img {
-  background: #3A6F9A;
-  vertical-align: middle;
-  max-height: 25px;
-  max-width: 160px;
-}
-
-/* Move this to conditional comments */
-.frame-carousel {
-  list-style:none;
-  behavior: expression(
-        function(t){
-            t.insertAdjacentHTML('afterBegin','<span class="frame_before"></span>');
-            t.runtimeStyle.behavior = 'none';
-        }(this)
-    );
-}
 /*  DatePicker*/
 .md-datepicker-input-container {
   width: 100%!important;

@@ -6,27 +6,26 @@
                     <form name="user_form" id="form-sign">
                         <div class="form-group">
                             <label for="form-sign-in-email">E-mail</label>
-                            <input type="text" class="form-control" ng-model="user.login" id="form-sign-in-email" name="sign_in_email" placeholder="Login E-mail">
+                            <input type="text" class="form-control" ng-model="user.login" id="form-sign-in-email" name="sign_in_email" placeholder="E-mail">
                         </div>
                         <!--end form-group-->
                         <div class="form-group">
-                            <label for="form-sign-in-password">Password</label>
+                            <label for="form-sign-in-password">Mot de passe</label>
                             <input type="password" ng-model="user.password" class="form-control" id="form-sign-in-password" name="sign_in_password" placeholder="*****">
                         </div>
                         <!--end form-group-->
                         <div class="clearfix action">
                             <div class="form-group pull-right">
-                                <button type="submit" ng-click="login()" class="btn btn-primary btn-rounded">Sign In</button>
+                                <button type="submit" ng-click="login()" class="btn btn-primary btn-rounded">Connexion</button>
                             </div>
                         </div>
                         <div class="center">
-                            <div>Lost Password? <a href="#">Reset here</a></div>
-                            <div>New to Accommondo? <a href="#">Register an account</a></div>
+                            <div><a href="#">Mots de passe oublié?</a></div>
+                            <div><a href="#">S'inscrire</a></div>
                         </div>
                         <div class="alert-danger" style="margin-top:10px; padding: 10px" ng-show="showError">
                             Utilisateur Inconnu
                         </div>
-                        <button ng-click="isLogged()" type="button">dsqd</button>
                     </form>
                     <br/>
                 </div>

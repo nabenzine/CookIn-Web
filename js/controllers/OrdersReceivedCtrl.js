@@ -15,7 +15,6 @@ function OrdersReceivedFnt($scope, $rootScope, $state, ReservationFactory, Annon
     ReservationFactory.getCommandesByUtilisateur($rootScope.globals.currentUser.id).then(
         function(data) {
             $scope.reservationRecues = data;
-            console.log(data);
         },
         function(errorPayload) {
             $log.error('failure loading donneesReservation', errorPayload);

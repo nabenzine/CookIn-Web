@@ -1,9 +1,9 @@
 
 angular.module('CookIn').controller('AddPublicationCtrl',AddPublicationCtrlFnt);
 
-AddPublicationCtrlFnt.$inject=['$scope', '$rootScope', 'SearchFactory', 'SubmitFactory', 'Auth', '$filter', '_']
+AddPublicationCtrlFnt.$inject=['$scope', '$state', '$rootScope', 'SearchFactory', 'SubmitFactory', 'Auth', '$filter', '_']
 
-function AddPublicationCtrlFnt($scope, $rootScope, SearchFactory, SubmitFactory, Auth, $filter, _) {
+function AddPublicationCtrlFnt($scope, $state, $rootScope, SearchFactory, SubmitFactory, Auth, $filter, _) {
 
     Auth.islogin();
 
@@ -21,6 +21,11 @@ function AddPublicationCtrlFnt($scope, $rootScope, SearchFactory, SubmitFactory,
 
     $scope.latitude = {};
     $scope.longitude = {};
+
+
+
+    // gestion images
+    $scope.imagesArray = [];
 
     // Initialiser les dates
     $scope.dateDebut = new Date(2017, 12, 01, 12, 0 , 0);
@@ -211,12 +216,27 @@ function AddPublicationCtrlFnt($scope, $rootScope, SearchFactory, SubmitFactory,
         }
     };
 
+
+    $scope.addImage = function( $file, $message, $flow ){
+        var response = JSON.parse($message);
+        if (response.status_code == 200){
+            var image = {
+                FILENAME :  response.data.img_url,
+                TAILLE : response.data.img_size,
+                DESCRIPTION : response.data.img_name,
+                DATE_CREATION : new Date(),
+                PAR_DEFAUT : 0
+            };
+            $scope.imagesArray.push(image);
+        }
+    };
+
     $scope.insertAnnonce = function (newAdresse) {
         //Création adresse si elle n'existe pas et l'associer à l'utilisateur!
         // 3- Si nouvelle adresse l'associer à l'utilisateur
 
         //SubmitFactory.addAdresse()
-
+        $state.go('dashboard.mypublications');
 
         // Création de  l'annonce
         var annonce = {
@@ -240,6 +260,7 @@ function AddPublicationCtrlFnt($scope, $rootScope, SearchFactory, SubmitFactory,
         };
 
         SubmitFactory.addAnnonce(annonce).then(
+
             function (data) {
 
                 // Création des sessions
@@ -253,7 +274,6 @@ function AddPublicationCtrlFnt($scope, $rootScope, SearchFactory, SubmitFactory,
                         DATE_FIN : new Date(dateSession.getFullYear(), dateSession.getMonth(), dateSession.getDate(), $scope.dateFin.getHours(), $scope.dateFin.getMinutes(), 0, 0),
                         QUANTITE_RESTANTE : $scope.nbrPersonneSlider.maxValue
                     };
-                    console.log(session);
                     SubmitFactory.addSession(session).then(
                         function (data) {
 
@@ -261,7 +281,19 @@ function AddPublicationCtrlFnt($scope, $rootScope, SearchFactory, SubmitFactory,
                     )
                 });
 
+                // Insertion des images
+                _.each($scope.imagesArray, function(element, index, list){
+                    var image = element ;
+                    // Rajouter l'id de l'annonce
 
+                    image['IDANNONCE'] = 1;
+                    // Ajouter l'image
+                    SubmitFactory.addImage(image).then(
+                        function (data) {
+
+                        }
+                    )
+                });
 
             },
             function (error) {

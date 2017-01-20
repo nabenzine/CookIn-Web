@@ -2,7 +2,7 @@
  * Created by Nad on 15/01/2017.
  */
 
-angular.module('CookIn').factory('ReservationFactory', function($http,$q) {
+angular.module('CookIn').factory('ReservationFactory', function($http,$q,myConfig) {
     // Might use a resource here that returns a JSON array
 
     var factory = {
@@ -16,9 +16,9 @@ angular.module('CookIn').factory('ReservationFactory', function($http,$q) {
             "IDRESERV": 1,
             "DATE_DEBUT": "2017-01-26T12:00:00",
             "CODESTATUSRESER": 1,
-            "LIBELLE": "Tajine Algérien",
-            "QUANTITE": 3,
-            "TOTAL" : 83.50,
+            "LIBELLE": "Tajine Marocain",
+            "QUANTITE": 4,
+            "TOTAL" : 115,
             "LIEU" : "Lyon",
             "LIBELLE_CONSO":"Sur place",
             "CODE_CONSO":"SURPLACE",
@@ -28,7 +28,7 @@ angular.module('CookIn').factory('ReservationFactory', function($http,$q) {
             "IDRESERV": 1,
             "DATE_DEBUT": "2017-01-14T12:00:00",
             "CODESTATUSRESER": 1,
-            "LIBELLE": "Tajine Marocain",
+            "LIBELLE": "Saumon makrout ",
             "QUANTITE": 1,
             "TOTAL" : 23.50,
             "LIEU" : "Villeurbanne",
@@ -51,34 +51,14 @@ angular.module('CookIn').factory('ReservationFactory', function($http,$q) {
 
     ];
 
-    var commandes_passees = [
-        {
-            "IDRESERV": 1,
-            "IDANNONCE": 1,
-            "DATE_DEBUT": "2017-01-01T12:00:00",
-            "LIBELLE": "Cheese Cake",
-            "QUANTITE": 7,
-            "TOTAL" : 53.50,
-            "NUMERO_RUE":30,
-            "NOM_RUE":"Rue George Sand",
-            "CP":"69100",
-            "VILLE":"Villeurbanne",
-            "IDMODECONSO":2,
-            "LIBELLE_CONSO":"A emporter",
-            "CODE":"SURPLACE",
-            "NOM":"Dray",
-            "PRENOM" : "Dan",
-            "TELEPHONE": "0645678379",
-            "EMAIL" : "draydan@gmail.com",
-            "PHOTO_PROFIL":"https://scontent.xx.fbcdn.net/v/t1.0-9/14720515_10209221933178827_5270935031424465088_n.jpg?oh=f90cd2d2d9cc1bb81e64089aae8fa9a0&oe=58D90A78"
-        },
+    var commandes_recu = [
         {
             "IDRESERV": 2,
             "IDANNONCE": 2,
-            "DATE_DEBUT": "2017-01-26T18:30:00",
-            "LIBELLE": "Pizza",
-            "QUANTITE": 3,
-            "TOTAL" : 15,
+            "DATE_DEBUT": "2017-01-26T01:30:00",
+            "LIBELLE": "Tajine marocain",
+            "QUANTITE": 4,
+            "TOTAL" : 115,
             "NUMERO_RUE":30,
             "NOM_RUE":"Rue George Sand",
             "CP":"69100",
@@ -90,18 +70,18 @@ angular.module('CookIn').factory('ReservationFactory', function($http,$q) {
             "PRENOM" : "Nad",
             "TELEPHONE": "0671839283",
             "EMAIL" : "nabenz@gmail.com",
-            "PHOTO_PROFIL":"https://scontent.xx.fbcdn.net/v/t1.0-9/14720515_10209221933178827_5270935031424465088_n.jpg?oh=f90cd2d2d9cc1bb81e64089aae8fa9a0&oe=58D90A78"
+            "PHOTO_PROFIL":"https://scontent-cdg2-1.xx.fbcdn.net/v/t1.0-9/12439345_1230530423643497_7601327912280907099_n.jpg?oh=1b552f9baafcc92140101b2bcce24c8d&oe=59033348"
         }
     ];
 
     function getCommandesByUtilisateur(IdUtilisateur){
         var deferred = $q.defer();
-        $http.get('/api/getCommandesByUser?id='+IdUtilisateur).
+        $http.get(myConfig.url + '/api/getCommandesByUser?id='+IdUtilisateur).
         success(function(data, status, headers, config) {
             deferred.resolve(data);
         }).
         error(function(data, status, headers, config) {
-            deferred.resolve(commandes_passees);
+            deferred.resolve(commandes_recu);
             //deferred.reject(status);
             // or server returns response with an error status.
         });
@@ -111,7 +91,7 @@ angular.module('CookIn').factory('ReservationFactory', function($http,$q) {
 
     function getReservationsByUtilisateur(IdUtilisateur){
         var deferred = $q.defer();
-        $http.get('/api/getReservationsByUser?id='+IdUtilisateur).
+        $http.get(myConfig.url + '/api/getReservationsByUser?id='+IdUtilisateur).
         success(function(data, status, headers, config) {
             deferred.resolve(data);
         }).
@@ -126,7 +106,7 @@ angular.module('CookIn').factory('ReservationFactory', function($http,$q) {
 
     function addReservation(reservation){
         var deferred = $q.defer();
-        $http.post('/api/Reservation',reservation).
+        $http.post(myConfig.url + '/api/Reservation',reservation).
         success(function(data, status, headers, config) {
             if( data === true){
                 deferred.resolve(true);

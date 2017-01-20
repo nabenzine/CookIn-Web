@@ -2,19 +2,32 @@
 
 var sampleApp = angular.module('CookIn', ['ui.router','ngAnimate', 'ngCookies', 'ngAutocomplete','rzModule','underscore','ngMaterial','kendo.directives','ui.bootstrap', 'gm.datepickerMultiSelect','flow']);
 
-//Define Routing for app
-
-sampleApp.config(['$stateProvider','$urlRouterProvider','$mdDateLocaleProvider','flowFactoryProvider',
-
-function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider, flowFactoryProvider) {
-
-    flowFactoryProvider.defaults = {
-        target: 'http://uploads.im/api?upload'
-    };
-    flowFactoryProvider.on('catchAll', function (event) {
-        console.log('catchAll', arguments);
+//Define const for app
+sampleApp.constant("myConfig",
+    {
+        //"url": "http://192.168.43.230:2262"
+        "url": ""
     });
 
+
+sampleApp.config(['$stateProvider','$urlRouterProvider','$mdDateLocaleProvider','flowFactoryProvider','$httpProvider',
+
+function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider, flowFactoryProvider, $httpProvider) {
+
+    // Allow Access-Control-Allow-Origin
+/*    $httpProvider.defaults.useXDomain = true;
+    $httpProvider.defaults.headers.common = 'Content-Type: application/json';
+    delete $httpProvider.defaults.headers.common['X-Requested-With'];*/
+
+    // Upload
+    flowFactoryProvider.defaults = {
+        target: 'http://uploads.im/api?upload',
+        permanentErrors: [404, 500, 501],
+        testChunks:false,
+        maxChunkRetries: 1,
+        chunkRetryInterval: 5000,
+        simultaneousUploads: 4
+    };
 
     // Routing
     $urlRouterProvider.otherwise('/accueil');
@@ -70,7 +83,6 @@ function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider, flowFactoryP
         });
 
 }]);
-
 
 sampleApp.run(['$rootScope', '$location', '$cookieStore', '$http',
 
