@@ -11,7 +11,7 @@ angular.module('CookIn').factory('ReservationFactory', function($http,$q,myConfi
         addReservation: addReservation
     };
 
-    var donnees_reservation = [
+    var commandes_passe = [
         {
             "IDRESERV": 1,
             "DATE_DEBUT": "2017-01-26T12:00:00",
@@ -96,7 +96,7 @@ angular.module('CookIn').factory('ReservationFactory', function($http,$q,myConfi
             deferred.resolve(data);
         }).
         error(function(data, status, headers, config) {
-            deferred.resolve(donnees_reservation);
+            deferred.resolve(commandes_passe);
             //deferred.reject(status);
             // or server returns response with an error status.
         });

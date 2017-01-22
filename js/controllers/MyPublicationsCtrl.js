@@ -6,9 +6,6 @@ angular.module('CookIn').controller('MyPublicationsCtrl',MyPublicationsFnt);
 MyPublicationsFnt.$inject=['$scope','$rootScope', '$state', 'Auth', 'AnnonceFactory']
 
 function MyPublicationsFnt($scope, $rootScope, $state, Auth, AnnonceFactory) {
-
-    Auth.islogin();
-
     $scope.today = new Date();
     $scope.annonceUser = [];
 

@@ -3,9 +3,9 @@
  */
 angular.module('CookIn').controller('PublicationCtrl',PublicationCtrlFnt);
 
-PublicationCtrlFnt.$inject=['$scope', '$state', '$filter', '$stateParams', 'AnnonceFactory','ReservationFactory','$element','$mdDialog']
+PublicationCtrlFnt.$inject=['$scope', '$state', '$filter', '$stateParams', 'AnnonceFactory', 'SessionFactory', 'AvisFactory', 'ReservationFactory','$mdDialog']
 
-function PublicationCtrlFnt($scope, $state, $filter, $stateParams, AnnonceFactory, ReservationFactory, $element, $mdDialog) {
+function PublicationCtrlFnt($scope, $state, $filter, $stateParams, AnnonceFactory, SessionFactory, AvisFactory, ReservationFactory, $mdDialog) {
 
     $scope.donneesAnnonce = [];
     $scope.avisUtilisateurs = [];
@@ -70,7 +70,7 @@ function PublicationCtrlFnt($scope, $state, $filter, $stateParams, AnnonceFactor
     }
 
     // à chaque changement de date
-    $scope.dateChanged = function (newDate) {
+    $scope.dateChanged = function (newDate, reload) {
         if (newDate != undefined){
             // Selectionner l'objet session actuelle
             var formattedDate = 'key'+$filter('date')(newDate, "ddMMyyyy");
@@ -81,16 +81,29 @@ function PublicationCtrlFnt($scope, $state, $filter, $stateParams, AnnonceFactor
             }else{
                 $scope.isValid = true;
                 $scope.actualSession = $scope.availableday.map[formattedDate][0];
-                console.log($scope.actualSession);
 
-                // Mettre à jours les places restantes
-                $scope.listQuantite = [];
-                for (var i = $scope.donneesAnnonce.QUANTITE_MIN -1; i < $scope.actualSession.QUANTITE_RESTANTE; i++) {
-                    $scope.listQuantite.push(i+1);
+                // Si y'a déja une résevation sur la session on prend plus en compte la quantité min
+                var selectStart = ($scope.actualSession.QUANTITE_RESTANTE === $scope.donneesAnnonce.QUANTITE_MAX)? $scope.donneesAnnonce.QUANTITE_MIN : 1 ;
+
+                // vider la liste quantié
+                $scope.listQuantite.length = 0;
+                // Si ce n'est pas le premier chargement du controlleur
+                if (reload){
+                    $scope.$apply(function(){
+                        // Mettre à jours les places restantes
+                        for (var i = selectStart ; i <= $scope.actualSession.QUANTITE_RESTANTE; i++) {
+                            $scope.listQuantite.push(i);
+                        }
+                    });
+                }else{
+                    // Mettre à jours les places restantes
+                    for (var i = selectStart ; i <= $scope.actualSession.QUANTITE_RESTANTE; i++) {
+                        $scope.listQuantite.push(i);
+                    }
                 }
+
                 // Selectionner le premier element de la liste
-                $scope.nbPlacesAreserver = $scope.donneesAnnonce.QUANTITE_MIN ;
-                $scope.$apply();
+                $scope.nbPlacesAreserver = selectStart ;
                 // Mettre à jours les prix
                 $scope.updatePrice();
             }
@@ -104,7 +117,7 @@ function PublicationCtrlFnt($scope, $state, $filter, $stateParams, AnnonceFactor
     }
 
     //Méthodes
-    AnnonceFactory.getAnnonce($stateParams.id).then(
+    AnnonceFactory.getAnnonceDetail($stateParams.id).then(
         function(dataAnnonce) {
             $scope.donneesAnnonce = dataAnnonce;
 
@@ -117,27 +130,27 @@ function PublicationCtrlFnt($scope, $state, $filter, $stateParams, AnnonceFactor
                 simpleMap(dataAnnonce.ADRESSE.LATITUDE,dataAnnonce.ADRESSE.LONGITUDE, element);
 
                 // Récupérer les session déja réservé
-                AnnonceFactory.getBookedSessionByAnnonceAndUser(dataAnnonce.IDANNONCE, dataAnnonce.UTILISATEUR.IDUTILISATEUR).then(
+                SessionFactory.getBookedSessionByAnnonceAndUser(dataAnnonce.IDANNONCE, dataAnnonce.UTILISATEUR.IDUTILISATEUR).then(
                     function(dataBookedSession) {
                         $scope.bookedSession = dataBookedSession;
 
                         // Convertir en tableau les résultat (par date)
-                        $scope.bookedSession.map = AnnonceFactory.jsonAvailabilityToArray(dataBookedSession);
+                        $scope.bookedSession.map = SessionFactory.jsonAvailabilityToArray(dataBookedSession);
                     },
                     function(errorPayload) {
-                        $log.error('failure loading getAnnonce', errorPayload);
+                        $log.error('failure loading getAnnonceDetail', errorPayload);
                     }
                 );
 
                 // Récupérer les disponibilités de l'annonce
-                AnnonceFactory.getAvailabilityByAnnonce(dataAnnonce.IDANNONCE).then(
+                SessionFactory.getAvailabilityByAnnonce(dataAnnonce.IDANNONCE).then(
                     function(dataDates) {
                         $scope.availableday = dataDates;
                         // Initialiser le datePicker avec la premiére dispo de l'annonce
                         $scope.dateReservation = new Date(dataDates[0].DATE_DEBUT) ;
 
                         // Convertir en tableau les résultat (par date)
-                        $scope.availableday.map = AnnonceFactory.jsonAvailabilityToArray(dataDates);
+                        $scope.availableday.map = SessionFactory.jsonAvailabilityToArray(dataDates);
 
                         $scope.SelectorOptions = {
                             min : new Date(),
@@ -147,12 +160,12 @@ function PublicationCtrlFnt($scope, $state, $filter, $stateParams, AnnonceFactor
                                 return $scope.availableday.map[formattedDate]== undefined ;
                             },
                             change : function(){
-                                $scope.dateChanged(this.value())
+                                $scope.dateChanged(this.value(), true)
                             }
                         };
 
                         //Lancer l'evenement dateChanged pour mettre à jours la quantité et le calcul du prix
-                        $scope.dateChanged($scope.dateReservation);
+                        $scope.dateChanged($scope.dateReservation, false);
 
                     },
                     function(errorPayload) {
@@ -162,19 +175,19 @@ function PublicationCtrlFnt($scope, $state, $filter, $stateParams, AnnonceFactor
 
 
                 // Récupérer les avis liés
-                AnnonceFactory.getAvisByUser(dataAnnonce.UTILISATEUR.IDUTILISATEUR).then(
+                AvisFactory.getAvisByUser(dataAnnonce.UTILISATEUR.IDUTILISATEUR).then(
                     function(dataAvis) {
                         $scope.avisUtilisateurs = dataAvis;
                     },
                     function(errorPayload) {
-                        $log.error('failure loading getAnnonce', errorPayload);
+                        $log.error('failure loading getAnnonceDetail', errorPayload);
                     }
                 );
             }
 
         },
         function(errorPayload) {
-            $log.error('failure loading getAnnonce', errorPayload);
+            $log.error('failure loading getAnnonceDetail', errorPayload);
         }
     );
 };

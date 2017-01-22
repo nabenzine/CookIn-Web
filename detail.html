@@ -119,7 +119,7 @@
                         <div class="form-group">
                             <label for="form-filter-check-out">{{donneesAnnonce.MODECONSO.CODE == 'AEMPORTER'? "Quantité": "Nombre d'invités" }}</label>
                             <select class="form-control" name="quantiteInput" ng-model="nbPlacesAreserver" id="form-filter-check-out"
-                                    ng-init="nbPlacesAreserver = listQuantite[0]" ng-change="updatePrice()"
+                                    ng-change="updatePrice()"
                                     ng-options="quantite for quantite in listQuantite">
                             </select>
 

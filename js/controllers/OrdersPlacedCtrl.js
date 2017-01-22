@@ -3,12 +3,10 @@
  */
 angular.module('CookIn').controller('OrdersPlacedCtrl',OrdersPlacedFnt);
 
-OrdersPlacedFnt.$inject=['$scope','$rootScope', '$state', 'ReservationFactory','Auth']
+OrdersPlacedFnt.$inject=['$scope','$rootScope', 'ReservationFactory']
 
-function OrdersPlacedFnt($scope, $rootScope, $state, ReservationFactory, Auth ) {
-
-    Auth.islogin();
-
+function OrdersPlacedFnt($scope, $rootScope, ReservationFactory ) {
+    
     $scope.today = new Date();
     $scope.reservationPassees = []
 

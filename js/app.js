@@ -5,7 +5,7 @@ var sampleApp = angular.module('CookIn', ['ui.router','ngAnimate', 'ngCookies', 
 //Define const for app
 sampleApp.constant("myConfig",
     {
-        //"url": "http://192.168.43.230:2262"
+        //"url": "http://localhost:2262"
         "url": ""
     });
 
@@ -30,7 +30,7 @@ function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider, flowFactoryP
     };
 
     // Routing
-    $urlRouterProvider.otherwise('/accueil');
+    //$urlRouterProvider.otherwise('/accueil');
 
     $stateProvider
         .state('accueil', {
@@ -40,67 +40,103 @@ function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider, flowFactoryP
                 date: {squash: true, value: null}
             },
           reloadOnSearch: false,
-          controller: 'SearchCtrl'
+          controller: 'SearchCtrl',
+          loginRequired: false
         })
         .state('addpublication', {
             url: '/addpublication',
             templateUrl: 'submit.html',
-            controller: 'AddPublicationCtrl'
+            controller: 'AddPublicationCtrl',
+            loginRequired: true
         })
         .state('dashboard', {
             url: '/dashboard',
             abstract: true,
-            templateUrl: 'dashboard.html',
+            templateUrl: 'dashboard.html'
         })
         .state('dashboard.ordersplaced', {
             url: '/ordersplaced',
             templateUrl: 'commandes_passees.html',
-            controller: 'OrdersPlacedCtrl'
+            controller: 'OrdersPlacedCtrl',
+            loginRequired: true
         })
         .state('dashboard.ordersreceived', {
             url: '/ordersreceived',
             templateUrl: 'commandes_recu.html',
-            controller: 'OrdersReceivedCtrl'
+            controller: 'OrdersReceivedCtrl',
+            loginRequired: true
         })
         .state('dashboard.mypublications', {
             url: '/mypublications',
             templateUrl: 'my_publications.html',
-            controller: 'MyPublicationsCtrl'
+            controller: 'MyPublicationsCtrl',
+            loginRequired: true
         })
         .state('dashboard.profil', {
             url: '/profil',
-            templateUrl: 'profil.html'
+            templateUrl: 'profil.html',
+            loginRequired: true
         })
         .state('login', {
             url: '/login',
             templateUrl: 'login.html',
-            controller: 'LoginCtrl'
+            controller: 'LoginCtrl',
+            loginRequired: false
         })
         .state('viewpublication', {
-          url: '/viewpublication/:id',
-          templateUrl: 'detail.html',
-          controller: 'PublicationCtrl'
+            url: '/viewpublication/:id',
+            templateUrl: 'detail.html',
+            controller: 'PublicationCtrl',
+            loginRequired: false
         });
 
 }]);
 
-sampleApp.run(['$rootScope', '$location', '$cookieStore', '$http',
+sampleApp.run(['$rootScope', '$location', '$state', '$cookieStore', '$http', 'Auth',
 
-function($rootScope, $location, $cookieStore, $http) {
+function($rootScope, $location, $state, $cookieStore, $http, Auth) {
 
+    // Authentifier l'utilisateur la premiére fois qu'il arrive sur l'app
     $rootScope.globals = $cookieStore.get('globals') || {};
     if ($rootScope.globals.currentUser) {
         $http.defaults.headers.common['Authorization'] =  $rootScope.globals.currentUser.TOKEN_KEY;
+    }else{
+        $cookieStore.remove('globals');
+        $rootScope.globals = {};
+        $http.defaults.headers.common.Authorization = '';
     }
 
+    // Vérifier l'authentification à chaque changement de route pour les pages avec login obligatoire
+    var postLogInRoute;
     $rootScope.$on('$locationChangeStart', function (event, next, current) {
         // redirect to login page if not logged in and trying to access a restricted page
-        var restrictedPage = $.inArray($location.path(), ['/accueil', '/register']) === -1;
-        var loggedIn = $rootScope.globals.currentUser;
-        if (restrictedPage && !loggedIn) {
+        var restrictedPage = $.inArray($location.path(), ['/addpublication', '/dashboard/ordersplaced', '/dashboard/ordersreceived', '/dashboard/mypublications','/dashboard/profil']) != -1;
+        if (restrictedPage && !Auth.islogged()) {
+            postLogInRoute = $location.path();
+            console.log('non autorisé '+ postLogInRoute)
             $location.path('/login');
         }
+        else if(postLogInRoute && Auth.islogged()) {
+            //once logged in, redirect to the last route and reset it
+            console.log('redirection vers: '+ postLogInRoute)
+            $location.path(postLogInRoute).replace();
+            postLogInRoute = null;
+        }
     });
+
+
+    // Vérifier l'authentification à chaque changement de route pour les pages avec login obligatoire
+    /*    var postLogInRoute;
+     $rootScope.$on('$stateChangeStart', function (event, next) {
+     if (next.loginRequired && !Auth.islogged()) {
+     postLogInRoute = $location.path();
+     $location.path('/login');
+     } else if (postLogInRoute && Auth.islogged()) {
+     //once logged in, redirect to the last route and reset it
+     $location.path(postLogInRoute).replace();
+     postLogInRoute = null;
+     }
+     });*/
 
 }]);
 

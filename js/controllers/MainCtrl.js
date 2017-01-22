@@ -3,12 +3,16 @@
  */
 angular.module('CookIn').controller('MainCtrl',MainCtrlFnt);
 
-MainCtrlFnt.$inject=['$scope', 'anchorSmoothScroll', '$mdDialog']
+MainCtrlFnt.$inject=['$scope', 'Auth', 'anchorSmoothScroll', '$mdDialog']
 
-function MainCtrlFnt($scope, anchorSmoothScroll, $mdDialog) {
+function MainCtrlFnt($scope, Auth, anchorSmoothScroll, $mdDialog) {
 
     $scope.scrollToElement = function (id) {
         anchorSmoothScroll.scrollTo(id);
+    };
+
+    $scope.logout = function () {
+        Auth.logout();
     }
 /*    $scope.showAdvanced = function(ev) {
         $mdDialog.show({

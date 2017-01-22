@@ -8,21 +8,18 @@ angular.module('CookIn').factory('Auth', function($http, $q, myConfig, $location
     var factory = {
         login: login,
         logout: logout,
-        islogin: islogin,
+        islogged: islogged,
         sha1: sha1
     };
+
+    //*********************************************//
+    //************** DEFAULTS DATA  **************//
+    //*********************************************//
 
     var userLogged = {
         IDUTILISATEUR: 1,
         PRENOM: "Nad",
-        VALIDAUTH: true,
-        TOKEN_KEY: "9EAF648FAE43245F3FA3F"
-    };
-
-
-    var userLogged2 = {
-        IDUTILISATEUR: 1,
-        PRENOM: "Dan",
+        NOM: "Benz",
         VALIDAUTH: true,
         TOKEN_KEY: "9EAF648FAE43245F3FA3F"
     };
@@ -31,25 +28,21 @@ angular.module('CookIn').factory('Auth', function($http, $q, myConfig, $location
     //************ FACTORY FUNCTIONS  *************//
     //*********************************************//
 
-
-
-    function islogin(){
+    function islogged(){
         var user = $cookieStore.get('globals');
-        if(user){
-            $rootScope.globals = {
-                currentUser: user.currentUser
-            };
+        if(user && user.currentUser){
+            return true;
         }else{
-            $location.path('/login');
+            return false;
         }
     };
 
-
     function login(user, success, error) {
         var deferred = $q.defer();
-        $http.post(myConfig.url + '/api/login', user).
+        $http.post(myConfig.url + '/api/utilisateur/login', user).
             success(function(data, status, headers, config) {
-                if( data.VALIDAUTH === true){
+                console.log(status)
+                if(status === 200){
                     SetCredentials(data);
                     deferred.resolve(true);
                 }else{
@@ -57,13 +50,7 @@ angular.module('CookIn').factory('Auth', function($http, $q, myConfig, $location
                 }
             }).
             error(function(data, status, headers, config) {
-                if(user.EMAIL == "nad@hotmail.fr"){
-
-                    SetCredentials(userLogged);
-                }else{
-
-                    SetCredentials(userLogged2);
-                }
+                SetCredentials(userLogged);
                 deferred.resolve(true);
                 //deferred.reject("fail");
                 // or server returns response with an error status.
@@ -75,6 +62,7 @@ angular.module('CookIn').factory('Auth', function($http, $q, myConfig, $location
         $rootScope.globals = {
             currentUser: {
                 id: user.IDUTILISATEUR,
+                nom: user.NOM,
                 prenom: user.PRENOM,
                 token: user.TOKEN_KEY
             }
@@ -87,13 +75,13 @@ angular.module('CookIn').factory('Auth', function($http, $q, myConfig, $location
         var cookieExp = new Date();
         cookieExp.setDate(cookieExp.getDate() + 7);
         $cookieStore.put('globals', $rootScope.globals, { expires: cookieExp });
-    }
+    };
 
     function logout() {
         $cookieStore.remove('globals');
         $rootScope.globals = {};
         $http.defaults.headers.common.Authorization = '';
-        $location.path('/login');
+        $location.path('/accueil');
     };
 
     function sha1(msg)

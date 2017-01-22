@@ -24,12 +24,12 @@
 
 </head>
 
-<body>
+<body ng-controller="MainCtrl">
 <div class="page-wrapper">
     <div id="page-header">
         <header>
             <div class="container">
-                <div ng-controller="MainCtrl" class="primary-nav">
+                <div class="primary-nav">
                     <div class="left">
                         <a href="#/accueil" id="brand"><img src="assets/img/logo.png" alt=""></a>
                     </div>
@@ -45,7 +45,7 @@
                                             <span class="sr-only">Split button!</span>
                                         </button>
                                         <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
-                                            <li role="menuitem"><a href="#/login">Déconnexion</a></li>
+                                            <li role="menuitem"><a ng-click="logout()">Déconnexion</a></li>
                                         </ul>
                                     </div>
                                 </li>
@@ -120,7 +120,7 @@
     <!--end page-footer-->
 </div>
 <!--end page-wrapper-->
-<div ng-controller="MainCtrl">
+<div>
     <a href="" ng-click="scrollToElement('page-header')" class="to-top" data-show-after-scroll="600"><i class="arrow_up"></i></a>
 </div>
 
@@ -165,13 +165,25 @@
 <script src="js/directives.js"></script>
 <script src="js/filters.js"></script>
 
+<!-- global functions service-->
 <script src="js/services/SmoothScroolService.js"></script>
-<script src="js/services/SearchFactory.js"></script>
 <script src="js/services/GlobalFactory.js"></script>
-<script src="js/services/AnnonceFactory.js"></script>
-<script src="js/services/ReservationFactory.js"></script>
+
+<!-- custom services-->
+<script src="js/services/AdresseFactory.js"></script>
 <script src="js/services/AuthFactory.js"></script>
-<script src="js/services/SubmitFactory.js"></script>
+<script src="js/services/AnnonceFactory.js"></script>
+<script src="js/services/AvisFactory.js"></script>
+<script src="js/services/ImageFactory.js"></script>
+<script src="js/services/LangueFactory.js"></script>
+<script src="js/services/ModeConsommationFactory.js"></script>
+<script src="js/services/RegimeFactory.js"></script>
+<script src="js/services/ReservationFactory.js"></script>
+<script src="js/services/SessionFactory.js"></script>
+<script src="js/services/TypeCuisineFactory.js"></script>
+<script src="js/services/TypeRepasFactory.js"></script>
+<script src="js/services/UtilisateurFactory.js"></script>
+
 
 <script src="js/controllers/MainCtrl.js"></script>
 

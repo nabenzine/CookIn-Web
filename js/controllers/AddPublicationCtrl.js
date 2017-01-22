@@ -1,11 +1,12 @@
 
 angular.module('CookIn').controller('AddPublicationCtrl',AddPublicationCtrlFnt);
 
-AddPublicationCtrlFnt.$inject=['$scope', '$state', '$rootScope', 'SearchFactory', 'SubmitFactory', 'Auth', '$filter', '_']
+AddPublicationCtrlFnt.$inject=['$scope', '$state', '$rootScope', 'LangueFactory','TypeRepasFactory', 'TypeCuisineFactory', 'ModeConsommationFactory',
+    'UtilisateurFactory', 'AdresseFactory', 'RegimeFactory', 'AnnonceFactory', 'SessionFactory', 'ImageFactory', '_']
 
-function AddPublicationCtrlFnt($scope, $state, $rootScope, SearchFactory, SubmitFactory, Auth, $filter, _) {
+function AddPublicationCtrlFnt($scope, $state, $rootScope, LangueFactory, TypeRepasFactory, TypeCuisineFactory, ModeConsommationFactory, UtilisateurFactory,
+                               AdresseFactory, RegimeFactory, AnnonceFactory, SessionFactory, ImageFactory, _) {
 
-    Auth.islogin();
 
     // liste des données
     $scope.typeCuisine = {};
@@ -21,8 +22,6 @@ function AddPublicationCtrlFnt($scope, $state, $rootScope, SearchFactory, Submit
 
     $scope.latitude = {};
     $scope.longitude = {};
-
-
 
     // gestion images
     $scope.imagesArray = [];
@@ -60,6 +59,7 @@ function AddPublicationCtrlFnt($scope, $state, $rootScope, SearchFactory, Submit
     $scope.activeDate = null;
     $scope.selectedDates = [];
 
+    // Heure debut/Fin conf
     $scope.SelectorOptionsDebut = {
         culture: "fr-FR",
         change: function() {
@@ -85,7 +85,8 @@ function AddPublicationCtrlFnt($scope, $state, $rootScope, SearchFactory, Submit
         }
     };
 
-    SearchFactory.fillTypeRepas().then(
+
+    TypeRepasFactory.fillTypeRepas().then(
         function(payload) {
             $scope.typeRepas = payload;
             //Affichage de l'élément par défaut
@@ -96,7 +97,7 @@ function AddPublicationCtrlFnt($scope, $state, $rootScope, SearchFactory, Submit
         }
     );
 
-    SearchFactory.fillTypeCuisine().then(
+    TypeCuisineFactory.fillTypeCuisine().then(
         function(payload) {
             $scope.typeCuisine = payload;
             //Affichage de l'élément par défaut
@@ -108,7 +109,7 @@ function AddPublicationCtrlFnt($scope, $state, $rootScope, SearchFactory, Submit
     );
 
 
-    SearchFactory.fillModeConsommation().then(
+    ModeConsommationFactory.fillModeConsommation().then(
         function(payload) {
             $scope.modeConsommation = payload;
             //Affichage de l'élément par défaut
@@ -119,18 +120,7 @@ function AddPublicationCtrlFnt($scope, $state, $rootScope, SearchFactory, Submit
         }
     );
 
-
-    SubmitFactory.fillRegimeAlimentaire().then(
-        function(payload) {
-            $scope.regimeAlimentaire = payload;
-        },
-        function(errorPayload) {
-            $log.error('failure loading fillRegimeAlimentaire', errorPayload);
-        }
-    );
-
-
-    SubmitFactory.GetAdressesByUtilisateur($rootScope.globals.currentUser.id).then(
+    AdresseFactory.getAdressesByUtilisateur($rootScope.globals.currentUser.id).then(
         function(payload) {
             $scope.lieuxEnregistres = payload;
             //Affichage de l'élément par défaut avec l'affichage sur la map
@@ -140,16 +130,16 @@ function AddPublicationCtrlFnt($scope, $state, $rootScope, SearchFactory, Submit
 
         },
         function(errorPayload) {
-            $log.error('failure loading GetAdressesByUtilisateur', errorPayload);
+            $log.error('failure loading getAdressesByUtilisateur', errorPayload);
         }
     );
 
-    SubmitFactory.GetUtilisateur($rootScope.globals.currentUser.id).then(
+    UtilisateurFactory.getUtilisateur($rootScope.globals.currentUser.id).then(
         function(payload) {
             $scope.utilisateur = payload;
         },
         function(errorPayload) {
-            $log.error('failure loading GetUtilisateur', errorPayload);
+            $log.error('failure loading getUtilisateur', errorPayload);
         }
     );
 
@@ -181,7 +171,7 @@ function AddPublicationCtrlFnt($scope, $state, $rootScope, SearchFactory, Submit
         dataSource: {
             transport: {
                 read: function (options) {//options holds the grids current page and filter settings
-                    SearchFactory.fillLanguage().then(function(data) {
+                    LangueFactory.fillLanguage().then(function(data) {
                         $scope.languesParlees = data.data;
                         options.success(data);
                     });
@@ -193,7 +183,7 @@ function AddPublicationCtrlFnt($scope, $state, $rootScope, SearchFactory, Submit
     // ng-model des choix de langues, permettant d'afficher des valeurs par défaut
     $scope.selectedIdsRegime = [];
 
-    SubmitFactory.GetLanguesByUtilisateur($rootScope.globals.currentUser.id).then(function(data) {
+    LangueFactory.getLanguesByUtilisateur($rootScope.globals.currentUser.id).then(function(data) {
         $scope.selectedIdsLangues = _.pluck(data,"IDLANGUE");
     });
 
@@ -207,7 +197,7 @@ function AddPublicationCtrlFnt($scope, $state, $rootScope, SearchFactory, Submit
         dataSource: {
             transport: {
                 read: function (options) {//options holds the grids current page and filter settings
-                    SubmitFactory.fillRegimeAlimentaire().then(function(data) {
+                    RegimeFactory.fillRegimeAlimentaire().then(function(data) {
                         $scope.regimeAlimentaire = data.data;
                         options.success(data);
                     });
@@ -235,7 +225,7 @@ function AddPublicationCtrlFnt($scope, $state, $rootScope, SearchFactory, Submit
         //Création adresse si elle n'existe pas et l'associer à l'utilisateur!
         // 3- Si nouvelle adresse l'associer à l'utilisateur
 
-        //SubmitFactory.addAdresse()
+        //AdresseFactory.addAdresse()
         $state.go('dashboard.mypublications');
 
         // Création de  l'annonce
@@ -259,7 +249,7 @@ function AddPublicationCtrlFnt($scope, $state, $rootScope, SearchFactory, Submit
             QUANTITE_MIN:  $scope.nbrPersonneSlider.maxValue
         };
 
-        SubmitFactory.addAnnonce(annonce).then(
+        AnnonceFactory.addAnnonce(annonce).then(
 
             function (data) {
 
@@ -274,7 +264,7 @@ function AddPublicationCtrlFnt($scope, $state, $rootScope, SearchFactory, Submit
                         DATE_FIN : new Date(dateSession.getFullYear(), dateSession.getMonth(), dateSession.getDate(), $scope.dateFin.getHours(), $scope.dateFin.getMinutes(), 0, 0),
                         QUANTITE_RESTANTE : $scope.nbrPersonneSlider.maxValue
                     };
-                    SubmitFactory.addSession(session).then(
+                    SessionFactory.addSession(session).then(
                         function (data) {
 
                         }
@@ -288,7 +278,7 @@ function AddPublicationCtrlFnt($scope, $state, $rootScope, SearchFactory, Submit
 
                     image['IDANNONCE'] = 1;
                     // Ajouter l'image
-                    SubmitFactory.addImage(image).then(
+                    ImageFactory.addImage(image).then(
                         function (data) {
 
                         }

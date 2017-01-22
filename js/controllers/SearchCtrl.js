@@ -1,9 +1,9 @@
 
 angular.module('CookIn').controller('SearchCtrl',SearchCtrlFnt);
 
-SearchCtrlFnt.$inject=['$scope','$state', '$location','$rootScope', '$filter', 'anchorSmoothScroll', 'SearchFactory','GlobalFactory'];
+SearchCtrlFnt.$inject=['$scope','$state', '$location', '$filter', 'anchorSmoothScroll','AnnonceFactory', 'TypeRepasFactory', 'TypeCuisineFactory', 'ModeConsommationFactory', 'LangueFactory', 'GlobalFactory'];
 
-function SearchCtrlFnt($scope, $state, $location, $rootScope, $filter, anchorSmoothScroll, SearchFactory, GlobalFactory){
+function SearchCtrlFnt($scope, $state, $location, $filter, anchorSmoothScroll, AnnonceFactory, TypeRepasFactory, TypeCuisineFactory, ModeConsommationFactory, LangueFactory, GlobalFactory){
     //console.log($rootScope.globals.currentUser);
 
     // list des données
@@ -17,6 +17,7 @@ function SearchCtrlFnt($scope, $state, $location, $rootScope, $filter, anchorSmo
     $scope.typeCuisineChoice = {};
     $scope.languesParleesChoice = {};
     $scope.location = {};
+    $scope.dateChoice = new Date();
 
     // Conf du slider
     $scope.minRangeSlider = {
@@ -55,7 +56,7 @@ function SearchCtrlFnt($scope, $state, $location, $rootScope, $filter, anchorSmo
         }
     }
 
-    SearchFactory.fillTypeRepas().then(
+    TypeRepasFactory.fillTypeRepas().then(
         function(payload) {
             $scope.typeRepas = payload;
         },
@@ -64,7 +65,7 @@ function SearchCtrlFnt($scope, $state, $location, $rootScope, $filter, anchorSmo
         }
     );
 
-    SearchFactory.fillTypeCuisine().then(
+    TypeCuisineFactory.fillTypeCuisine().then(
         function(payload) {
             $scope.typeCuisine = payload;
         },
@@ -74,7 +75,7 @@ function SearchCtrlFnt($scope, $state, $location, $rootScope, $filter, anchorSmo
     );
 
 
-    SearchFactory.fillModeConsommation().then(
+    ModeConsommationFactory.fillModeConsommation().then(
         function(payload) {
             $scope.modeConsommation = payload;
             // Choix par défaut on selectionne surPlace
@@ -85,7 +86,7 @@ function SearchCtrlFnt($scope, $state, $location, $rootScope, $filter, anchorSmo
         }
     );
 
-    SearchFactory.fillLanguage().then(
+    LangueFactory.fillLanguage().then(
         function(payload) {
             $scope.languesParlees = payload;
         },
@@ -128,7 +129,7 @@ function SearchCtrlFnt($scope, $state, $location, $rootScope, $filter, anchorSmo
         $scope.showNoResult = true;
 
         // On passe la requette get avec les parametres de l'url
-        SearchFactory.startSearch(GlobalFactory.stateParamsToGetRequest($location.search())).then(
+        AnnonceFactory.searchAnnonces(GlobalFactory.stateParamsToGetRequest($location.search())).then(
             function(payload) {
                 $scope.infosAnnonces = payload;
                 if(payload != '' && !$filter('JsonIsEmpty')($scope.location)){
