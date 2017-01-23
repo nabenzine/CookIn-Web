@@ -9,7 +9,7 @@ angular.module('CookIn').factory('Auth', function($http, $q, myConfig, $location
         login: login,
         logout: logout,
         islogged: islogged,
-        sha1: sha1
+        crypt: crypt
     };
 
     //*********************************************//
@@ -41,18 +41,15 @@ angular.module('CookIn').factory('Auth', function($http, $q, myConfig, $location
         var deferred = $q.defer();
         $http.post(myConfig.url + '/api/utilisateur/login', user).
             success(function(data, status, headers, config) {
-                console.log(status)
                 if(status === 200){
                     SetCredentials(data);
                     deferred.resolve(true);
                 }else{
-                    deferred.reject(false);
+                    deferred.reject("fail");
                 }
             }).
             error(function(data, status, headers, config) {
-                SetCredentials(userLogged);
-                deferred.resolve(true);
-                //deferred.reject("fail");
+                deferred.reject("fail");
                 // or server returns response with an error status.
             });
         return deferred.promise;
@@ -84,9 +81,9 @@ angular.module('CookIn').factory('Auth', function($http, $q, myConfig, $location
         $location.path('/accueil');
     };
 
-    function sha1(msg)
+    function crypt(msg)
     {
-        return msg;
+        return CryptoJS.SHA1(msg).toString();
     };
 
     return factory;

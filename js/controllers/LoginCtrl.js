@@ -3,17 +3,21 @@
  */
 angular.module('CookIn').controller('LoginCtrl',MainCtrlFnt);
 
-MainCtrlFnt.$inject=['$scope','$rootScope', '$state', 'Auth']
+MainCtrlFnt.$inject=['$scope', '$state', 'Auth']
 
-function MainCtrlFnt($scope, $rootScope, $state, Auth) {
+function MainCtrlFnt($scope, $state, Auth) {
 
     $scope.showError = false;
     $scope.user = {login:'', password:''};
 
+
     $scope.login = function () {
+        console.log('login start');
         if ($scope.user_form.$valid) {
-            Auth.login( { EMAIL: $scope.user.login, MOT_DE_PASSE: Auth.sha1($scope.user.password)} ).then(
+            console.log('form valid');
+            Auth.login( { EMAIL: $scope.user.login, MOT_DE_PASSE: Auth.crypt($scope.user.password)} ).then(
                 function(payload) {
+                    console.log('résultat: '+payload);
                     $state.go('accueil');
                 },
                 function(errorPayload) {

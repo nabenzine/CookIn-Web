@@ -222,80 +222,91 @@ function AddPublicationCtrlFnt($scope, $state, $rootScope, LangueFactory, TypeRe
     };
 
     $scope.insertAnnonce = function (newAdresse) {
-        //Création adresse si elle n'existe pas et l'associer à l'utilisateur!
-        // 3- Si nouvelle adresse l'associer à l'utilisateur
+        // Si erreurs sur le formulaire
+        if ($scope.form_submit.$invalid) {
+            // déclenche l'evenement touched
+            angular.forEach($scope.form_submit.$error, function (field) {
+                angular.forEach(field, function(errorField){
+                    errorField.$setTouched();
+                })
+            });
+        }
+        else{
+            //Création adresse si elle n'existe pas et l'associer à l'utilisateur!
+            // 3- Si nouvelle adresse l'associer à l'utilisateur
+            console.log('its ok');
+            console.log(newAdresse);
+            //AdresseFactory.addAdresse()
 
-        //AdresseFactory.addAdresse()
-        $state.go('dashboard.mypublications');
+            // Création de  l'annonce
+            var annonce = {
+                IDTYPEAMBIANCE: 1  ,
+                IDUTILISATEUR: $rootScope.globals.currentUser.id,
+                IDTYPEREPAS: $scope.typeExperience.IDTYPEREPAS   ,
+                IDADRESSE:  $scope.adresses.IDADRESSE  ,
+                IDMODECONSO: $scope.Adeguster.IDMODECONSO   ,
+                IDCUISINE: $scope.typeDeCuisine.IDCUISINE  ,
+                LIBELLE:  $scope.titre  ,
+                DESCRIPTION: $scope.description  ,
+                DATE_ENVOI: new Date() ,
+                PRIX:   $scope.prix ,
+                ACCEPTATION_AUTO: true   ,
+                ASSISTER_PREPARATION:  $scope.assiterPreparation  ,
+                ACCEPTE_ENFANT:  $scope.enfantAdmis  ,
+                ACCEPTE_ANIMAUX: $scope.animauxAutorise   ,
+                RACCOMPAGNE_INVITE:  $scope.raccompagnerInvite  ,
+                QUANTITE_MAX:   $scope.nbrPersonneSlider.minValue ,
+                QUANTITE_MIN:  $scope.nbrPersonneSlider.maxValue
+            };
 
-        // Création de  l'annonce
-        var annonce = {
-            IDTYPEAMBIANCE: 1  ,
-            IDUTILISATEUR: $rootScope.globals.currentUser.id,
-            IDTYPEREPAS: $scope.typeExperience.IDTYPEREPAS   ,
-            IDADRESSE:  $scope.adresses.IDADRESSE  ,
-            IDMODECONSO: $scope.Adeguster.IDMODECONSO   ,
-            IDCUISINE: $scope.typeDeCuisine.IDCUISINE  ,
-            LIBELLE:  $scope.titre  ,
-            DESCRIPTION: $scope.description  ,
-            DATE_ENVOI: new Date() ,
-            PRIX:   $scope.prix ,
-            ACCEPTATION_AUTO: true   ,
-            ASSISTER_PREPARATION:  $scope.assiterPreparation  ,
-            ACCEPTE_ENFANT:  $scope.enfantAdmis  ,
-            ACCEPTE_ANIMAUX: $scope.animauxAutorise   ,
-            RACCOMPAGNE_INVITE:  $scope.raccompagnerInvite  ,
-            QUANTITE_MAX:   $scope.nbrPersonneSlider.minValue ,
-            QUANTITE_MIN:  $scope.nbrPersonneSlider.maxValue
-        };
+            AnnonceFactory.addAnnonce(annonce).then(
 
-        AnnonceFactory.addAnnonce(annonce).then(
+                function (data) {
 
-            function (data) {
+                    // Création des sessions
+                    _.each($scope.selectedDates, function(element, index, list){
+                        // Date de la session
+                        var dateSession = new Date(element) ;
 
-                // Création des sessions
-                _.each($scope.selectedDates, function(element, index, list){
-                    // Date de la session
-                    var dateSession = new Date(element) ;
+                        var session = {
+                            IDANNONCE: 1,
+                            DATE_DEBUT : new Date(dateSession.getFullYear(), dateSession.getMonth(), dateSession.getDate(), $scope.dateDebut.getHours(), $scope.dateDebut.getMinutes(), 0, 0),
+                            DATE_FIN : new Date(dateSession.getFullYear(), dateSession.getMonth(), dateSession.getDate(), $scope.dateFin.getHours(), $scope.dateFin.getMinutes(), 0, 0),
+                            QUANTITE_RESTANTE : $scope.nbrPersonneSlider.maxValue
+                        };
+                        SessionFactory.addSession(session).then(
+                            function (data) {
 
-                    var session = {
-                        IDANNONCE: 1,
-                        DATE_DEBUT : new Date(dateSession.getFullYear(), dateSession.getMonth(), dateSession.getDate(), $scope.dateDebut.getHours(), $scope.dateDebut.getMinutes(), 0, 0),
-                        DATE_FIN : new Date(dateSession.getFullYear(), dateSession.getMonth(), dateSession.getDate(), $scope.dateFin.getHours(), $scope.dateFin.getMinutes(), 0, 0),
-                        QUANTITE_RESTANTE : $scope.nbrPersonneSlider.maxValue
-                    };
-                    SessionFactory.addSession(session).then(
-                        function (data) {
+                            }
+                        )
+                    });
 
-                        }
-                    )
-                });
+                    // Insertion des images
+                    _.each($scope.imagesArray, function(element, index, list){
+                        var image = element ;
+                        // Rajouter l'id de l'annonce
 
-                // Insertion des images
-                _.each($scope.imagesArray, function(element, index, list){
-                    var image = element ;
-                    // Rajouter l'id de l'annonce
+                        image['IDANNONCE'] = 1;
+                        // Ajouter l'image
+                        ImageFactory.addImage(image).then(
+                            function (data) {
 
-                    image['IDANNONCE'] = 1;
-                    // Ajouter l'image
-                    ImageFactory.addImage(image).then(
-                        function (data) {
+                            }
+                        )
+                    });
 
-                        }
-                    )
-                });
+                },
+                function (error) {
+                    console.log(error);
+                }
+            );
 
-            },
-            function (error) {
-                console.log(error);
-            }
-        );
+            // Création des régimes alimentaires
 
-        // Création des régimes alimentaires
-
-        // Mettre à jours les données de l'utilisateur
+            // Mettre à jours les données de l'utilisateur
             // 1- Langues
             // 2- (PROFESSION, Numero de telephone
+        }
     }
 
 

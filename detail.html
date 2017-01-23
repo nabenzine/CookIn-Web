@@ -11,10 +11,10 @@
                 <div class="wrapper">
                     <ul>
                         <li><a target="_self" href="#description" class="scroll">Description</a></li>
-                        <li><a target="_self" href="#map" class="scroll">Map</a></li>
-                        <li><a target="_self" href="#facilities" class="scroll">Facilities</a></li>
-                        <li><a target="_self" href="#additional-information" class="scroll">Additional Information</a></li>
-                        <li><a target="_self" href="#reviews" class="scroll">Reviews</a>(23)</li>
+                        <li><a target="_self" href="#facilities" class="scroll">Options</a></li>
+                        <li><a target="_self" href="#map" class="scroll">Carte</a></li>
+                        <li><a target="_self" href="#additional-information" class="scroll">Informations supplémentaires</a></li>
+                        <li><a target="_self" href="#reviews" class="scroll">Avis</a>{{avisUtilisateurs.length}}</li>
                     </ul>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                         </div>
                     </div>
                     <div class="right">
-                        <a href="#map" class="icon scroll"><i class="fa fa-map-marker"></i>See on the map</a>
+                        <a href="#map" class="icon scroll"><i class="fa fa-map-marker"></i>voir l'emplacement</a>
                     </div>
                 </div>
                 <!--end title-->
@@ -62,7 +62,7 @@
                             </ul>
                         </section>
                         <section id="map">
-                            <h2>Map</h2>
+                            <h2>Carte</h2>
                             <div id="map-item" class="map height-300 box"></div>
                             <!--end map-->
                         </section>
@@ -71,7 +71,7 @@
                 </div>
                 <!--end row-->
                 <section id="additional-information">
-                    <h2>Additional Information</h2>
+                    <h2>Informations supplémentaires</h2>
                     <dl class="info">
                         <dt>Arrivée:</dt>
                         <dd>{{availableday[0].DATE_DEBUT |date:'hh:mm' }}  {{availableday[0].DATE_FIN |date:'hh:mm' }} </dd>
@@ -107,7 +107,7 @@
             <div class="sidebar">
                 <div class="box filter">
                     <h2>Réservation</h2>
-                    <form kendo-validator="validator" name="publication.reservationForm" id="form-filter"  class="labels-uppercase">
+                    <form kendo-validator="validator" name="publication.reservationForm" id="form-filter" ng-show="availableday.length > 0" class="labels-uppercase">
                         <div class="form-group">
                             <label>Date souhaitée</label>
                             <input kendo-date-picker
@@ -158,7 +158,7 @@
                             </table>
                         </div>
                         <!--end collapse-->
-                        <div class="alert-danger" style="padding: 10px" ng-show="!isValid">
+                        <div class="alert-danger" ng-show="!isValid">
                             Vous avez déja une réservation pour cette date
                         </div>
                         <div class="form-group center">
@@ -166,6 +166,7 @@
                         </div>
                     </form>
                     <!--end form-filter-->
+                    <h2 ng-show="availableday.length <= 0" style="color: darkred">Aucun date n'est diponible pour cette annonce</h2>
                 </div>
                 <!--end filter-->
             </div>
@@ -179,10 +180,8 @@
         <div class="col-md-9 col-sm-8">
             <section id="reviews">
                 <div class="title">
-                    <h2 class="pull-left">Reviews</h2>
-                    <a href="#write-a-review" class="btn btn-primary btn-rounded pull-right scroll">Write a Review</a>
+                    <h2 class="pull-left">Note globale</h2>
                 </div>
-                <h3>Overall Score</h3>
                 <ul class="rating-score">
                     <li class="overall"><i class="fa fa-star"></i>{{donneesAnnonce.UTILISATEUR.NOTE}}</li>
                 </ul>
@@ -213,45 +212,6 @@
                     <!--end review-->
                 </div>
                 <!--end reviews-->
-            </section>
-            <section id="write-a-review">
-                <h2>Écrire un avis</h2>
-                <form class="labels-uppercase clearfix" id="form_reply_1">
-                    <div class="review" id="review-write">
-                        <aside class="name">{{globals.currentUser.prenom}} {{globals.currentUser.nom}}</aside>
-                        <div class="comment">
-                            <div class="row">
-                                <div class="col-md-10">
-                                    <div class="comment-title">
-                                        <h4>Donnez votre avis</h4>
-                                    </div>
-                                    <!--end title-->
-                                    <div class="form-group">
-                                        <span class="glyphicon glyphicon-star"><span class="glyphicon glyphicon-star"><span class="glyphicon glyphicon-star"><span class="glyphicon glyphicon-star"><span class="glyphicon glyphicon-star-empty">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="form_reply_1-name">Titre du commentaire<em>*</em></label>
-                                        <input type="text" class="form-control" id="form_reply_1-name" name="name" placeholder="Beautiful holiday!" required="">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="form_reply_1-message">Commentairer<em>*</em></label>
-                                        <textarea class="form-control" id="form_reply_1-message" rows="8" name="answer" required="" placeholder="Describe your stay"></textarea>
-                                    </div>
-                                    <!--end form-group-->
-                                    <div class="form-group pull-right">
-                                        <button type="submit" class="btn btn-primary btn-rounded">Envoyer</button>
-                                    </div>
-                                    <!--end form-group-->
-                                </div>
-                                <!--end col-md-8-->
-                            </div>
-                            <!--end row-->
-                        </div>
-                        <!--end comment-->
-                    </div>
-                    <!--end review-->
-                </form>
-                <!--end form-->
             </section>
         </div>
     </div>

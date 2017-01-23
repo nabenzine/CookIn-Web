@@ -13,15 +13,19 @@
         <tr class="my-item" ng-repeat="reservation in reservationPassees" ng-class="{inactive: (reservation.DATE_DEBUT | parseDate) <= today}">
             <td>
                 <div class="image-wrapper">
-                    <div class="mark-circle top" data-toggle="tooltip" data-placement="right" title="Top accommodation"><i class="fa fa-thumbs-up"></i></div>
-                    <a href="edit.html" class="image">
+                    <div ng-if="(reservation.DATE_DEBUT | parseDate) <= today" class="mark-circle top" data-toggle="tooltip" data-placement="right" title="Top accommodation">
+                        <button class="btn btn-success btn-rounded" ng-click="showPrompt($event, $index)">
+                            <i class="fa fa-star"></i>
+                        </button>
+                    </div>
+                    <a class="image">
                         <div class="bg-transfer">
                             <img ng-src="{{reservation.IMAGE_ANNONCE}}">
                         </div>
                     </a>
                 </div>
                 <div class="info">
-                    <a href="detail.html"><h2>{{reservation.LIBELLE}}</h2></a>
+                    <a><h2>{{reservation.LIBELLE}}</h2></a>
                     <figure class="location">{{reservation.LIEU}}</figure>
                     <figure class="label label-info">{{reservation.LIBELLE_CONSO}}</figure>
                 </div>

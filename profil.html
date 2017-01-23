@@ -1,16 +1,16 @@
 <div class="row">
     <div class="col-md-9">
-        <form id="form-profile" class="labels-uppercase" method="post" action="?" enctype="multipart/form-data">
+        <form id="form-profile" class="labels-uppercase" name="userProfil"  ng-submit="updateUser()" novalidate >
             <div class="row">
                 <!--Profile Picture-->
                 <div class="col-md-3 col-sm-3">
                     <section>
                         <h3>Photo de profil</h3>
                         <div id="profile-picture" class="profile-picture single-file-preview">
-                            <img src="https://scontent-cdg2-1.xx.fbcdn.net/v/t1.0-9/12439345_1230530423643497_7601327912280907099_n.jpg?oh=1b552f9baafcc92140101b2bcce24c8d&oe=59033348" alt="" class="image">
-                            <div class="input">
-                                <input name="file" type="file" class="">
-                                <span>Click to upload a picture</span>
+                            <img ng-src="{{user.PHOTO_PROFIL}}" alt="" class="image">
+                            <div class="input" style="z-index: 99999999">
+                                <input name="file" type="file">
+                                <span>Changer ma photo de profil</span>
                             </div>
                         </div>
                     </section>
@@ -23,118 +23,95 @@
                         <h3>Informations personnelles</h3>
                         <div class="row">
                             <div class="col-md-6 col-sm-6">
-                                <div class="form-group">
+                                <div class="form-group" ng-class="{ 'has-error' : userProfil.name.$invalid && !userProfil.name.$pristine }">
                                     <label for="name">Nom</label>
-                                    <input type="text" class="form-control" id="name" name="name" value="Nad benzine">
+                                    <input class="form-control" id="name" rows="1" name="name" required ng-model="user.NOM">
+                                    <p ng-show="userProfil.name.$invalid && !userProfil.name.$pristine" class="help-block">Votre nom est requis.</p>
                                 </div>
                                 <!--end form-group-->
                             </div>
-                            <!--end col-md-3-->
+
                             <div class="col-md-6 col-sm-6">
-                                <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email" value="nad@hotmail.fr">
+                                <div class="form-group" ng-class="{ 'has-error' : userProfil.surname.$invalid && !userProfil.surname.$pristine }">
+                                    <label for="surname">Prénom</label>
+                                    <input class="form-control" id="surname" rows="1" name="surname" required ng-model="user.PRENOM">
+                                    <p ng-show="userProfil.surname.$invalid && !userProfil.surname.$pristine" class="help-block">Votre prénom est requis.</p>
                                 </div>
                                 <!--end form-group-->
                             </div>
-                            <!--end col-md-3-->
-                            <div class="col-md-6 col-sm-6">
-                                <div class="form-group">
-                                    <label for="mobile">Mobile</label>
-                                    <input type="text" class="form-control" id="mobile" name="mobile" pattern="\d*" value="0627566545">
-                                </div>
-                                <!--end form-group-->
-                            </div>
-                            <!--end col-md-3-->
-                            <div class="col-md-6 col-sm-6">
-                                <div class="form-group">
-                                    <label for="phone">Fixe</label>
-                                    <input type="text" class="form-control" id="phone" name="phone" pattern="\d*" value="(0)123 456 7890">
-                                </div>
-                                <!--end form-group-->
-                            </div>
-                            <!--end col-md-3-->
                         </div>
-                    </section>
-                    <section>
-                        <h3>Adresse</h3>
-                        <div class="form-group">
-                            <label for="state">Région</label>
-                            <input type="text" class="form-control" id="state" name="state" value="Rhônes-alpes auvergne">
-                        </div>
-                        <!--end form-group-->
-                        <div class="form-group">
-                            <label for="city">Ville</label>
-                            <input type="text" class="form-control" id="city" name="city" value="Villeurbanne">
-                        </div>
-                        <!--end form-group-->
                         <div class="row">
-                            <div class="col-md-8 col-sm-8">
-                                <div class="form-group">
-                                    <label for="street">Rue</label>
-                                    <input type="text" class="form-control" id="street" name="street" value="30 rue geoorge">
+                            <!--end col-md-3-->
+                            <div class="col-md-6 col-sm-6">
+                                <div class="form-group" ng-class="{ 'has-error' : userProfil.email.$invalid && !userProfil.email.$pristine }">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control" id="email" rows="1" name="email" required ng-model="user.EMAIL">
+                                    <p ng-show="userProfil.email.$invalid && !userProfil.email.$pristine" class="help-block">Votre email est requis.</p>
                                 </div>
                                 <!--end form-group-->
                             </div>
-                            <!--end col-md-8-->
-                            <div class="col-md-4 col-sm-4">
-                                <div class="form-group">
-                                    <label for="zip">Code postal</label>
-                                    <input type="text" class="form-control" id="zip" name="zip" pattern="\d*" value="69100">
+                            <!--end col-md-3-->
+                            <div class="col-md-6 col-sm-6">
+                                <div class="form-group" ng-class="{ 'has-error' : userProfil.mobile.$invalid && !userProfil.mobile.$pristine }">
+                                    <label for="mobile">Mobile</label>
+                                    <input type="text" class="form-control" id="mobile" name="mobile" pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$" ng-model="user.TELEPHONE" required>
+                                    <p ng-show="userProfil.mobile.$invalid && !userProfil.mobile.$pristine" class="help-block">Votre numéro de téléphone est requis.</p>
+
                                 </div>
                                 <!--end form-group-->
                             </div>
+                            <!--end col-md-3-->
+
                         </div>
-                        <!--end col-md-3-->
-                        <div class="form-group">
-                            <label for="additional-address">Additional Address Line</label>
-                            <input type="text" class="form-control" id="additional-address" name="additional-address">
-                        </div>
-                        <!--end form-group-->
                     </section>
                     <section>
-                        <h3>About Me</h3>
+
+
                         <div class="form-group">
-                            <label for="about-me">Some Words About Me</label>
+                            <h4 for="object-type">Lieux enregistrés</h4>
+                            <select class="form-control" name="lieu" ng-model="adresse" id="lieu"
+                                    ng-options="lieu.ADRESSE_COMPLETE for lieu in adresses track by lieu.IDADRESSE"
+                                    ng-change="placemap()" >
+                                <option value="">Ajouter une addresse</option>
+                            </select>
+
+                        </div>
+                        <!--end form-group-->
+                        <div class="add adress">
+                            <div class="form-group" ng-show="showNewMapInput">
+                                <h4 for="address-autocomplete">Adresse</h4>
+                                <input name="adresse" type="text" class="form-control" id="address-autocomplete" ng-model="locationChoice"  ng-autocomplete  details="locationChoiceDetail"  placeholder="Entrez votre adresse">
+                            </div>
+
                             <div class="form-group">
-                                <textarea class="form-control" id="about-me" rows="3" name="about-me" required></textarea>
+                                <h4>Carte</h4>
+
+                                <div id="map-item" class="map height-200 box"></div>
+                            </div>
+                        </div>
+
+
+                    </section>
+                    <section>
+                        <h3>A Propos</h3>
+                        <div class="form-group">
+                            <label for="about-me">Décrivez vous !</label>
+                            <div class="form-group">
+                                <textarea class="form-control" id="about-me" rows="3" name="about-me" ng-model="user.PROFESSION" required></textarea>
                             </div>
                             <!--end form-group-->
                         </div>
                         <!--end form-group-->
                     </section>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-large btn-primary btn-rounded" id="submit">Save Changes</button>
+                        <button type="submit" class="btn btn-large btn-primary btn-rounded" id="submit">Sauvegarder</button>
                     </div>
                     <!-- end form-group -->
+                    <div ng-show="updateSucceded" class="alert-success alert-dismissible" style="padding: 10px" role="alert">Profil mis à jour !</div>
+
                 </div>
                 <!--end col-md-6-->
             </div>
-        </form>
-    </div>
-    <!--Password-->
-    <div class="col-md-3 col-sm-9">
-        <form class="labels-uppercase" id="form-password" method="post" action="?">
-            <h3>Changer le mot de passe</h3>
-            <div class="form-group">
-                <label for="current-password">Mot de passe actuel</label>
-                <input type="password" class="form-control" id="current-password" name="current-password">
-            </div>
-            <!--end form-group-->
-            <div class="form-group">
-                <label for="new-password">Nouveau mot de passe</label>
-                <input type="password" class="form-control" id="new-password" name="new-password">
-            </div>
-            <!--end form-group-->
-            <div class="form-group">
-                <label for="confirm-new-password">Confirmez votre mot de passe</label>
-                <input type="password" class="form-control" id="confirm-new-password" name="confirm-new-password">
-            </div>
-            <!--end form-group-->
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-rounded btn-framed">Changer mon mot de passe</button>
-            </div>
-            <!-- end form-group -->
         </form>
     </div>
     <!-- end col-md-3-->

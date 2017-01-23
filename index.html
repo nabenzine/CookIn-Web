@@ -2,28 +2,6 @@
 <!DOCTYPE html>
 
 <html lang="fr" ng-app="CookIn" xmlns="http://www.w3.org/1999/html">
-<head>
-    <meta charset="UTF-8"/>
-    <meta HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="ThemeStarz">
-
-    <link href="assets/fonts/font-awesome.css" rel="stylesheet" type="text/css">
-    <link href="assets/fonts/elegant-fonts.css" rel="stylesheet" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700,900,400italic' rel='stylesheet' type='text/css'>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css" type="text/css">
-    <link rel="stylesheet" href="assets/css/style.css" type="text/css">
-    <link href="lib/angularjs-slider/rzslider.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
-    <link rel="stylesheet" href="lib/kendo-ui/css/kendo.common.min.css">
-    <link rel="stylesheet" href="lib/kendo-ui/css/kendo.material.min.css">
-
-    <title>Accommodo - Accommodation HTML Template Full of Useful Features</title>
-
-</head>
-
 <body ng-controller="MainCtrl">
 <div class="page-wrapper">
     <div id="page-header">
@@ -123,7 +101,6 @@
 <div>
     <a href="" ng-click="scrollToElement('page-header')" class="to-top" data-show-after-scroll="600"><i class="arrow_up"></i></a>
 </div>
-
 <!-- jQuery -->
 <script type="text/javascript" src="assets/js/jquery-2.2.1.min.js"></script>
 
@@ -157,8 +134,9 @@
 <script src="lib/bootstrap-3.3.5-dist/js/ui-bootstrap-1.3.3.min.js"></script>
 <!-- multiselect datePicker-->
 <script src="lib/gm.datepickerMultiSelect.min.js"></script>
-
+<!-- gallery upload lib-->
 <script src="lib/ng-flow-standalone.min.js"></script>
+
 
 
 <script src="js/app.js"></script>
@@ -194,6 +172,8 @@
 <script src="js/controllers/MyPublicationsCtrl.js"></script>
 <script src="js/controllers/OrdersPlacedCtrl.js"></script>
 <script src="js/controllers/OrdersReceivedCtrl.js"></script>
+<script src="js/controllers/ProfilCtrl.js"></script>
+<script src="js/controllers/AddReview.js"></script>
 
 <script type="text/javascript" src="assets/js/jquery-migrate-1.2.1.min.js"></script>
 <script type="text/javascript" src="assets/js/infobox.js"></script>
@@ -208,6 +188,9 @@
 
 <script type="text/javascript" src="assets/js/maps.js"></script>
 <script type="text/javascript" src="assets/js/custom.js"></script>
+<!-- CryptoJs-->
+<script src="lib/core-min.js"></script>
+<script src="lib/sha1-min.js"></script>
 
 <!--[if lte IE 9]>
 <script src="assets/js/ie.js"></script>
@@ -215,3 +198,25 @@
 
 
 </body>
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="ThemeStarz">
+
+    <link href="assets/fonts/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="assets/fonts/elegant-fonts.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700,900,400italic' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/style.css" type="text/css">
+    <link href="lib/angularjs-slider/rzslider.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+    <link rel="stylesheet" href="lib/kendo-ui/css/kendo.common.min.css">
+    <link rel="stylesheet" href="lib/kendo-ui/css/kendo.material.min.css">
+
+    <title>Accommodo - Accommodation HTML Template Full of Useful Features</title>
+
+</head>

@@ -6,7 +6,8 @@ angular.module('CookIn').factory('AvisFactory', function($http,$q,myConfig,$filt
     // Might use a resource here that returns a JSON array
 
     var factory = {
-        getAvisByUser: getAvisByUser
+        getAvisByUser: getAvisByUser,
+        addAvis: addAvis
     };
 
     //*********************************************//
@@ -45,12 +46,27 @@ angular.module('CookIn').factory('AvisFactory', function($http,$q,myConfig,$filt
     //*********************************************//
     function getAvisByUser(IdUtilisateur){
         var deferred = $q.defer();
-        $http.get(myConfig.url + '/api/AvisByUser?id='+ IdUtilisateur).
+        $http.get(myConfig.url + '/api/avis?idUtilisateur='+ IdUtilisateur).
         success(function(data, status, headers, config) {
             deferred.resolve(data);
         }).
         error(function(data, status, headers, config) {
             deferred.resolve(avis_utilisateurs);
+            //deferred.reject(status);
+            // or server returns response with an error status.
+        });
+        return deferred.promise;
+
+    };
+
+    function addAvis(avis){
+        var deferred = $q.defer();
+        $http.post(myConfig.url + '/api/avis',avis).
+        success(function(data, status, headers, config) {
+            deferred.resolve(true);
+        }).
+        error(function(data, status, headers, config) {
+            deferred.resolve(true);
             //deferred.reject(status);
             // or server returns response with an error status.
         });

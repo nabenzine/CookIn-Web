@@ -42,7 +42,7 @@ angular.module('CookIn').factory('RegimeFactory', function($http,$q,myConfig) {
 
     function fillRegimeAlimentaire(){
         var deferred = $q.defer();
-        $http.get(myConfig.url + '/api/Regime').
+        $http.get(myConfig.url + '/api/regime_alimentaire').
         success(function(data, status, headers, config) {
             deferred.resolve(data);
         }).

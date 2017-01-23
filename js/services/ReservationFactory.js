@@ -14,6 +14,8 @@ angular.module('CookIn').factory('ReservationFactory', function($http,$q,myConfi
     var commandes_passe = [
         {
             "IDRESERV": 1,
+            "IDUTILISATEUR": 1,
+            "IDANNONCE": 2,
             "DATE_DEBUT": "2017-01-26T12:00:00",
             "CODESTATUSRESER": 1,
             "LIBELLE": "Tajine Marocain",
@@ -25,7 +27,9 @@ angular.module('CookIn').factory('ReservationFactory', function($http,$q,myConfi
             "IMAGE_ANNONCE":"http://recettes.al-manakh.com/images/tajine-halal.jpg"
         },
         {
-            "IDRESERV": 1,
+            "IDRESERV": 2,
+            "IDUTILISATEUR": 2,
+            "IDANNONCE": 1,
             "DATE_DEBUT": "2017-01-14T12:00:00",
             "CODESTATUSRESER": 1,
             "LIBELLE": "Saumon makrout ",
@@ -37,7 +41,9 @@ angular.module('CookIn').factory('ReservationFactory', function($http,$q,myConfi
             "IMAGE_ANNONCE":"http://www.boucherie-grandmaire.com/images/plats1.jpg"
         },
         {
-            "IDRESERV": 1,
+            "IDRESERV": 3,
+            "IDUTILISATEUR": 2,
+            "IDANNONCE": 4,
             "DATE_DEBUT": "2017-01-01T12:00:00",
             "CODESTATUSRESER": 1,
             "LIBELLE": "Cheese Cake",
@@ -70,13 +76,14 @@ angular.module('CookIn').factory('ReservationFactory', function($http,$q,myConfi
             "PRENOM" : "Nad",
             "TELEPHONE": "0671839283",
             "EMAIL" : "nabenz@gmail.com",
+            "IDUTILISATEUR": 2,
             "PHOTO_PROFIL":"https://scontent-cdg2-1.xx.fbcdn.net/v/t1.0-9/12439345_1230530423643497_7601327912280907099_n.jpg?oh=1b552f9baafcc92140101b2bcce24c8d&oe=59033348"
         }
     ];
 
     function getCommandesByUtilisateur(IdUtilisateur){
         var deferred = $q.defer();
-        $http.get(myConfig.url + '/api/getCommandesByUser?id='+IdUtilisateur).
+        $http.get(myConfig.url + '/api/getOrderReceivedByUser?id='+IdUtilisateur).
         success(function(data, status, headers, config) {
             deferred.resolve(data);
         }).
@@ -91,7 +98,7 @@ angular.module('CookIn').factory('ReservationFactory', function($http,$q,myConfi
 
     function getReservationsByUtilisateur(IdUtilisateur){
         var deferred = $q.defer();
-        $http.get(myConfig.url + '/api/getReservationsByUser?id='+IdUtilisateur).
+        $http.get(myConfig.url + '/api/reservation/getReservationsByUser?idUtilisateur='+IdUtilisateur).
         success(function(data, status, headers, config) {
             deferred.resolve(data);
         }).
@@ -106,7 +113,7 @@ angular.module('CookIn').factory('ReservationFactory', function($http,$q,myConfi
 
     function addReservation(reservation){
         var deferred = $q.defer();
-        $http.post(myConfig.url + '/api/Reservation',reservation).
+        $http.post(myConfig.url + '/api/reservation',reservation).
         success(function(data, status, headers, config) {
             if( data === true){
                 deferred.resolve(true);

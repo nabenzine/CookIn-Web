@@ -3,20 +3,22 @@
         <div class="jumbotron col-md-8 col-md-offset-2" style="background: none">
             <div class="login-panel panel panel-default">
                 <div class="panel-body">
-                    <form name="user_form" id="form-sign">
-                        <div class="form-group">
+                    <form name="user_form" id="form-sign" novalidate>
+                        <div class="form-group"  ng-class="{ 'has-error' : user_form.sign_in_email.$invalid && !user_form.sign_in_email.$pristine }">
                             <label for="form-sign-in-email">E-mail</label>
-                            <input type="text" class="form-control" ng-model="user.login" id="form-sign-in-email" name="sign_in_email" placeholder="E-mail">
+                            <input type="email" class="form-control" ng-model="user.login" id="form-sign-in-email" name="sign_in_email" placeholder="E-mail" required>
+                            <p style="font-size: 16px; color:red; " ng-show="user_form.sign_in_email.$invalid && submitted" class="help-block">Un email valide est requis</p>
                         </div>
                         <!--end form-group-->
-                        <div class="form-group">
+                        <div class="form-group" ng-class="{ 'has-error' : user_form.sign_in_password.$invalid && !user_form.sign_in_password.$pristine }">
                             <label for="form-sign-in-password">Mot de passe</label>
-                            <input type="password" ng-model="user.password" class="form-control" id="form-sign-in-password" name="sign_in_password" placeholder="*****">
+                            <input type="password" ng-model="user.password" class="form-control" id="form-sign-in-password" name="sign_in_password" placeholder="*****" required>
+                            <p style="font-size: 16px; color:red; " ng-show="user_form.sign_in_password.$invalid && submitted" class="help-block">Un mot de passe est requis</p>
                         </div>
                         <!--end form-group-->
                         <div class="clearfix action">
                             <div class="form-group pull-right">
-                                <button type="submit" ng-click="login()" class="btn btn-primary btn-rounded">Connexion</button>
+                                <button type="submit" ng-click="submitted='true'; login()" class="btn btn-primary btn-rounded">Connexion</button>
                             </div>
                         </div>
                         <div class="center">

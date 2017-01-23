@@ -284,13 +284,12 @@ angular.module('CookIn').factory('AnnonceFactory', function($http,$q,myConfig,_)
         "QUANTITE_ACTUELLE":0,
     };
 
-
     //*********************************************//
     //************ FACTORY FUNCTIONS  *************//
     //*********************************************//
-    function searchAnnonces(){
+    function searchAnnonces(filters){
         var deferred = $q.defer();
-        $http.get(myConfig.url + '/api/Recherche').
+        $http.get(myConfig.url + '/api/annonce/search?'+filters).
         success(function(data, status, headers, config) {
             deferred.resolve(data);
         }).

@@ -64,7 +64,7 @@ angular.module('CookIn').factory('LangueFactory', function($http,$q,myConfig) {
 
     function getLanguesByUtilisateur(idUtilisateur){
         var deferred = $q.defer();
-        $http.get(myConfig.url + '/api/languesByUtilisateur?id='+idUtilisateur).
+        $http.get(myConfig.url + '/api/langue?idUtilisateur='+idUtilisateur).
         success(function(data, status, headers, config) {
             deferred.resolve(data);
         }).

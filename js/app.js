@@ -30,17 +30,14 @@ function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider, flowFactoryP
     };
 
     // Routing
-    //$urlRouterProvider.otherwise('/accueil');
+    $urlRouterProvider.otherwise('/accueil');
 
     $stateProvider
         .state('accueil', {
-          url: '/accueil/:date?/:city?/:state?/:country?/:pricemin?/:pricemax?/:nbguests?/:modeConso?/:foodtypes?/:mealtype?/:hostspeaks?/:page?',
+          url: '/accueil?date&city&state&country&pricemin&pricemax&nbguests&modeConso&foodtypes&mealtype&hostspeaks&page?',
           templateUrl: 'recherche.html',
-            params: {
-                date: {squash: true, value: null}
-            },
-          reloadOnSearch: false,
-          controller: 'SearchCtrl',
+            controller: 'SearchCtrl',
+            reloadOnSearch: false,
           loginRequired: false
         })
         .state('addpublication', {
@@ -75,6 +72,7 @@ function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider, flowFactoryP
         .state('dashboard.profil', {
             url: '/profil',
             templateUrl: 'profil.html',
+            controller: 'ProfilCtrl',
             loginRequired: true
         })
         .state('login', {

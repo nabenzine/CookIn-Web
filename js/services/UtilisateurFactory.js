@@ -5,7 +5,8 @@ angular.module('CookIn').factory('UtilisateurFactory', function($http,$q,myConfi
     // Might use a resource here that returns a JSON array
 
     var factory = {
-        getUtilisateur : getUtilisateur
+        getUtilisateur : getUtilisateur,
+        updateUtilisateur: updateUtilisateur
     };
 
     //*********************************************//
@@ -34,5 +35,20 @@ angular.module('CookIn').factory('UtilisateurFactory', function($http,$q,myConfi
         return deferred.promise;
     };
 
+
+    function updateUtilisateur (utilisateur) {
+        var deferred = $q.defer();
+        $http.put(myConfig.url + '/api/Utilisateur',utilisateur).
+        success(function(data, status, headers, config) {
+            deferred.resolve(true);
+        }).
+        error(function(data, status, headers, config) {
+            deferred.resolve(true);
+            //deferred.reject(status);
+            // or server returns response with an error status.
+        });
+        return deferred.promise;
+
+    }
     return factory;
 });

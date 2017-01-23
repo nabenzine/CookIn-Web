@@ -77,7 +77,7 @@ angular.module('CookIn').factory('SessionFactory', function($http, $q, myConfig,
 
     function getAvailabilityByAnnonce(IdAnnonce){
         var deferred = $q.defer();
-        $http.get(myConfig.url + '/api/getAvailabilityByAnnonce?id='+IdAnnonce).
+        $http.get(myConfig.url + '/api/session/getAvailabilityByAnnonce?idAnnonce='+IdAnnonce).
         success(function(data, status, headers, config) {
             deferred.resolve(data);
         }).
@@ -111,7 +111,7 @@ angular.module('CookIn').factory('SessionFactory', function($http, $q, myConfig,
 
     function getBookedSessionByAnnonceAndUser(IdAnnonce, IdUser){
         var deferred = $q.defer();
-        $http.get(myConfig.url + '/api/getBookedSessionByAnnonceAndUser?idAnnonce='+IdAnnonce+'&idUser='+IdUser).
+        $http.get(myConfig.url + '/api/session/getBookedSessionByAnnonceAndUser?idAnnonce='+IdAnnonce+'&idUser='+IdUser).
         success(function(data, status, headers, config) {
             deferred.resolve(data);
         }).

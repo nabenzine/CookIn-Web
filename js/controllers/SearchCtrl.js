@@ -102,7 +102,7 @@ function SearchCtrlFnt($scope, $state, $location, $filter, anchorSmoothScroll, A
         $scope.location = {lat: data.geometry.location.lat(), lng: data.geometry.location.lng()};
         $state.go('accueil',
             {
-                date:$filter('date')($scope.dateChoice, "dd/MM/yyyy"),
+                date:$filter('date')($scope.dateChoice, "ddMMyyyy"),
                 country:GlobalFactory.findComponent(data, 'country'),
                 state:GlobalFactory.findComponent(data, 'administrative_area_level_1'),
                 city:GlobalFactory.findComponent(data, 'administrative_area_level_3') || GlobalFactory.findComponent(data, 'locality'),

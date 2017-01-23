@@ -14,27 +14,5 @@ function MainCtrlFnt($scope, Auth, anchorSmoothScroll, $mdDialog) {
     $scope.logout = function () {
         Auth.logout();
     }
-/*    $scope.showAdvanced = function(ev) {
-        $mdDialog.show({
-            controller: DialogController,
-            templateUrl: 'login.html',
-            parent: angular.element(document.body),
-            targetEvent: ev,
-            clickOutsideToClose:true
-        });
-    };
 
-    function DialogController($scope, $mdDialog) {
-        $scope.hide = function() {
-            $mdDialog.hide();
-        };
-
-        $scope.cancel = function() {
-            $mdDialog.cancel();
-        };
-
-        $scope.answer = function(answer) {
-            $mdDialog.hide(answer);
-        };
-    }*/
 };

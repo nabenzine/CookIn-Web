@@ -3,9 +3,9 @@
  */
 angular.module('CookIn').controller('PublicationCtrl',PublicationCtrlFnt);
 
-PublicationCtrlFnt.$inject=['$scope', '$state', '$filter', '$stateParams', 'AnnonceFactory', 'SessionFactory', 'AvisFactory', 'ReservationFactory','$mdDialog']
+PublicationCtrlFnt.$inject=['$scope', '$rootScope', '$state', '$filter', '$stateParams', 'AnnonceFactory', 'SessionFactory', 'AvisFactory', 'ReservationFactory','$mdDialog']
 
-function PublicationCtrlFnt($scope, $state, $filter, $stateParams, AnnonceFactory, SessionFactory, AvisFactory, ReservationFactory, $mdDialog) {
+function PublicationCtrlFnt($scope, $rootScope, $state, $filter, $stateParams, AnnonceFactory, SessionFactory, AvisFactory, ReservationFactory, $mdDialog) {
 
     $scope.donneesAnnonce = [];
     $scope.avisUtilisateurs = [];
@@ -51,12 +51,13 @@ function PublicationCtrlFnt($scope, $state, $filter, $stateParams, AnnonceFactor
     $scope.insertReservation = function () {
         var reservation = {
             IDSESSION: $scope.actualSession.IDSESSION,
-            IDSTATUSRESER: 3,
+            IDSTATUSRESER: 2,
             LIBELLE: $scope.donneesAnnonce.LIBELLE,
             NOTE_POUR_CHEF: $scope.notePourChef,
             QUANTITE: $scope.nbPlacesAreserver,
             FRAIS_RESERVATION: $scope.fraisDesService,
-            TOTAL: $scope.totalPrice
+            TOTAL: $scope.totalPrice,
+            IDUTILISATEUR: $rootScope.globals.currentUser.id
         };
 
         ReservationFactory.addReservation(reservation).then(
@@ -124,7 +125,6 @@ function PublicationCtrlFnt($scope, $state, $filter, $stateParams, AnnonceFactor
             // Si l'annonce existe
             if(dataAnnonce)
             {
-
                 // Afficher l'addresse sur une map
                 var element = "map-item";
                 simpleMap(dataAnnonce.ADRESSE.LATITUDE,dataAnnonce.ADRESSE.LONGITUDE, element);
@@ -146,26 +146,32 @@ function PublicationCtrlFnt($scope, $state, $filter, $stateParams, AnnonceFactor
                 SessionFactory.getAvailabilityByAnnonce(dataAnnonce.IDANNONCE).then(
                     function(dataDates) {
                         $scope.availableday = dataDates;
-                        // Initialiser le datePicker avec la premiére dispo de l'annonce
-                        $scope.dateReservation = new Date(dataDates[0].DATE_DEBUT) ;
+                        // Si y'a des sessions disponibles pour cette annonce
+                        if(dataDates.length > 0){
+                            // Initialiser le datePicker avec la premiére dispo de l'annonce
+                            $scope.dateReservation = new Date(dataDates[0].DATE_DEBUT) ;
 
-                        // Convertir en tableau les résultat (par date)
-                        $scope.availableday.map = SessionFactory.jsonAvailabilityToArray(dataDates);
+                            // Convertir en tableau les résultat (par date)
+                            $scope.availableday.map = SessionFactory.jsonAvailabilityToArray(dataDates);
 
-                        $scope.SelectorOptions = {
-                            min : new Date(),
-                            culture: "fr-FR",
-                            disableDates : function(date) {
-                                var formattedDate = 'key'+$filter('date')(date, "ddMMyyyy");
-                                return $scope.availableday.map[formattedDate]== undefined ;
-                            },
-                            change : function(){
-                                $scope.dateChanged(this.value(), true)
-                            }
-                        };
+                            $scope.SelectorOptions = {
+                                min : new Date(),
+                                culture: "fr-FR",
+                                disableDates : function(date) {
+                                    var formattedDate = 'key'+$filter('date')(date, "ddMMyyyy");
+                                    return $scope.availableday.map[formattedDate]== undefined ;
+                                },
+                                change : function(){
+                                    $scope.dateChanged(this.value(), true)
+                                }
+                            };
 
-                        //Lancer l'evenement dateChanged pour mettre à jours la quantité et le calcul du prix
-                        $scope.dateChanged($scope.dateReservation, false);
+                            //Lancer l'evenement dateChanged pour mettre à jours la quantité et le calcul du prix
+                            $scope.dateChanged($scope.dateReservation, false);
+                        }else{
+
+                        }
+
 
                     },
                     function(errorPayload) {

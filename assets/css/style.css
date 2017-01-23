@@ -26,6 +26,17 @@ Body copy:		'Lato', sans-serif; 14px;
 Headers:		'Lato', sans-serif;
 
 -------------------------------------------------------------------*/
+md-dialog{
+  width: 50%;
+}
+md-content{
+  padding: 20px;
+}
+
+.alert-danger{
+  padding: 10px!important;
+}
+
 /* ng-flow  */
 .drop {
   padding: 15px;
@@ -2726,7 +2737,6 @@ ul.half li {
   line-height: 34px;
 }
 .mark-circle.top {
-  background-color: #488f3e;
   cursor: default;
   color: #fff;
   bottom: -18px;

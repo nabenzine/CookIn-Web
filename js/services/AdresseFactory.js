@@ -54,7 +54,7 @@ angular.module('CookIn').factory('AdresseFactory', function($http,$q,myConfig) {
 
     function getAdressesByUtilisateur(idUtilisateur){
         var deferred = $q.defer();
-        $http.get(myConfig.url + '/api/addressesByUtilisateur?id='+idUtilisateur).
+        $http.get(myConfig.url + '/api/adresse?idUtilisateur='+idUtilisateur).
         success(function(data, status, headers, config) {
             deferred.resolve(data);
         }).

@@ -1,3 +1,4 @@
+
 <div class="container">
     <ol class="breadcrumb">
         <li><a href="#">Home</a></li>
@@ -22,7 +23,7 @@
         </div>
         <!--end quick-navigation-->
 
-        <form class="form-submit labels-uppercase" id="form-submit" novalidate>
+        <form class="form-submit labels-uppercase" id="form-submit" name="form_submit" ng-submit="insertAnnonce(locationChoiceDetail)" novalidate>
             <section id="main-information">
                 <div class="title">
                     <h1>Description</h1>
@@ -33,6 +34,7 @@
                         <div class="form-group">
                             <div class="padding">
                                 <h4 for="object-type">Type d'expérience</h4>
+                                <em>Choisissez le type d'exéprience</em>
                             </div>
                             <select class="form-control" name="experience" ng-model="typeExperience" id="experience"
                                     ng-options="experience.LIBELLE for experience in typeRepas track by experience.IDTYPEREPAS" >
@@ -42,10 +44,10 @@
                     </div>
                     <!--end col-md-4-->
                     <div class="col-md-4">
-
                         <div class="form-group">
                             <div class="padding">
-                                <h4 for="cancellation">A déguster</h4>
+                                <h4 for="cancellation">Mode de dégustation</h4>
+                                <em>Choisissez le mode de consommation</em>
                             </div>
                             <select class="form-control" name="conso" ng-model="Adeguster" id="conso"
                                     ng-options="conso.LIBELLE for conso in modeConsommation track by conso.IDMODECONSO"
@@ -70,8 +72,9 @@
                         <div class="form-group">
                             <h4 for="object-type" >Titre </h4>
                             <em> Préférez un titre accrocheur ! </em>
-                            <input class="form-control" id="titre" rows="1" name="titre" required="" placeholder="Indiquez votre titre" ng-model="titre">
+                            <input class="form-control" id="titre" rows="1" name="titre" placeholder="Indiquez votre titre" ng-model="titre" ng-minlength="5" required>
                         </div>
+                        <p ng-show="form_submit.titre.$touched && form_submit.titre.$invalid && !user_form.titre.$pristine" class="alert-danger">Veuillez entrer un titre</p>
                         <!--end form-group-->
                     </div>
                     <!--end col md 12-->
@@ -81,10 +84,11 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <h4 for="object-type">Description</h4>
-                            <em> Donnez envie à des CookIn de venir manger chez vous ! </em>
-                            <textarea class="form-control" id="description" rows="8" name="description" required="" placeholder="Décrivez votre plat / menu"
-                                      ng-model="description"></textarea>
+                            <em> Donnez envie à des CookIn de venir manger chez vous ! (10 caractères minimum) </em>
+                            <textarea class="form-control" id="description" rows="8" name="description" required="true" placeholder="Décrivez votre plat / menu"
+                                      ng-model="description" ng-minlength="10"></textarea>
                         </div>
+                        <p ng-show="form_submit.description.$touched && !form_submit.description.$valid" class="alert-danger">Veuillez entrer une présentation de votre plat</p>
                         <!--end form-group-->
                     </div>
                     <!--end col md 12-->
@@ -100,14 +104,16 @@
                     </div>
                     <!--end col md 12-->
                 </div>
+
                 <!--end row-->
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <h4 for="form-submit-description">Prix </h4>
                             <em> Le prix indiqué sera le montant que vous toucherez</em>
-                            <input type="number" class="form-control" id="prix" name="prix" required="" placeholder="Indiquez votre prix par invité" ng-model="prix">
+                            <input type="number" class="form-control" id="prix" name="prix" required="true" placeholder="Indiquez votre prix par invité" ng-model="prix">
                         </div>
+                        <p ng-show="form_submit.prix.$touched && !form_submit.prix.$valid" class="alert-danger">Veuillez entrer un prix</p>
                         <!--end form-group-->
                     </div>
                     <!--end col md 6-->
@@ -136,7 +142,7 @@
                                 <h4 for="object-type">Lieux enregistrés</h4>
                                 <select class="form-control" name="lieu" ng-model="adresses" id="lieu"
                                         ng-options="lieu.ADRESSE_COMPLETE for lieu in lieuxEnregistres track by lieu.IDADRESSE"
-                                        ng-change="placemap()" >
+                                        ng-change="placemap()">
                                     <option value="">Ajouter une addresse</option>
                                 </select>
 
@@ -145,8 +151,10 @@
                             <div class="add adress">
                                 <div class="form-group" ng-show="showNewMapInput">
                                     <h4 for="address-autocomplete">Adresse</h4>
-                                    <input type="text" class="form-control" required id="address-autocomplete" ng-model="locationChoice"  ng-autocomplete  details="locationChoiceDetail"  placeholder="Entrez votre adresse">
+                                    <input type="text" class="form-control" id="address-autocomplete" ng-model="locationChoice"  ng-autocomplete  placeholder="Entrez votre adresse">
                                 </div>
+
+                                <p ng-show="form_submit.prix.$touched && (adresses|JsonIsEmpty) && (addAdresse)" class="alert-danger">Veuillez entrer une adresse valide</p>
                                 <div class="form-group">
                                     <h4>Carte</h4>
 
@@ -174,7 +182,7 @@
                             <!--end form-group-->
                             <div class="form-group">
                                 <h4 for="form-submit-phone">Quelques mots sur vous</h4>
-                                <textarea class="form-control" ng-model="utilisateur.PROFESSION" rows="8" name="presentation" required="" placeholder="Présentez vous à vos invités !"></textarea>
+                                <textarea class="form-control" ng-model="utilisateur.PROFESSION" rows="8" name="presentation" placeholder="Présentez vous à vos invités !"></textarea>
                             </div>
                             <!--end form-group-->
                             <div class="form-group">
@@ -197,7 +205,7 @@
                             </div>
                             <div class="form-group">
                                 <h4>Dates</h4>
-                                <uib-datepicker ng-model='activeDate' multi-select='selectedDates' select-range='false'></uib-datepicker>
+                                <uib-datepicker name="activeDate" ng-model='activeDate' multi-select='selectedDates' select-range='false'></uib-datepicker>
                             </div>
                             <!--end form-group-->
 
@@ -235,9 +243,10 @@
                             </button>
                         </div>
                     </div>
+                    <!-- <p ng-show="d|JsonIsEmpty" class="alert-danger">Veuillez entrer une date</p> -->
                     <!--end row-->
                 </section>
-
+                <p ng-show="!form_submit.activeDate.$pristine && selectedDates.length == 0" class="alert-danger">Veuillez insérer au moins une date</p>
                 <section id="gallery">
                     <div class="title">
                         <h1>Image</h1>
@@ -248,7 +257,7 @@
                          flow-file-success="addImage( $file, $message, $flow )"
                          class="ng-scope">
                         <div class="file-upload" flow-drop >
-                            <input flow-btn type="file" multiple="multiple" class="file-upload-input">
+                            <input flow-btn type="file" multiple="multiple" class="file-upload-input" name="images" ng-model="images">
                             <span>
                                 Click to add images
                             </span>
@@ -269,7 +278,9 @@
                         </div>
                         <br>
                     </div>
+
                 </section>
+                <p ng-show="form_submit.images.$touched && imagesArray.length == 0" class="alert-danger">Veuillez insérer une image</p>
                 <section id="additional-information">
                     <div class="title">
                         <h1>Informations supplémentaires</h1>
@@ -323,11 +334,10 @@
                     <!--end row-->
                 </section>
                 <hr>
-                <section>
-                    <div class="form-group center">
-                        <button type="submit" ng-click="insertAnnonce(locationChoiceDetail)" class="btn btn-primary btn-rounded btn-xlarge">Poster l'annonce</button>
-                    </div>
-                </section>
+                <div class="form-group center">
+                    <button type="submit" class="btn btn-primary btn-rounded btn-xlarge">Poster l'annonce</button>
+                </div>
+            </section>
             </section>
         </form>
         <!--end form-->
