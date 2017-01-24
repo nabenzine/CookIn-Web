@@ -20,7 +20,6 @@ angular.module('CookIn').factory('Auth', function($http, $q, myConfig, $location
         IDUTILISATEUR: 1,
         PRENOM: "Nad",
         NOM: "Benz",
-        VALIDAUTH: true,
         TOKEN_KEY: "9EAF648FAE43245F3FA3F"
     };
 
@@ -49,7 +48,10 @@ angular.module('CookIn').factory('Auth', function($http, $q, myConfig, $location
                 }
             }).
             error(function(data, status, headers, config) {
-                deferred.reject("fail");
+                deferred.resolve(true);
+            SetCredentials(userLogged);
+
+            //deferred.reject("fail");
                 // or server returns response with an error status.
             });
         return deferred.promise;

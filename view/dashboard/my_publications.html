@@ -3,7 +3,11 @@
         <div class="item-wrapper">
 
             <div class="image">
-                <a class="mark-circle top" data-toggle="tooltip" data-placement="right" title="Top accommodation"><i class="fa fa-pencil"></i></a>
+                <div class="mark-circle top" data-toggle="tooltip" data-placement="right" title="Modifier votre annonce">
+                    <button class="btn btn-success btn-rounded">
+                        <i class="fa fa-pencil"></i>
+                    </button>
+                </div>
                 <a class="wrapper" ui-sref="viewpublication({ id: annonce.IDANNONCE })">
                     <img ng-src="{{annonce.IMAGE_ANNONCE[0].FILENAME}}" alt="">
                 </a>

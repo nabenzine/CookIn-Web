@@ -14,11 +14,6 @@ sampleApp.config(['$stateProvider','$urlRouterProvider','$mdDateLocaleProvider',
 
 function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider, flowFactoryProvider, $httpProvider) {
 
-    // Allow Access-Control-Allow-Origin
-/*    $httpProvider.defaults.useXDomain = true;
-    $httpProvider.defaults.headers.common = 'Content-Type: application/json';
-    delete $httpProvider.defaults.headers.common['X-Requested-With'];*/
-
     // Upload
     flowFactoryProvider.defaults = {
         target: 'http://uploads.im/api?upload',
@@ -35,55 +30,55 @@ function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider, flowFactoryP
     $stateProvider
         .state('accueil', {
           url: '/accueil?date&city&state&country&pricemin&pricemax&nbguests&modeConso&foodtypes&mealtype&hostspeaks&page?',
-          templateUrl: 'recherche.html',
+          templateUrl: 'view/recherche.html',
             controller: 'SearchCtrl',
             reloadOnSearch: false,
           loginRequired: false
         })
         .state('addpublication', {
             url: '/addpublication',
-            templateUrl: 'submit.html',
+            templateUrl: 'view/submit.html',
             controller: 'AddPublicationCtrl',
             loginRequired: true
         })
         .state('dashboard', {
             url: '/dashboard',
             abstract: true,
-            templateUrl: 'dashboard.html'
+            templateUrl: 'view/dashboard.html'
         })
         .state('dashboard.ordersplaced', {
             url: '/ordersplaced',
-            templateUrl: 'commandes_passees.html',
+            templateUrl: 'view/dashboard/commandes_passees.html',
             controller: 'OrdersPlacedCtrl',
             loginRequired: true
         })
         .state('dashboard.ordersreceived', {
             url: '/ordersreceived',
-            templateUrl: 'commandes_recu.html',
+            templateUrl: 'view/dashboard/commandes_recu.html',
             controller: 'OrdersReceivedCtrl',
             loginRequired: true
         })
         .state('dashboard.mypublications', {
             url: '/mypublications',
-            templateUrl: 'my_publications.html',
+            templateUrl: 'view/dashboard/my_publications.html',
             controller: 'MyPublicationsCtrl',
             loginRequired: true
         })
         .state('dashboard.profil', {
             url: '/profil',
-            templateUrl: 'profil.html',
+            templateUrl: 'view/dashboard/profil.html',
             controller: 'ProfilCtrl',
             loginRequired: true
         })
         .state('login', {
             url: '/login',
-            templateUrl: 'login.html',
+            templateUrl: 'view/login.html',
             controller: 'LoginCtrl',
             loginRequired: false
         })
         .state('viewpublication', {
             url: '/viewpublication/:id',
-            templateUrl: 'detail.html',
+            templateUrl: 'view/detail.html',
             controller: 'PublicationCtrl',
             loginRequired: false
         });

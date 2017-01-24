@@ -234,8 +234,8 @@ function AddPublicationCtrlFnt($scope, $state, $rootScope, LangueFactory, TypeRe
         else{
             //Création adresse si elle n'existe pas et l'associer à l'utilisateur!
             // 3- Si nouvelle adresse l'associer à l'utilisateur
-            console.log('its ok');
-            console.log(newAdresse);
+            //console.log('its ok');
+            //console.log(newAdresse);
             //AdresseFactory.addAdresse()
 
             // Création de  l'annonce
@@ -259,9 +259,11 @@ function AddPublicationCtrlFnt($scope, $state, $rootScope, LangueFactory, TypeRe
                 QUANTITE_MIN:  $scope.nbrPersonneSlider.maxValue
             };
 
+            // Ajouter l'annonce
             AnnonceFactory.addAnnonce(annonce).then(
-
                 function (data) {
+                    // Récupérer l'id annonce depuis l'objet inséré
+                    var idAnnonce = data.IDANNONCE;
 
                     // Création des sessions
                     _.each($scope.selectedDates, function(element, index, list){
@@ -269,11 +271,12 @@ function AddPublicationCtrlFnt($scope, $state, $rootScope, LangueFactory, TypeRe
                         var dateSession = new Date(element) ;
 
                         var session = {
-                            IDANNONCE: 1,
+                            IDANNONCE: idAnnonce,
                             DATE_DEBUT : new Date(dateSession.getFullYear(), dateSession.getMonth(), dateSession.getDate(), $scope.dateDebut.getHours(), $scope.dateDebut.getMinutes(), 0, 0),
                             DATE_FIN : new Date(dateSession.getFullYear(), dateSession.getMonth(), dateSession.getDate(), $scope.dateFin.getHours(), $scope.dateFin.getMinutes(), 0, 0),
                             QUANTITE_RESTANTE : $scope.nbrPersonneSlider.maxValue
                         };
+
                         SessionFactory.addSession(session).then(
                             function (data) {
 
@@ -284,9 +287,10 @@ function AddPublicationCtrlFnt($scope, $state, $rootScope, LangueFactory, TypeRe
                     // Insertion des images
                     _.each($scope.imagesArray, function(element, index, list){
                         var image = element ;
-                        // Rajouter l'id de l'annonce
 
-                        image['IDANNONCE'] = 1;
+                        // Rajouter l'id de l'annonce
+                        image['IDANNONCE'] = idAnnonce;
+
                         // Ajouter l'image
                         ImageFactory.addImage(image).then(
                             function (data) {

@@ -26,6 +26,34 @@ Body copy:		'Lato', sans-serif; 14px;
 Headers:		'Lato', sans-serif;
 
 -------------------------------------------------------------------*/
+/* Conf de la directive rating*/
+.rating{
+  color: #a9a9a9;
+  margin: 0;
+  padding: 0;
+}
+
+ul.rating {
+  display: inline-block;
+}
+
+.rating li {
+  list-style-type: none;
+  display: inline-block;
+  padding: 1px;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.rating li i {
+  color: #ddd;
+}
+
+.rating .filled i{
+  color: #fd0;
+}
+/* Conf des modal*/
 md-dialog{
   width: 50%;
 }

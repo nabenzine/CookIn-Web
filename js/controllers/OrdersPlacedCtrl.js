@@ -27,7 +27,7 @@ function OrdersPlacedFnt($scope, $rootScope, ReservationFactory, AvisFactory, $m
 
         $mdDialog.show({
             targetEvent: $event,
-            templateUrl: 'view/add_review.html',
+            templateUrl: 'view/dashboard/add_review.html',
             controller: 'AddReviewCtrl',
             clickOutsideToClose:true
         })

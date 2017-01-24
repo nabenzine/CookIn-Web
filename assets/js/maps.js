@@ -109,10 +109,10 @@ function autoComplete(map, marker){
 
 // Big Map on Home -----------------------------------------------------------------------------------------------------
 
-function bigMap(_latitude,_longitude, element, useAjax,data){
-    if( document.getElementById(element) != null ){
+function bigMap(_latitude,_longitude,data){
+    if( document.getElementById("map-item") != null ){
         var geocoder = new google.maps.Geocoder();
-        var map = new google.maps.Map(document.getElementById(element), {
+        var map = new google.maps.Map(document.getElementById("map-item"), {
             zoom: 9,
             scrollwheel: true,
             center: new google.maps.LatLng(_latitude, _longitude),

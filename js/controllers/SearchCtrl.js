@@ -119,13 +119,13 @@ function SearchCtrlFnt($scope, $state, $location, $filter, anchorSmoothScroll, A
         $scope.searchPublications();
     }
 
+
     // Fonction de recherche
     $scope.searchPublications = function () {
         $scope.infosAnnonces = [];
 
-
-        $scope.lieu =  $scope.locationChoice != undefined ? $scope.locationChoice :  $location.search().country ;
-        //$scope.lieu =  ($location.search().city !='') ? ($location.search().city) : (($location.search().state!='') ? ($location.search().state) : ($location.search().country))   ;
+        // Ajouter le libellé de la recherche
+        $scope.lieu =  $scope.locationChoice != undefined ? $scope.locationChoice :  $location.search().city + ', '+$location.search().state + ', '+$location.search().country ;
         $scope.showNoResult = true;
 
         // On passe la requette get avec les parametres de l'url
@@ -133,11 +133,8 @@ function SearchCtrlFnt($scope, $state, $location, $filter, anchorSmoothScroll, A
             function(payload) {
                 $scope.infosAnnonces = payload;
                 if(payload != '' && !$filter('JsonIsEmpty')($scope.location)){
-                    var _latitude = $scope.location.lat;
-                    var _longitude = $scope.location.lng;
-                    var element = "map-item";
-                    var useAjax = false;
-                    bigMap(_latitude,_longitude, element, useAjax, payload);
+                    //Placer les élement sur une carte
+                    bigMap($scope.location.lat,$scope.location.lng, payload);
                 }
                 anchorSmoothScroll.scrollTo('SearchResult');
             },
@@ -146,6 +143,7 @@ function SearchCtrlFnt($scope, $state, $location, $filter, anchorSmoothScroll, A
             }
         );
     };
+
 
     // Si mise à jours de la page
     if ($location.search().hasOwnProperty('country')){

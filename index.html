@@ -2,6 +2,28 @@
 <!DOCTYPE html>
 
 <html lang="fr" ng-app="CookIn" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8"/>
+    <meta HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="ThemeStarz">
+    <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
+    <link href="assets/fonts/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="assets/fonts/elegant-fonts.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700,900,400italic' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/style.css" type="text/css">
+    <link href="lib/angularjs-slider/rzslider.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+    <link rel="stylesheet" href="lib/kendo-ui/css/kendo.common.min.css">
+    <link rel="stylesheet" href="lib/kendo-ui/css/kendo.material.min.css">
+
+    <title>CookIn - rejoignez nos <coo></coo>kin</title>
+
+</head>
 <body ng-controller="MainCtrl">
 <div class="page-wrapper">
     <div id="page-header">
@@ -23,7 +45,7 @@
                                             <span class="sr-only">Split button!</span>
                                         </button>
                                         <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
-                                            <li role="menuitem"><a ng-click="logout()">Déconnexion</a></li>
+                                            <li role="menuitem" style="width: 100%;cursor: pointer;"><a ng-click="logout()">Déconnexion</a></li>
                                         </ul>
                                     </div>
                                 </li>
@@ -50,7 +72,7 @@
     </div>
     <!--end page-header-->
     <div id="page-content">
-        <div ui-view></div>
+        <div ui-view autoscroll="true"></div>
     </div>
     <footer id="page-footer">
         <div class="row-one">
@@ -83,12 +105,9 @@
         <!--end row-one-->
         <div class="row-two clearfix">
             <div class="container">
-                <div class="copyright pull-left">(C) 2016 Your Company, All Rights Reserved</div>
+                <div class="copyright pull-left">(C) 2017 Cook-In, All Rights Reserved</div>
                 <div class="footer-nav pull-right">
-                    <a href="index.html">Home</a>
-                    <a href="about-us.html">About Us</a>
-                    <a href="listing.html">Listing</a>
-                    <a href="contact-us.html">Contact Us</a>
+
                 </div>
             </div>
             <div class="bg-transfer"><img src="assets/img/footer-bg.jpg" alt=""></div>
@@ -180,7 +199,7 @@
 <script type="text/javascript" src="assets/js/markerclusterer_packed.js"></script>
 <script type="text/javascript" src="assets/js/richmarker-compiled.js"></script>
 <script type="text/javascript" src="assets/js/markerwithlabel_packed.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.14.2/ui-bootstrap-tpls.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.14.3/ui-bootstrap-tpls.min.js"></script>
 <script type="text/javascript" src="assets/js/jquery.validate.min.js"></script>
 <script type="text/javascript" src="assets/js/icheck.min.js"></script>
 <script type="text/javascript" src="assets/js/jQuery.MultiFile.min.js"></script>
@@ -189,8 +208,8 @@
 <script type="text/javascript" src="assets/js/maps.js"></script>
 <script type="text/javascript" src="assets/js/custom.js"></script>
 <!-- CryptoJs-->
-<script src="lib/core-min.js"></script>
-<script src="lib/sha1-min.js"></script>
+<script src="lib/crypt/core-min.js"></script>
+<script src="lib/crypt/sha1-min.js"></script>
 
 <!--[if lte IE 9]>
 <script src="assets/js/ie.js"></script>
@@ -199,24 +218,5 @@
 
 </body>
 
-<head>
-    <meta charset="UTF-8"/>
-    <meta HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="ThemeStarz">
 
-    <link href="assets/fonts/font-awesome.css" rel="stylesheet" type="text/css">
-    <link href="assets/fonts/elegant-fonts.css" rel="stylesheet" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700,900,400italic' rel='stylesheet' type='text/css'>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css" type="text/css">
-    <link rel="stylesheet" href="assets/css/style.css" type="text/css">
-    <link href="lib/angularjs-slider/rzslider.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
-    <link rel="stylesheet" href="lib/kendo-ui/css/kendo.common.min.css">
-    <link rel="stylesheet" href="lib/kendo-ui/css/kendo.material.min.css">
-
-    <title>Accommodo - Accommodation HTML Template Full of Useful Features</title>
-
-</head>
+</html>

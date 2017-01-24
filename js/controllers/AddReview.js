@@ -7,9 +7,12 @@ AddReviewFnt.$inject=['$scope','$rootScope', '$mdDialog']
 
 function AddReviewFnt($scope, $rootScope, $mdDialog ) {
 
-
+    $scope.rateFunction = function(rating)
+    {
+        $scope.note = rating;
+    }
     $scope.getAvisData = function(titre, commentaire) {
-        $mdDialog.hide({note: 1, titre: titre, commentaire: commentaire});
+        $mdDialog.hide({note: $scope.note, titre: titre, commentaire: commentaire});
     };
 
 };
