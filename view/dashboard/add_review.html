@@ -11,14 +11,14 @@
         </div>
         <div class="form-group">
             <label for="titre">Titre du commentaire<em>*</em></label>
-            <input type="text" class="form-control" id="titre" name="titre" ng-model="titre" placeholder="Beautiful holiday!" required>
+            <input type="text" class="form-control" id="titre" name="titre" ng-model="titre" placeholder="Donnez un titre" required>
         </div>
         <p ng-show="form_reply_1.titre.$invalid && form_reply_1.titre.$touched" class="alert-danger">Veuillez entrer un titre valide</p>
 
 
         <div class="form-group">
             <label for="answer">Commentaire</label>
-            <textarea class="form-control" id="answer" rows="8" name="answer" ng-model="commentaire" placeholder="Describe your stay"></textarea>
+            <textarea class="form-control" id="answer" rows="8" name="answer" ng-model="commentaire" placeholder="Décrivez votre expérience"></textarea>
         </div>
         <!--end form-group-->
         <div class="form-group pull-right">

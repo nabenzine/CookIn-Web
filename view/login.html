@@ -7,13 +7,13 @@
                         <div class="form-group"  ng-class="{ 'has-error' : user_form.sign_in_email.$invalid && !user_form.sign_in_email.$pristine }">
                             <label for="form-sign-in-email">E-mail</label>
                             <input type="email" class="form-control" ng-model="user.login" id="form-sign-in-email" name="sign_in_email" placeholder="E-mail" required>
-                            <p style="font-size: 16px; color:red; " ng-show="user_form.sign_in_email.$invalid && submitted" class="help-block">Un email valide est requis</p>
+                            <p style="font-size: 16px; color:#a94442; " ng-show="user_form.sign_in_email.$invalid && submitted" class="help-block">Un email valide est requis</p>
                         </div>
                         <!--end form-group-->
                         <div class="form-group" ng-class="{ 'has-error' : user_form.sign_in_password.$invalid && !user_form.sign_in_password.$pristine }">
                             <label for="form-sign-in-password">Mot de passe</label>
                             <input type="password" ng-model="user.password" class="form-control" id="form-sign-in-password" name="sign_in_password" placeholder="*****" required>
-                            <p style="font-size: 16px; color:red; " ng-show="user_form.sign_in_password.$invalid && submitted" class="help-block">Un mot de passe est requis</p>
+                            <p style="font-size: 16px; color:#a94442; " ng-show="user_form.sign_in_password.$invalid && submitted" class="help-block">Un mot de passe est requis</p>
                         </div>
                         <!--end form-group-->
                         <div class="clearfix action">
