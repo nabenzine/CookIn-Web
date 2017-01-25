@@ -13,7 +13,7 @@
         <tr class="my-item" ng-repeat="reservation in reservationPassees" ng-class="{inactive: (reservation.DATE_DEBUT | parseDate) <= today}">
             <td>
                 <div class="image-wrapper">
-                    <div ng-if="(reservation.DATE_DEBUT | parseDate) <= today" class="mark-circle top" data-toggle="tooltip" data-placement="right" title="Top accommodation">
+                    <div ng-if="((reservation.DATE_DEBUT | parseDate) <= today) && reservation.DEJANOTE" class="mark-circle top" data-toggle="tooltip" data-placement="right" title="Top accommodation">
                         <button class="btn btn-success btn-rounded" ng-click="showPrompt($event, $index)">
                             <i class="fa fa-star"></i>
                         </button>

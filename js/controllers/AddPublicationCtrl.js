@@ -212,10 +212,10 @@ function AddPublicationCtrlFnt($scope, $state, $rootScope, LangueFactory, TypeRe
         if (response.status_code == 200){
             var image = {
                 FILENAME :  response.data.img_url,
-                TAILLE : response.data.img_size,
+                TAILLE : 0,
                 DESCRIPTION : response.data.img_name,
                 DATE_CREATION : new Date(),
-                PAR_DEFAUT : 0
+                PAR_DEFAUT : true
             };
             $scope.imagesArray.push(image);
         }
@@ -291,6 +291,9 @@ function AddPublicationCtrlFnt($scope, $state, $rootScope, LangueFactory, TypeRe
                         // Rajouter l'id de l'annonce
                         image['IDANNONCE'] = idAnnonce;
 
+                        if(index == 0){
+                            image.PAR_DEFAUT = true;
+                        }
                         // Ajouter l'image
                         ImageFactory.addImage(image).then(
                             function (data) {
@@ -298,6 +301,21 @@ function AddPublicationCtrlFnt($scope, $state, $rootScope, LangueFactory, TypeRe
                             }
                         )
                     });
+                // Mettre à jours les données de l'utilisateur
+                    // 1- (PROFESSION, Numero de telephone
+                    UtilisateurFactory.updateUtilisateur($scope.utilisateur).then(
+                        function (data) {
+                            // Rediriger vers la page "Mes annonces"
+                            $state.go('dashboard.mypublications');
+                        },
+                        function (error) {
+
+                        }
+                    );
+                    // 2- Langues
+
+
+                // Création des correspondances avec les régimes alimentaires
 
                 },
                 function (error) {
@@ -305,11 +323,7 @@ function AddPublicationCtrlFnt($scope, $state, $rootScope, LangueFactory, TypeRe
                 }
             );
 
-            // Création des régimes alimentaires
 
-            // Mettre à jours les données de l'utilisateur
-            // 1- Langues
-            // 2- (PROFESSION, Numero de telephone
         }
     }
 

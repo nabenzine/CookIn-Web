@@ -69,14 +69,10 @@ angular.module('CookIn').factory('AdresseFactory', function($http,$q,myConfig) {
         var deferred = $q.defer();
         $http.post(myConfig.url + '/api/Adresse',adresse).
         success(function(data, status, headers, config) {
-            if( data === true){
-                deferred.resolve(true);
-            }else{
-                deferred.reject("fail");
-            }
+            deferred.resolve(data);
         }).
         error(function(data, status, headers, config) {
-            deferred.resolve(true);
+            deferred.reject(status);
             //deferred.reject(status);
             // or server returns response with an error status.
         });

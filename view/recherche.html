@@ -6,8 +6,7 @@
                     <div class="caption">
                         <div class="inner">
                             <div class="container">
-                                <h1 class="center">Find Your Best meal
-                                </h1>
+                                <h1 class="center">Trouvez votre CookIn</h1>
                                 <div class="row no-gutters">
                                     <div class="col-md-5 col-sm-5">
                                         <div class="form-group">
@@ -177,13 +176,11 @@
                     <div class="item big equal-height" data-map-latitude="48.87" data-map-longitude="2.29" data-id="1">
                         <div class="item-wrapper">
                             <div class="image_profil">
-                                <img ng-src="{{annonce.UTILISATEUR.PHOTO_PROFIL}}">
+                                <img ng-src="{{annonce.PHOTO_PROFIL}}">
                             </div>
                             <div class="image">
-                                <div class="mark-circle description" data-toggle="tooltip" data-placement="right" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin quis erat vel quam aliquet hendrerit semper eget elit. Aenean tincidunt ultrices bibendum. Proin nisi erat, iaculis non pulvinar a, scelerisque ut est. "><i class="fa fa-question"></i></div>
-                                <div class="mark-circle map" data-toggle="tooltip" data-placement="right" title="Show on map"><i class="fa fa-map-marker"></i></div>
                                 <a class="wrapper" ui-sref="viewpublication({ id: annonce.IDANNONCE })">
-                                    <img ng-src="{{annonce.IMAGE_ANNONCE[0].FILENAME}}" alt="">
+                                    <img ng-src="{{annonce.IMAGE_ANNONCE}}" alt="">
                                 </a>
                                 <div class="owl-navigation"></div>
                                 <!--end owl-navigation-->
@@ -191,13 +188,13 @@
                             <!--end image-->
                             <div class="description">
                                 <div class="meta">
-                                    Avec<span style="color: red">{{annonce.UTILISATEUR.PRENOM}}&nbsp; &nbsp;<i class="fa fa-star"></i>{{annonce.UTILISATEUR.NOTE}}</span>
+                                    Avec<span style="color: red">{{annonce.PRENOM}}&nbsp; &nbsp;<i class="fa fa-star"></i>{{annonce.NOTE}}</span>
                                     <span><i class="fa fa-eur"></i>{{annonce.PRIX}}</span>
                                 </div>
                                 <div class="info">
-                                    <figure class="label" ng-class="{'label-emporter': annonce.MODECONSO.CODE == 'AEMPORTER', 'label-surplace': annonce.MODECONSO.CODE == 'SURPLACE'}">{{ annonce.MODECONSO.LIBELLE }}</figure>
+                                    <figure class="label" ng-class="{'label-emporter': annonce.MODECONSO_CODE == 'AEMPORTER', 'label-surplace': annonce.MODECONSO_CODE == 'SURPLACE'}">{{ annonce.MODECONSO_LIBELLE }}</figure>
                                     <a ui-sref="viewpublication({ id: annonce.IDANNONCE })"><h3>{{annonce.LIBELLE}}</h3></a>
-                                    <figure class="location">{{annonce.ADRESSE.VILLE}}, {{annonce.ADRESSE.PAYS}}</figure>
+                                    <figure class="location">{{annonce.VILLE}}, {{annonce.PAYS}}</figure>
                                 </div>
                             </div>
                             <!--end description-->

@@ -13,6 +13,7 @@ function MainCtrlFnt($scope, $state, Auth) {
 
     $scope.login = function () {
         if ($scope.user_form.$valid) {
+            $scope.showError = false;
             Auth.login( { EMAIL: $scope.user.login, MOT_DE_PASSE: Auth.crypt($scope.user.password)} ).then(
                 function(payload) {
                     $state.go('accueil');

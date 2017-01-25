@@ -38,7 +38,7 @@ angular.module('CookIn').factory('UtilisateurFactory', function($http,$q,myConfi
 
     function updateUtilisateur (utilisateur) {
         var deferred = $q.defer();
-        $http.put(myConfig.url + '/api/Utilisateur',utilisateur).
+        $http.put(myConfig.url + '/api/utilisateur/'+utilisateur.IDUTILISATEUR ,utilisateur).
         success(function(data, status, headers, config) {
             deferred.resolve(true);
         }).

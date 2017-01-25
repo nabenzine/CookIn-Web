@@ -57,7 +57,8 @@ function PublicationCtrlFnt($scope, $rootScope, $state, $filter, $stateParams, A
             QUANTITE: $scope.nbPlacesAreserver,
             FRAIS_RESERVATION: $scope.fraisDesService,
             TOTAL: $scope.totalPrice,
-            IDUTILISATEUR: $rootScope.globals.currentUser.id
+            IDUTILISATEUR: $rootScope.globals.currentUser.id,
+            DEJANOTE: false
         };
 
         ReservationFactory.addReservation(reservation).then(
@@ -121,7 +122,6 @@ function PublicationCtrlFnt($scope, $rootScope, $state, $filter, $stateParams, A
     AnnonceFactory.getAnnonceDetail($stateParams.id).then(
         function(dataAnnonce) {
             $scope.donneesAnnonce = dataAnnonce;
-
             // Si l'annonce existe
             if(dataAnnonce)
             {
@@ -148,9 +148,9 @@ function PublicationCtrlFnt($scope, $rootScope, $state, $filter, $stateParams, A
                         $scope.availableday = dataDates;
                         // Si y'a des sessions disponibles pour cette annonce
                         if(dataDates.length > 0){
+
                             // Initialiser le datePicker avec la premiére dispo de l'annonce
                             $scope.dateReservation = new Date(dataDates[0].DATE_DEBUT) ;
-
                             // Convertir en tableau les résultat (par date)
                             $scope.availableday.map = SessionFactory.jsonAvailabilityToArray(dataDates);
 

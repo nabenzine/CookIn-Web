@@ -26,6 +26,9 @@ function ProfilCtrlFnt($scope, $state, $rootScope, UtilisateurFactory, AdresseFa
 
     AdresseFactory.getAdressesByUtilisateur($rootScope.globals.currentUser.id).then(function(adresses) {
         $scope.adresses= adresses;
+        // Positionner sur la premiére adresse
+        $scope.adresse = adresses[0];
+        $scope.placemap();
     });
 
     $scope.placemap = function() {
@@ -48,7 +51,7 @@ function ProfilCtrlFnt($scope, $state, $rootScope, UtilisateurFactory, AdresseFa
     $scope.updateUser = function () {
         $scope.updateSucceded = false;
         if ($scope.userProfil.$valid){
-            AdresseFactory.updateUtilisateur($scope.user).then(
+            UtilisateurFactory.updateUtilisateur($scope.user).then(
                 function (data) {
                     $scope.updateSucceded = true;
                 },

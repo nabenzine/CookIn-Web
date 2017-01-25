@@ -18,121 +18,36 @@ angular.module('CookIn').factory('AnnonceFactory', function($http,$q,myConfig,_)
 
     var infos_recherche_annonces = [
         {
+            "PRENOM":"Dray",
+            "PHOTO_PROFIL":"https://scontent.xx.fbcdn.net/v/t1.0-9/14720515_10209221933178827_5270935031424465088_n.jpg?oh=f90cd2d2d9cc1bb81e64089aae8fa9a0&oe=58D90A78",
+            "NOTE":4,
             "IDANNONCE":1,
-            "IDTYPEAMBIANCE":1,
-            "UTILISATEUR":{
-                "NOM":"Dray",
-                "PRENOM":"Dan",
-                "PHOTO_PROFIL":"https://scontent.xx.fbcdn.net/v/t1.0-9/14720515_10209221933178827_5270935031424465088_n.jpg?oh=f90cd2d2d9cc1bb81e64089aae8fa9a0&oe=58D90A78",
-                "NOTE":4
-            },
-            "IDTYPEREPAS":2,
-            "MODECONSO":{
-                "IDMODECONSO":2,
-                "LIBELLE":"Sur place",
-                "CODE":"SURPLACE"
-            },
-            "ADRESSE": {
-                "IDADRESSE":1,
-                "IDUTILISATEUR":2,
-                "NUMERO_RUE":30,
-                "NOM_RUE":"Rue George Sand",
-                "CP":"69100",
-                "VILLE":"Villeurbanne",
-                "ETAT":"Auvergne-Rhône-Alpes",
-                "PAYS":"France",
-                "LATITUDE":45.7550416,
-                "LONGITUDE":4.888795200000004,
-                "ADRESSE_COMPLETE":"30 Rue George Sand, 69100 Villeurbanne, France",
-                "ADRESSE_ID":"ChIJCZgLGsnB9EcRojLtubUeUZs",
-                "COMPATIBLE_MAP":true
-            },
-            "IMAGE_ANNONCE": [
-                {
-                    "ID" : 1,
-                    "FILENAME": "http://recettes.al-manakh.com/images/tajine-halal.jpg"
-                },
-                {
-                    "ID" : 2,
-                    "FILENAME": "http://www.beaumontpizz.fr/ressources/images/0d138119fef9.jpg"
-                },
-                {
-                    "ID" : 3,
-                    "FILENAME": "http://www.boucherie-grandmaire.com/images/plats1.jpg"
-                }
-            ],
-            "IDCUISINE":1,
             "LIBELLE":"Tajine Marocain",
-            "DESCRIPTION":"Venez partager ma chatte avec moi",
-            "DATE_ENVOI":"25/12/2016",
-            "PRIX":25,
-            "ACCEPTATION_AUTO":true,
-            "ASSISTER_PREPARATION":false,
-            "ACCEPTE_ENFANT":true,
-            "ACCEPTE_ANIMAUX":true,
-            "RACCOMPAGNE_INVITE":false,
-            "QUANTITE_MIN":1,
-            "QUANTITE_MAX":3,
-            "QUANTITE_ACTUELLE":0
+            "IMAGE_ANNONCE":"http://recettes.al-manakh.com/images/tajine-halal.jpg",
+            "PRIX":34,
+            "MODECONSO_CODE":"SURPLACE",
+            "MODECONSO_LIBELLE":"sur place",
+            "VILLE":"Villeurbanne",
+            "PAYS":"France",
+            "LATITUDE": 45.7550416,
+            "LONGITUDE" : 4.888795200000004,
+            "ADRESSE_COMPLETE" : "30 Rue George Sand, 69100 Villeurbanne, France"
         },
         {
+            "PRENOM":"Hamza",
+            "PHOTO_PROFIL":"https://scontent-cdg2-1.xx.fbcdn.net/v/t1.0-0/p206x206/1545576_1498194230409811_7314207517930681087_n.jpg?oh=6d670081f216c3c2c8629816738b1bb5&oe=59088D29",
+            "NOTE":3.3,
             "IDANNONCE":2,
-            "IDTYPEAMBIANCE":1,
-            "UTILISATEUR":{
-                "NOM":"Khaitay",
-                "PRENOM":"Hamza",
-                "PHOTO_PROFIL":"https://scontent-cdg2-1.xx.fbcdn.net/v/t1.0-0/p206x206/1545576_1498194230409811_7314207517930681087_n.jpg?oh=6d670081f216c3c2c8629816738b1bb5&oe=59088D29",
-                "NOTE":3.3
-            },
-            "IDTYPEREPAS":2,
-            "ADRESSE":{
-                "IDADRESSE":2,
-                "IDUTILISATEUR":3,
-                "NUMERO_RUE":30,
-                "NOM_RUE":"Cours Emile Zola",
-                "CP":"69100",
-                "VILLE":"Villeurbanne",
-                "ETAT":"Auvergne-Rhône-Alpes",
-                "PAYS":"France",
-                "LATITUDE":45.76773619999999,
-                "LONGITUDE":4.889215599999943,
-                "ADRESSE_COMPLETE":"Cours Emile Zola, Villeurbanne, France",
-                "ADRESSE_ID":"3cf04a9229a8e04c4724335c2a8ce3a82929fbe3",
-                "COMPATIBLE_MAP":true
-            },
-            "MODECONSO":{
-                "IDMODECONSO":1,
-                "LIBELLE":"A emporter",
-                "CODE":"AEMPORTER"
-            },
-            "IMAGE_ANNONCE": [
-                {
-                    "ID" : 1,
-                    "FILENAME": "https://az826390.vo.msecnd.net/cdn/media/home/inspiring_recipes/recipes/new_-_r/raclette-1160x650-bs001848-pub-67290-01.ashx?la=fr&mw=1160&w=1160&hash=97DE7BBF2A80113F98073ADB73CA9EEEC745D5E5"
-                },
-                {
-                    "ID" : 2,
-                    "FILENAME": "http://www.beaumontpizz.fr/ressources/images/0d138119fef9.jpg"
-                },
-                {
-                    "ID" : 3,
-                    "FILENAME": "http://www.boucherie-grandmaire.com/images/plats1.jpg"
-                }
-            ],
-            "IDCUISINE":1,
             "LIBELLE":"Raclette 100% française",
-            "DESCRIPTION":"Venez partager ma chatte avec moi",
-            "DATE_ENVOI":"25/12/2016",
-            "PRIX":16,
-            "NOTE":3,
-            "ACCEPTATION_AUTO":true,
-            "ASSISTER_PREPARATION":false,
-            "ACCEPTE_ENFANT":true,
-            "ACCEPTE_ANIMAUX":true,
-            "RACCOMPAGNE_INVITE":false,
-            "QUANTITE_MIN":1,
-            "QUANTITE_MAX":3,
-            "QUANTITE_ACTUELLE":0
+            "IMAGE_ANNONCE":"https://az826390.vo.msecnd.net/cdn/media/home/inspiring_recipes/recipes/new_-_r/raclette-1160x650-bs001848-pub-67290-01.ashx?la=fr&mw=1160&w=1160&hash=97DE7BBF2A80113F98073ADB73CA9EEEC745D5E5",
+            "PRIX":34,
+            "MODECONSO_CODE":"SURPLACE",
+            "MODECONSO_LIBELLE":"sur place",
+            "VILLE":"Villeurbanne",
+            "PAYS":"France",
+            "LATITUDE": 45.76773619999999,
+            "LONGITUDE" : 4.889215599999943,
+            "ADRESSE_COMPLETE" : "Cours Emile Zola, Villeurbanne, France"
         }
     ];
 
@@ -303,7 +218,7 @@ angular.module('CookIn').factory('AnnonceFactory', function($http,$q,myConfig,_)
 
     function getAnnoncesByUtilisateur(IdUtilisateur){
         var deferred = $q.defer();
-        $http.get(myConfig.url + '/api/AnnonceUtilisateur?id='+IdUtilisateur).
+        $http.get(myConfig.url + '/api/annonce/annonceutilisateur?idUtilisateur='+IdUtilisateur).
         success(function(data, status, headers, config) {
             deferred.resolve(data);
         }).
@@ -320,7 +235,6 @@ angular.module('CookIn').factory('AnnonceFactory', function($http,$q,myConfig,_)
         var deferred = $q.defer();
         $http.get(myConfig.url + '/api/annonce/annonceDetails?idAnnonce='+IdAnnonce).
         success(function(data, status, headers, config) {
-            console.log(data);
             deferred.resolve(data);
         }).
         error(function(data, status, headers, config) {
@@ -336,15 +250,10 @@ angular.module('CookIn').factory('AnnonceFactory', function($http,$q,myConfig,_)
         var deferred = $q.defer();
         $http.post(myConfig.url + '/api/Annonce',annonce).
         success(function(data, status, headers, config) {
-            if( data === true){
-                deferred.resolve(true);
-            }else{
-                deferred.reject("fail");
-            }
+            deferred.resolve(data);
         }).
         error(function(data, status, headers, config) {
-            deferred.resolve(true);
-            //deferred.reject(status);
+            deferred.reject(status);
             // or server returns response with an error status.
         });
         return deferred.promise;

@@ -83,7 +83,7 @@ angular.module('CookIn').factory('ReservationFactory', function($http,$q,myConfi
 
     function getCommandesByUtilisateur(IdUtilisateur){
         var deferred = $q.defer();
-        $http.get(myConfig.url + '/api/getOrderReceivedByUser?id='+IdUtilisateur).
+        $http.get(myConfig.url + '/api/reservation/getOrderReceivedByUser?idUtilisateur='+IdUtilisateur).
         success(function(data, status, headers, config) {
             deferred.resolve(data);
         }).
@@ -115,15 +115,10 @@ angular.module('CookIn').factory('ReservationFactory', function($http,$q,myConfi
         var deferred = $q.defer();
         $http.post(myConfig.url + '/api/reservation',reservation).
         success(function(data, status, headers, config) {
-            if( data === true){
-                deferred.resolve(true);
-            }else{
-                deferred.reject("fail");
-            }
+            deferred.resolve(data);
         }).
         error(function(data, status, headers, config) {
-            deferred.resolve(true);
-            //deferred.reject(status);
+            deferred.reject(status);
             // or server returns response with an error status.
         });
         return deferred.promise;

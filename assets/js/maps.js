@@ -121,7 +121,6 @@ function bigMap(_latitude,_longitude,data){
         });
 
         // Place marker after map is loaded and ready ------------------------------------------------------------------
-
         google.maps.event.addListenerOnce(map, 'idle', function(){
             placeMarkers(data);
         });
@@ -143,9 +142,9 @@ function bigMap(_latitude,_longitude,data){
                     '</div>';
 
                 // Latitude, Longitude and Address
-                if ( locations[i]["ADRESSE"].LATITUDE && locations[i]["ADRESSE"].LONGITUDE && locations[i]["ADRESSE"].ADRESSE_COMPLETE ){
+                if ( locations[i]["LATITUDE"] && locations[i]["LONGITUDE"] && locations[i]["ADRESSE_COMPLETE"] ){
                     marker = new RichMarker({
-                        position: new google.maps.LatLng( locations[i]["ADRESSE"].LATITUDE, locations[i]["ADRESSE"].LONGITUDE ),
+                        position: new google.maps.LatLng( locations[i]["LATITUDE"], locations[i]["LONGITUDE"] ),
                         map: map,
                         draggable: false,
                         content: markerContent,
@@ -159,9 +158,9 @@ function bigMap(_latitude,_longitude,data){
                     })(marker, i));
                 }
                 // Only Address
-                else if ( locations[i]["ADRESSE"].ADRESSE_COMPLETE && locations[i]["ADRESSE"].LATITUDE == undefined && locations[i]["ADRESSE"].LONGITUDE == undefined ){
+                else if ( locations[i]["ADRESSE_COMPLETE"] && locations[i]["LATITUDE"] == undefined && locations[i]["LONGITUDE"] == undefined ){
                     a = i;
-                    geocoder.geocode( { 'address': locations[i]["ADRESSE"].ADRESSE_COMPLETE }, function(results, status) {
+                    geocoder.geocode( { 'address': locations[i]["ADRESSE_COMPLETE"] }, function(results, status) {
                         if (status == google.maps.GeocoderStatus.OK) {
                             var marker = new RichMarker({
                                 position: results[0].geometry.location,
@@ -184,9 +183,9 @@ function bigMap(_latitude,_longitude,data){
                     });
                 }
                 // Only Latitude and Longitude
-                else if ( locations[i]["ADRESSE"].LATITUDE && locations[i]["ADRESSE"].LONGITUDE && locations[i]["ADRESSE"].ADRESSE_COMPLETE == undefined ) {
+                else if ( locations[i]["LATITUDE"] && locations[i]["LONGITUDE"] && locations[i]["ADRESSE_COMPLETE"] == undefined ) {
                     marker = new RichMarker({
-                        position: new google.maps.LatLng( locations[i]["ADRESSE"].LATITUDE, locations[i]["ADRESSE"].LONGITUDE ),
+                        position: new google.maps.LatLng( locations[i]["LATITUDE"], locations[i]["LONGITUDE"] ),
                         map: map,
                         draggable: false,
                         content: markerContent,
@@ -229,21 +228,21 @@ function bigMap(_latitude,_longitude,data){
                 '<a href="#viewpublication/' + locations[i]["IDANNONCE"] + '" class="infobox-inner">' +
                 '<div class="image-wrapper">' +
                 '<div class="label-wrapper">' +
-                '<figure class="label label-info">' + locations[i]["MODECONSO"].LIBELLE + '</figure>' +
+                '<figure class="label label-info">' + locations[i]["MODECONSO_LIBELLE"] + '</figure>' +
                 '</div>' +
                 '<div class="wrapper">' +
                 '<div class="info">' +
                 '<h3>' + locations[i]["LIBELLE"] + '</h3>' +
-                '<figure class="location">' + locations[i]["ADRESSE"].VILLE + '</figure>' +
+                '<figure class="location">' + locations[i]["VILLE"] + '</figure>' +
                 '</div>' +
                 '</div>'+
-            '<div class="image" style="background-image: url('+ locations[i]["IMAGE_ANNONCE"][0].FILENAME +')"></div>' +
-            '</div>' +
-            '<div class="meta">' +
-            '<span><i class="fa fa-star"></i>' + locations[i]["UTILISATEUR"].NOTE + '</span>' +
-            '<span><i class="fa fa-cutlery"></i>' + locations[i]["QUANTITE_MAX"] + '</span>' +
-            '</div>' +
-            '</a>';
+                '<div class="image" style="background-image: url('+ locations[i]["IMAGE_ANNONCE"] +')"></div>' +
+                '</div>' +
+                '<div class="meta">' +
+                '<span><i class="fa fa-star"></i>' + locations[i]["NOTE"] + '</span>' +
+                '<span><i class="fa fa-eur"></i>' + locations[i]["PRIX"] + '</span>' +
+                '</div>' +
+                '</a>';
 
             infoboxOptions = {
                 content: boxText,

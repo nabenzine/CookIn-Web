@@ -63,7 +63,7 @@ angular.module('CookIn').factory('AvisFactory', function($http,$q,myConfig,$filt
         var deferred = $q.defer();
         $http.post(myConfig.url + '/api/avis',avis).
         success(function(data, status, headers, config) {
-            deferred.resolve(true);
+            deferred.resolve(data);
         }).
         error(function(data, status, headers, config) {
             deferred.resolve(true);

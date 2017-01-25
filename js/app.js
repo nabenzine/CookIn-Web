@@ -5,8 +5,8 @@ var sampleApp = angular.module('CookIn', ['ui.router','ngAnimate', 'ngCookies', 
 //Define const for app
 sampleApp.constant("myConfig",
     {
-        //"url": "http://localhost:2262"
-        "url": ""
+        "url": "http://localhost:2262"
+        //"url": ""
     });
 
 
@@ -92,7 +92,8 @@ function($rootScope, $location, $state, $cookieStore, $http, Auth) {
     // Authentifier l'utilisateur la premiére fois qu'il arrive sur l'app
     $rootScope.globals = $cookieStore.get('globals') || {};
     if ($rootScope.globals.currentUser) {
-        $http.defaults.headers.common['Authorization'] =  $rootScope.globals.currentUser.TOKEN_KEY;
+        var stringifiedHeader  = CryptoJS.enc.Utf8.parse(JSON.stringify({id:$rootScope.globals.currentUser.IDUTILISATEUR, token: $rootScope.globals.currentUser.TOKEN_KEY}));
+        $http.defaults.headers.common['Authorization'] = CryptoJS.enc.Base64.stringify(stringifiedHeader);
     }else{
         $cookieStore.remove('globals');
         $rootScope.globals = {};
