@@ -129,18 +129,7 @@ function PublicationCtrlFnt($scope, $rootScope, $state, $filter, $stateParams, A
                 var element = "map-item";
                 simpleMap(dataAnnonce.ADRESSE.LATITUDE,dataAnnonce.ADRESSE.LONGITUDE, element);
 
-                // Récupérer les session déja réservé
-                SessionFactory.getBookedSessionByAnnonceAndUser(dataAnnonce.IDANNONCE, dataAnnonce.UTILISATEUR.IDUTILISATEUR).then(
-                    function(dataBookedSession) {
-                        $scope.bookedSession = dataBookedSession;
 
-                        // Convertir en tableau les résultat (par date)
-                        $scope.bookedSession.map = SessionFactory.jsonAvailabilityToArray(dataBookedSession);
-                    },
-                    function(errorPayload) {
-                        $log.error('failure loading getAnnonceDetail', errorPayload);
-                    }
-                );
 
                 // Récupérer les disponibilités de l'annonce
                 SessionFactory.getAvailabilityByAnnonce(dataAnnonce.IDANNONCE).then(
@@ -166,8 +155,23 @@ function PublicationCtrlFnt($scope, $rootScope, $state, $filter, $stateParams, A
                                 }
                             };
 
-                            //Lancer l'evenement dateChanged pour mettre à jours la quantité et le calcul du prix
-                            $scope.dateChanged($scope.dateReservation, false);
+                            // Récupérer les session déja réservé
+                            SessionFactory.getBookedSessionByAnnonceAndUser(dataAnnonce.IDANNONCE, dataAnnonce.UTILISATEUR.IDUTILISATEUR).then(
+                                function(dataBookedSession) {
+                                    $scope.bookedSession = dataBookedSession;
+
+                                    // Convertir en tableau les résultat (par date)
+                                    $scope.bookedSession.map = SessionFactory.jsonAvailabilityToArray(dataBookedSession);
+
+                                    //Lancer l'evenement dateChanged pour mettre à jours la quantité et le calcul du prix
+                                    $scope.dateChanged($scope.dateReservation, false);
+                                },
+                                function(errorPayload) {
+                                    $log.error('failure loading getAnnonceDetail', errorPayload);
+                                }
+                            );
+
+
                         }else{
 
                         }
